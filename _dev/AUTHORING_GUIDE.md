@@ -119,12 +119,12 @@ const CHALLENGES = {
 
 For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based syntax highlighting classes: `.kw` `.str` `.cmt` `.num` `.fn` `.tp` `.pp`
 
-### Animation Block (tracked, ID = `anim-N`)
+### Lecture Block (tracked, ID = `anim-N`)
 
 ```html
 <div class="block block-anim" id="anim-1">
   <div class="act-header">
-    <span class="act-badge badge-part">Participation</span>
+    <span class="act-badge badge-part">Lecture</span>
     <span class="act-title">N.S.N — Animation Title</span>
     <span class="chevron pend" id="chev-anim-1">○</span>
   </div>
@@ -154,12 +154,12 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
 - The first frame must have class `active`
 - Completion triggers automatically when the last frame is reached
 
-### Multiple Choice Block (tracked, ID = `mc-N`)
+### Lecture Review Block — Multiple Choice (tracked, ID = `mc-N`)
 
 ```html
 <div class="block block-mc" id="mc-1">
   <div class="act-header">
-    <span class="act-badge badge-part">Participation</span>
+    <span class="act-badge badge-part">Lecture Review</span>
     <span class="act-title">N.S.N — Question Block Title</span>
     <span class="chevron pend" id="chev-mc-1">○</span>
   </div>
@@ -185,12 +185,12 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
 - `value` letters correspond to MC_DATA `correct` field
 - All questions in one block share the same `mc-N` block ID; block is done when all questions answered
 
-### Short Answer Block (tracked, ID = `sa-N`)
+### Lecture Review Block — Short Answer (tracked, ID = `sa-N`)
 
 ```html
 <div class="block block-sa" id="sa-1">
   <div class="act-header">
-    <span class="act-badge badge-part">Participation</span>
+    <span class="act-badge badge-part">Lecture Review</span>
     <span class="act-title">N.S.N — SA Title</span>
     <span class="chevron pend" id="chev-sa-1">○</span>
   </div>
@@ -210,12 +210,12 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
 - `checkSA` third arg accepts an array of lowercase accepted answers; comparison is case-insensitive
 - `showSA` second arg is the display value shown in the input
 
-### Challenge Block (tracked, ID = `chal-N`)
+### Activity Block (tracked, ID = `chal-N`)
 
 ```html
 <div class="block block-chal" id="chal-1">
   <div class="act-header">
-    <span class="act-badge badge-chal">Challenge</span>
+    <span class="act-badge badge-chal">Activity</span>
     <span class="act-title">N.S.N — Challenge Title</span>
     <span class="chevron pend" id="chev-chal-1">○</span>
   </div>
@@ -291,6 +291,13 @@ For a new course — add a `.cn-drop-item` to the course dropdown in every chapt
 ```
 
 > **Why `position: fixed` on the menu?** The `.cross-nav` has `overflow-x: auto`, which clips `position: absolute` descendants. The dropdown JS uses `getBoundingClientRect()` to place the menu at the correct viewport coordinates.
+
+---
+
+## Symbol Usage
+
+- **No emojis** — not in button labels, banners, JS strings, or content. They render as large colored glyphs and conflict with the visual style.
+- ASCII symbols and plain Unicode characters are both fully allowed as substitutes.
 
 ---
 

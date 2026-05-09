@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Chapter 4: AC Circuits</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Chapter 4 — AC Circuits</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">12 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 4 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="chapter_03.html">Chapter 3</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  Chapter complete! Great work — you have finished Chapter 4.
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">4.1 DC vs AC &amp; the Sine Wave <span class="s-count" id="sc-1">0/3</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">4.2 Amplitude, RMS &amp; Phase <span class="s-count" id="sc-2">0/3</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">4.3 AC Resistance &amp; Inductive Reactance <span class="s-count" id="sc-3">0/3</span></a>
+    <a href="#sec-4" class="sidebar-link" data-sec="4">4.4 Series RL Circuit <span class="s-count" id="sc-4">0/3</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">&#8635; Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">&#8635; Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_03.html">&#8592; Chapter 3</a>
+      <span class="nav-btn disabled">Chapter 5 &#8594;</span>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1 — DC vs AC & THE SINE WAVE
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">4.1</span> DC vs AC &amp; the Sinusoidal Waveform</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Direct Current (DC)</span> flows in one direction only. Its magnitude stays constant over time — a flat line on a graph. Batteries, regulated power supplies, and solar cells produce DC.</p>
+        <p><span class="term">Alternating Current (AC)</span> reverses direction periodically, producing a continuously rising and falling waveform. It is generated when a coil rotates inside a magnetic field, and the most common shape is a <strong>sine wave</strong>.</p>
+        <p>The general equation for an AC voltage is:</p>
+        <ul>
+          <li><strong>v(t) = V<sub>m</sub> sin(&#969;t + &#966;)</strong></li>
+          <li><strong>V<sub>m</sub></strong> — peak (maximum) amplitude; the tallest point above the zero line</li>
+          <li><strong>&#969;</strong> — angular frequency in rad/s; how fast the wave oscillates</li>
+          <li><strong>t</strong> — time in seconds</li>
+          <li><strong>&#966;</strong> — phase angle; shifts the waveform left or right in time without changing its shape</li>
+        </ul>
+        <p>Frequency and period are related: <strong>f = 1/T</strong> (Hz) and <strong>&#969; = 2&#960;f</strong> (rad/s). The US mains supply runs at <strong>60 Hz</strong>, giving &#969; = 2&#960; &#215; 60 &#8776; 377 rad/s.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 4.1 — AC vs DC and Sine Wave Parameters</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+            <div style="flex:1;min-width:180px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Property</th><th>DC</th><th>AC</th></tr></thead>
+                <tbody>
+                  <tr><td>Direction</td><td>One way only</td><td>Alternates</td></tr>
+                  <tr><td>Magnitude</td><td>Constant</td><td>Varies sinusoidally</td></tr>
+                  <tr><td>Average value</td><td>= V<sub>supply</sub></td><td>= 0 (full cycle)</td></tr>
+                  <tr><td>Source</td><td>Battery, PSU</td><td>Generator, wall outlet</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="flex:1;min-width:180px;">
+              <div class="formula-box">
+                <div style="text-align:center;font-weight:700;margin-bottom:6px;">Sine Wave Key Formulas</div>
+                <div class="formula-row">
+                  <div class="formula-item">v(t) = V<sub>m</sub> sin(&#969;t + &#966;)</div>
+                </div>
+                <div class="formula-row" style="margin-top:6px;">
+                  <div class="formula-item">f = 1 / T</div>
+                  <div class="formula-item">T = 1 / f</div>
+                  <div class="formula-item">&#969; = 2&#960;f</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">One complete cycle = one period T. Frequency counts cycles per second (Hz). Angular frequency &#969; (rad/s) is used in equations.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">4.1.1 — Reading the Sine Wave Equation</span>
+          <span class="chevron pend" id="chev-anim-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="V_m sets the height — the maximum distance from the zero line to the peak.">
+              <strong>Step 1 — Amplitude (V<sub>m</sub>)</strong><br><br>
+              In v(t) = V<sub>m</sub> sin(&#969;t), the coefficient <strong>V<sub>m</sub></strong> is the peak voltage — the maximum the signal reaches above (or below) zero.<br><br>
+              <div style="font-family:monospace;font-size:13px;text-align:center;line-height:1.6;padding:6px 0;">
+                <div style="color:var(--accent-cool);">+V<sub>m</sub> &#9135;&#9135;&#9135;&#9135;&#9135; peak</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8725;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;</div>
+                <div>&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135; 0</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;&#818;</div>
+                <div style="color:var(--accent-error);">&#8722;V<sub>m</sub> &#9135;&#9135;&#9135;&#9135;&#9135; trough</div>
+              </div>
+              <br>
+              Example: v(t) = <strong>100</strong> sin(&#969;t) has V<sub>m</sub> = 100 V. The signal swings from +100 V to &#8722;100 V.
+            </div>
+            <div class="anim-frame" data-cap="ω controls how fast the wave oscillates — higher ω means more cycles per second.">
+              <strong>Step 2 — Angular Frequency (&#969;)</strong><br><br>
+              The term <strong>&#969;</strong> inside the sine sets the oscillation speed:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>&#969; = 2&#960;f &nbsp;&rarr;&nbsp; higher f means larger &#969;</li>
+                <li>Period: T = 2&#960; / &#969;</li>
+                <li>US mains: f = 60 Hz &rarr; &#969; = 377 rad/s</li>
+              </ul>
+              <br>
+              Example: v(t) = 100 sin(<strong>20</strong>t)<br>
+              &#969; = 20 rad/s &rarr; f = 20 / (2&#960;) &#8776; <strong>3.18 Hz</strong> &rarr; T = 1/3.18 &#8776; <strong>0.314 s</strong>
+            </div>
+            <div class="anim-frame" data-cap="φ is the phase angle — it slides the waveform left (positive φ) or right (negative φ).">
+              <strong>Step 3 — Phase Angle (&#966;)</strong><br><br>
+              Adding &#966; inside the sine shifts the waveform in time:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li><strong>&#966; &gt; 0</strong> — waveform shifts <em>left</em> (reaches its peak earlier)</li>
+                <li><strong>&#966; &lt; 0</strong> — waveform shifts <em>right</em> (peak arrives later)</li>
+                <li>&#966; does <strong>not</strong> change the amplitude or frequency</li>
+              </ul>
+              <br>
+              Example: v(t) = 100 sin(20t + &#960;/2) has &#966; = &#960;/2 = 90&#176; — the waveform starts at its peak (like a cosine).
+            </div>
+            <div class="anim-frame" data-cap="Put it all together: read V_m, ω, and φ directly from the equation.">
+              <strong>Step 4 — Reading the Full Equation</strong><br><br>
+              Given: <strong>v(t) = 100 sin(20t + &#960;/2)</strong><br><br>
+              <table style="width:100%;font-size:14px;border-collapse:collapse;">
+                <tr><td style="padding:5px 8px;font-weight:700;">V<sub>m</sub></td><td style="padding:5px;">= 100 V &nbsp;(peak amplitude)</td></tr>
+                <tr><td style="padding:5px 8px;font-weight:700;">&#969;</td><td style="padding:5px;">= 20 rad/s &nbsp;&rarr;&nbsp; f &#8776; 3.18 Hz, T &#8776; 0.314 s</td></tr>
+                <tr><td style="padding:5px 8px;font-weight:700;">&#966;</td><td style="padding:5px;">= &#960;/2 = 90&#176; &nbsp;(shifted left by a quarter cycle)</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">V<sub>m</sub> sets the height — the maximum distance from the zero line to the peak.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.1.2 — Waveform Concepts Check</span>
+          <span class="chevron pend" id="chev-mc-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> In the equation v(t) = V<sub>m</sub> sin(&#969;t + &#966;), what does V<sub>m</sub> represent?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>The RMS (effective) voltage</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>The peak (maximum) voltage — the amplitude of the waveform</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>The angular frequency in rad/s</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> What is the relationship between angular frequency &#969; (rad/s) and ordinary frequency f (Hz)?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>&#969; = f / (2&#960;)</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>&#969; = 2&#960;f</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>&#969; = f&#178;</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.1.3 — Period to Frequency</span>
+          <span class="chevron pend" id="chev-sa-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">An AC signal has a period of T = 25 ms (0.025 s). Using <strong>f = 1 / T</strong>, what is its frequency in <strong>Hz</strong>?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="Hz" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['40','40hz','40 hz'], '<strong>Correct!</strong> f = 1 / 0.025 = <strong>40 Hz</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', '40', 'f = 1 / T = 1 / 0.025 = 40 Hz.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- =================================================================
+         SECTION 2 — AMPLITUDE, RMS & PHASE
+         ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">4.2</span> Amplitude, RMS &amp; Phase</h2>
+
+      <div class="block block-reading">
+        <p>The <span class="term">amplitude</span> V<sub>m</sub> is the peak value — the maximum distance from zero to the waveform's crest. Because a sine wave is symmetric, the average voltage over a full cycle is <strong>zero</strong> (positive and negative halves cancel), making the average useless for power calculations.</p>
+        <p>The <span class="term">RMS value</span> (root mean square), also called the <em>effective value</em>, solves this. It represents the equivalent DC voltage that delivers the same power (heating effect) as the AC signal. For a pure sine wave:</p>
+        <ul>
+          <li><strong>V<sub>rms</sub> = V<sub>m</sub> / &#8730;2 = 0.707 &#215; V<sub>m</sub></strong></li>
+          <li>Equivalently, V<sub>m</sub> = V<sub>rms</sub> &#215; &#8730;2 &#8776; 1.414 &#215; V<sub>rms</sub></li>
+          <li>The 120 V from a US wall outlet is an RMS value — its peak is about 170 V</li>
+          <li>Same relationship holds for current: I<sub>rms</sub> = I<sub>m</sub> / &#8730;2</li>
+        </ul>
+        <p>The <span class="term">phase angle</span> &#966; describes a time offset between two signals of the same frequency. If signal A peaks before signal B, A is <strong>leading</strong> B. If A peaks after, A is <strong>lagging</strong> B. Resistors introduce no phase shift; reactive components (inductors, capacitors) do.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 4.2 — RMS Formula and Peak-to-RMS Relationship</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+            <div style="flex:1;min-width:180px;">
+              <div class="formula-box">
+                <div style="text-align:center;font-weight:700;margin-bottom:6px;">RMS Conversions</div>
+                <div class="formula-row">
+                  <div class="formula-item">V<sub>rms</sub> = 0.707 &#215; V<sub>m</sub></div>
+                  <div class="formula-item">V<sub>m</sub> = 1.414 &#215; V<sub>rms</sub></div>
+                </div>
+              </div>
+              <table class="comp-table" style="font-size:13px;margin-top:10px;">
+                <thead><tr><th>Signal</th><th>V<sub>peak</sub></th><th>V<sub>rms</sub></th></tr></thead>
+                <tbody>
+                  <tr><td>US mains (120 V)</td><td>&#8776; 170 V</td><td>120 V</td></tr>
+                  <tr><td>EU mains (230 V)</td><td>&#8776; 325 V</td><td>230 V</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="flex:1;min-width:180px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Phase relation</th><th>Meaning</th></tr></thead>
+                <tbody>
+                  <tr><td>&#966; = 0</td><td>Signals are in phase — peaks aligned</td></tr>
+                  <tr><td>&#966; &gt; 0</td><td>Leading — peaks earlier in time</td></tr>
+                  <tr><td>&#966; &lt; 0</td><td>Lagging — peaks later in time</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">RMS is what voltmeters read on AC ranges. Peak values appear on oscilloscopes.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">4.2.1 — Why RMS? The Power Equivalence</span>
+          <span class="chevron pend" id="chev-anim-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The average of a full AC sine cycle is zero — the positive and negative halves cancel.">
+              <strong>Step 1 — The Problem with Averaging AC</strong><br><br>
+              A 120 V sine wave swings from +170 V to &#8722;170 V. If you simply average all the instantaneous values over one cycle, the positive and negative halves cancel exactly — the average is <strong>zero</strong>.<br><br>
+              Yet a 120 V AC supply clearly delivers power — your lights turn on. So the arithmetic average is not a useful measure of AC magnitude for power purposes.
+            </div>
+            <div class="anim-frame" data-cap="RMS squares every value, averages those squares, then takes the square root — negatives become positive.">
+              <strong>Step 2 — The RMS Solution</strong><br><br>
+              Root Mean Square works in three steps:<br><br>
+              <ol style="font-size:14px;margin-left:20px;">
+                <li><strong>Square</strong> every instantaneous value (negatives become positive)</li>
+                <li><strong>Mean</strong> — average those squared values over one cycle</li>
+                <li><strong>Root</strong> — take the square root of that average</li>
+              </ol>
+              <br>
+              For a sine wave: the average of sin&#178;(&#969;t) over a cycle = 1/2, so V<sub>rms</sub> = V<sub>m</sub> &#215; &#8730;(1/2) = V<sub>m</sub> / &#8730;2.
+            </div>
+            <div class="anim-frame" data-cap="V_rms = V_m / √2 ≈ 0.707 × V_m. This is the number a standard voltmeter shows.">
+              <strong>Step 3 — The Formula</strong><br><br>
+              <div style="text-align:center;font-size:1.15em;font-weight:700;padding:10px;">V<sub>rms</sub> = V<sub>m</sub> / &#8730;2 &#8776; 0.707 &#215; V<sub>m</sub></div>
+              US wall outlet example: V<sub>rms</sub> = 120 V<br>
+              V<sub>m</sub> = 120 / 0.707 &#8776; <strong>170 V</strong> peak<br><br>
+              This 170 V is what appears on an oscilloscope. The 120 V is what a standard AC voltmeter shows — and it equals the DC voltage that would produce the same heating in a resistor.
+            </div>
+            <div class="anim-frame" data-cap="Power calculated with V_rms gives the same result as instantaneous AC power averaged over a cycle.">
+              <strong>Step 4 — Power with RMS</strong><br><br>
+              Because V<sub>rms</sub> is the DC-equivalent, all DC power formulas work directly:<br><br>
+              <table style="width:100%;font-size:14px;border-collapse:collapse;text-align:center;">
+                <tr style="font-weight:700;"><td style="padding:6px;">Formula</td><td style="padding:6px;">Use</td></tr>
+                <tr><td style="padding:6px;">P = V<sub>rms</sub> &#215; I<sub>rms</sub></td><td style="padding:6px;">Average AC power</td></tr>
+                <tr><td style="padding:6px;">P = V<sub>rms</sub>&#178; / R</td><td style="padding:6px;">Resistive load</td></tr>
+                <tr><td style="padding:6px;">P = I<sub>rms</sub>&#178; &#215; R</td><td style="padding:6px;">Heating in a resistor</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">The average of a full AC sine cycle is zero — the positive and negative halves cancel.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.2.2 — RMS &amp; Phase Check</span>
+          <span class="chevron pend" id="chev-mc-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> Why can't the simple average of an AC sine wave be used for power calculations?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>AC voltage changes too quickly to measure accurately</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>The positive and negative halves cancel, making the average zero — even though real power is delivered</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>AC voltage is always zero</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> Signal A reaches its positive peak 30&#176; before signal B (same frequency). Which statement is correct?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>Signal A is lagging signal B by 30&#176;</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>Signal A is leading signal B by 30&#176;</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>The two signals are in phase</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.2.3 — RMS Calculation</span>
+          <span class="chevron pend" id="chev-sa-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">A sine wave has a peak voltage of V<sub>m</sub> = 170 V. Using <strong>V<sub>rms</sub> = 0.707 &#215; V<sub>m</sub></strong>, what is the RMS voltage in <strong>volts</strong>? (Round to the nearest whole number.)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-2" placeholder="V" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-2', ['120','120v','120 v'], '<strong>Correct!</strong> V<sub>rms</sub> = 0.707 &times; 170 = 120.19 &asymp; <strong>120 V</strong>. This is the US mains voltage.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-2', '120', 'V_rms = 0.707 × 170 ≈ 120 V — the US wall outlet voltage.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-2"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- =================================================================
+         SECTION 3 — AC RESISTANCE & INDUCTIVE REACTANCE
+         ================================================================= -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">4.3</span> AC Resistance &amp; Inductive Reactance</h2>
+
+      <div class="block block-reading">
+        <p>In DC circuits, resistance R is the only opposition to current. In AC circuits, the broader concept of <span class="term">impedance (Z)</span> replaces resistance. Impedance has the same unit (ohms, &#937;) and Z replaces R in Ohm's Law: <strong>V = I &#215; Z</strong>.</p>
+        <p><strong>Resistors in AC:</strong> A resistor behaves identically in AC and DC. Its impedance Z = R, voltage and current are perfectly <em>in phase</em> (0&#176; difference), and resistance does not depend on frequency.</p>
+        <p><strong>Inductors in AC:</strong> An inductor (coil of wire) stores energy in a magnetic field. Its opposition to AC is called <span class="term">inductive reactance</span>:</p>
+        <ul>
+          <li><strong>X<sub>L</sub> = &#969;L = 2&#960;fL</strong> (ohms)</li>
+          <li>X<sub>L</sub> is directly proportional to frequency — higher f means higher opposition</li>
+          <li>Voltage across the inductor <strong>leads</strong> the current by <strong>90&#176;</strong></li>
+          <li>At DC (f = 0): X<sub>L</sub> = 0 &#8212; inductor acts like a short circuit (wire)</li>
+          <li>At very high frequency: X<sub>L</sub> &#8594; &#8734; &#8212; inductor blocks current entirely</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 4.3 — Resistor vs Inductor in AC Circuits</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table" style="font-size:13px;">
+            <thead><tr><th>Property</th><th>Resistor (R)</th><th>Inductor (L)</th></tr></thead>
+            <tbody>
+              <tr><td>Impedance symbol</td><td>Z = R</td><td>Z = jX<sub>L</sub></td></tr>
+              <tr><td>Impedance formula</td><td>R (constant)</td><td>X<sub>L</sub> = &#969;L = 2&#960;fL</td></tr>
+              <tr><td>Phase shift</td><td>0&#176; (in phase)</td><td>+90&#176; (V leads I)</td></tr>
+              <tr><td>Frequency dependence</td><td>None</td><td>Proportional to f</td></tr>
+              <tr><td>At DC (f = 0)</td><td>Z = R</td><td>Z = 0 (short circuit)</td></tr>
+              <tr><td>At high frequency</td><td>Z = R</td><td>Z &#8594; &#8734; (open circuit)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">The imaginary unit j (= &#8730;&#8722;1) in jX<sub>L</sub> encodes the 90&#176; phase shift. For magnitude calculations, |jX<sub>L</sub>| = X<sub>L</sub>.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">4.3.1 — Inductive Reactance &amp; Frequency</span>
+          <span class="chevron pend" id="chev-anim-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="An inductor resists changes in current — the faster the current changes, the greater the opposition.">
+              <strong>Step 1 — Why Inductors Oppose AC</strong><br><br>
+              An inductor's voltage is v(t) = L &#215; di/dt — it's proportional to how <em>fast</em> the current is changing. AC current changes constantly, so the inductor is always pushing back.<br><br>
+              The higher the frequency, the faster the current tries to change — and the harder the inductor resists. This is why inductive reactance grows with frequency.
+            </div>
+            <div class="anim-frame" data-cap="X_L = ωL = 2πfL — reactance scales linearly with both frequency and inductance.">
+              <strong>Step 2 — The X<sub>L</sub> Formula</strong><br><br>
+              <div style="text-align:center;font-size:1.15em;font-weight:700;padding:8px;">X<sub>L</sub> = &#969;L = 2&#960;fL &nbsp;(ohms)</div>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>Double f &rarr; double X<sub>L</sub></li>
+                <li>Double L &rarr; double X<sub>L</sub></li>
+                <li>X<sub>L</sub> is measured in ohms &#937;</li>
+              </ul>
+              <br>
+              Example: L = 100 mH, f = 50 Hz<br>
+              X<sub>L</sub> = 2&#960; &#215; 50 &#215; 0.1 = 10&#960; &#8776; <strong>31.4 &#937;</strong>
+            </div>
+            <div class="anim-frame" data-cap="Voltage leads current by 90° in an inductor — the voltage peak arrives a quarter cycle before the current peak.">
+              <strong>Step 3 — 90&#176; Phase Lead</strong><br><br>
+              For an inductor with i(t) = I<sub>m</sub> sin(&#969;t):<br><br>
+              <div style="font-size:14px;margin:8px 0;">
+                v(t) = L di/dt = X<sub>L</sub> I<sub>m</sub> <strong>cos(&#969;t)</strong>
+              </div>
+              cosine = sine shifted left by 90&#176;. So voltage reaches its peak <strong>90&#176; before</strong> the current does.<br><br>
+              Memory aid: <em>"ELI the ICE man"</em> — E leads I in an inductor (L); I leads E in a capacitor (C).
+            </div>
+            <div class="anim-frame" data-cap="At DC the inductor is a short; at very high frequency it blocks current completely.">
+              <strong>Step 4 — Frequency Extremes</strong><br><br>
+              <table style="width:100%;font-size:14px;border-collapse:collapse;text-align:center;">
+                <tr style="font-weight:700;"><td style="padding:6px;">Frequency</td><td style="padding:6px;">X<sub>L</sub></td><td style="padding:6px;">Inductor acts like</td></tr>
+                <tr><td style="padding:6px;">f = 0 (DC)</td><td style="padding:6px;">0 &#937;</td><td style="padding:6px;">Short circuit — wire</td></tr>
+                <tr><td style="padding:6px;">Low f</td><td style="padding:6px;">Small</td><td style="padding:6px;">Small resistance</td></tr>
+                <tr><td style="padding:6px;">High f</td><td style="padding:6px;">Large</td><td style="padding:6px;">Large resistance</td></tr>
+                <tr><td style="padding:6px;">f &#8594; &#8734;</td><td style="padding:6px;">&#8734; &#937;</td><td style="padding:6px;">Open circuit — blocks all</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-3">An inductor resists changes in current — the faster the current changes, the greater the opposition.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-3')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-3')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-3">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.3.2 — Reactance Check</span>
+          <span class="chevron pend" id="chev-mc-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> What happens to inductive reactance X<sub>L</sub> as frequency increases?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>X<sub>L</sub> decreases — it is inversely proportional to frequency</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>X<sub>L</sub> stays constant — like a resistor</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>X<sub>L</sub> increases proportionally — X<sub>L</sub> = 2&#960;fL</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-3-2">
+            <div class="q-text"><span class="q-num">2)</span> At DC (f = 0 Hz), an ideal inductor behaves like:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-2" value="a"> <span>An open circuit — blocking all DC current</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="b"> <span>A short circuit — X<sub>L</sub> = 0 so it offers no opposition</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="c"> <span>A pure resistor equal in value to its inductance</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.3.3 — Inductive Reactance Calculation</span>
+          <span class="chevron pend" id="chev-sa-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">An inductor of L = 100 mH (0.1 H) is connected to a 50 Hz AC supply. Using <strong>X<sub>L</sub> = 2&#960;fL</strong>, calculate the inductive reactance in <strong>ohms</strong>. (Use &#960; &#8776; 3.14159; round to one decimal place.)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-3" placeholder="&#937;" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-3', ['31.4','31.4ohms','31.4 ohms','31.4&#937;','31'], '<strong>Correct!</strong> X<sub>L</sub> = 2&#960; &times; 50 &times; 0.1 = 10&#960; &asymp; <strong>31.4 &#937;</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-3', '31.4', 'X_L = 2π × 50 × 0.1 = 10π ≈ 31.4 Ω.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-3"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <!-- =================================================================
+         SECTION 4 — SERIES RL CIRCUIT
+         ================================================================= -->
+    <section class="section" id="sec-4">
+      <h2 class="section-heading"><span class="section-num">4.4</span> Series RL Circuit</h2>
+
+      <div class="block block-reading">
+        <p>When a resistor and an inductor are connected in series to an AC source, the total opposition is the <span class="term">impedance</span> Z, which combines R (real part) and X<sub>L</sub> (imaginary part):</p>
+        <ul>
+          <li><strong>Z = R + jX<sub>L</sub></strong> &nbsp;&mdash;&nbsp; complex form</li>
+          <li><strong>|Z| = &#8730;(R&#178; + X<sub>L</sub>&#178;)</strong> &nbsp;&mdash;&nbsp; magnitude (ohms); used in Ohm's Law</li>
+          <li><strong>I = V / |Z|</strong> &nbsp;&mdash;&nbsp; current magnitude</li>
+          <li><strong>&#952; = tan<sup>&#8722;1</sup>(X<sub>L</sub> / R)</strong> &nbsp;&mdash;&nbsp; phase angle; how much voltage leads current</li>
+        </ul>
+        <p>The <span class="term">impedance triangle</span> is a right triangle where R is the horizontal leg, X<sub>L</sub> is the vertical leg, and |Z| is the hypotenuse. This is the same shape as the voltage phasor triangle (V<sub>R</sub>, V<sub>L</sub>, V<sub>s</sub>).</p>
+        <p>Key behavior: in a series RL circuit, the current <strong>lags</strong> the source voltage. A larger X<sub>L</sub> (or larger L or higher f) produces a larger phase angle and more lag.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 4.4 — Impedance Triangle &amp; Series RL Formulas</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">Impedance Triangle</div>
+              <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:13px;line-height:1.6;text-align:left;">
+                <div style="color:var(--accent-cool);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9664; X<sub>L</sub></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/|</div>
+                <div style="color:var(--accent-cool);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;&nbsp;|Z| /&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&#952;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;/&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;|</div>
+                <div style="color:var(--accent-warm);">&nbsp;&nbsp;&#9650; R</div>
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Quantity</th><th>Formula</th></tr></thead>
+                <tbody>
+                  <tr><td>Impedance magnitude</td><td>|Z| = &#8730;(R&#178; + X<sub>L</sub>&#178;)</td></tr>
+                  <tr><td>Current</td><td>I = V / |Z|</td></tr>
+                  <tr><td>Phase angle</td><td>&#952; = tan<sup>&#8722;1</sup>(X<sub>L</sub> / R)</td></tr>
+                  <tr><td>Voltage across R</td><td>V<sub>R</sub> = I &#215; R</td></tr>
+                  <tr><td>Voltage across L</td><td>V<sub>L</sub> = I &#215; X<sub>L</sub></td></tr>
+                  <tr><td>Supply voltage</td><td>V<sub>s</sub> = &#8730;(V<sub>R</sub>&#178; + V<sub>L</sub>&#178;)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">V<sub>R</sub> and V<sub>L</sub> are 90&#176; out of phase, so they add as vectors (not arithmetic), forming the same right triangle as the impedance.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">4.4.1 — Analysing a Series RL Circuit</span>
+          <span class="chevron pend" id="chev-anim-4">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Write down all given values before starting any calculations.">
+              <strong>Step 1 — Identify Given Values</strong><br><br>
+              Example circuit: V<sub>s</sub> = 200 V, &#969; = 500 rad/s, R = 60 &#937;, L = 0.16 H<br><br>
+              Before calculating, identify every known quantity:<br><br>
+              <table style="font-size:14px;border-collapse:collapse;width:100%;">
+                <tr><td style="padding:4px 8px;">Source voltage</td><td style="padding:4px;">V<sub>s</sub> = 200 V</td></tr>
+                <tr><td style="padding:4px 8px;">Angular frequency</td><td style="padding:4px;">&#969; = 500 rad/s</td></tr>
+                <tr><td style="padding:4px 8px;">Resistance</td><td style="padding:4px;">R = 60 &#937;</td></tr>
+                <tr><td style="padding:4px 8px;">Inductance</td><td style="padding:4px;">L = 0.16 H</td></tr>
+              </table>
+            </div>
+            <div class="anim-frame" data-cap="Calculate inductive reactance first — X_L = ωL.">
+              <strong>Step 2 — Find Inductive Reactance X<sub>L</sub></strong><br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:700;padding:8px;">X<sub>L</sub> = &#969; &#215; L = 500 &#215; 0.16 = <span style="color:var(--accent-cool);">80 &#937;</span></div>
+              <br>
+              X<sub>L</sub> = 80 &#937; means the inductor provides 80 ohms of opposition at this frequency. The resistor provides a constant 60 &#937;. They cannot be added directly because they are 90&#176; apart.
+            </div>
+            <div class="anim-frame" data-cap="Use the impedance triangle to find |Z| = √(R² + X_L²).">
+              <strong>Step 3 — Find Impedance Magnitude |Z|</strong><br><br>
+              R and X<sub>L</sub> form two legs of a right triangle:<br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:700;padding:8px;">|Z| = &#8730;(60&#178; + 80&#178;) = &#8730;(3600 + 6400) = &#8730;10000 = <span style="color:var(--accent-cool);">100 &#937;</span></div>
+              <br>
+              This is a classic 3&#8211;4&#8211;5 Pythagorean triple scaled by 20: 60 = 3&#215;20, 80 = 4&#215;20, 100 = 5&#215;20.
+            </div>
+            <div class="anim-frame" data-cap="Apply Ohm's Law with Z to find current, then calculate the phase angle.">
+              <strong>Step 4 — Current &amp; Phase Angle</strong><br><br>
+              <div style="font-size:14px;margin:6px 0;">I = V<sub>s</sub> / |Z| = 200 / 100 = <strong style="color:var(--accent-cool);">2 A</strong></div>
+              <div style="font-size:14px;margin:6px 0;">&#952; = tan<sup>&#8722;1</sup>(X<sub>L</sub> / R) = tan<sup>&#8722;1</sup>(80 / 60) = tan<sup>&#8722;1</sup>(1.33) &#8776; <strong>53&#176;</strong></div>
+              <br>
+              The current lags the supply voltage by 53&#176;. Voltage across R = 2 &#215; 60 = 120 V. Voltage across L = 2 &#215; 80 = 160 V. Check: &#8730;(120&#178; + 160&#178;) = &#8730;40000 = 200 V ✓
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-4">Write down all given values before starting any calculations.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-4')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-4')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-4">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">4.4.2 — Series RL Check</span>
+          <span class="chevron pend" id="chev-mc-4">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-4-1">
+            <div class="q-text"><span class="q-num">1)</span> A series RL circuit has R = 3 &#937; and X<sub>L</sub> = 4 &#937;. What is |Z|?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-1" value="a"> <span>7 &#937; — adding R and X<sub>L</sub> directly</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="b"> <span>1 &#937; — the difference X<sub>L</sub> &#8722; R</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="c"> <span>5 &#937; — using the impedance triangle: &#8730;(3&#178; + 4&#178;)</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-4-2">
+            <div class="q-text"><span class="q-num">2)</span> In a series RL circuit, how does the current relate to the source voltage?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-2" value="a"> <span>Current leads the voltage by 90&#176;</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="b"> <span>Current lags the voltage — it peaks after the voltage</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="c"> <span>Current and voltage are always in phase</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Activity</span>
+          <span class="act-title">4.4.3 — Series RL Circuit Analysis</span>
+          <span class="chevron pend" id="chev-chal-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Analyse the series RL circuit below step by step. Fill in all the blanks. The checker looks for X<sub>L</sub> = 80, |Z| = 100, and I = 2.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>rl_circuit.txt</span><span>ANALYSIS</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">Series RL Circuit Analysis
+
+Given:
+  V_s = 200 V  (source voltage, peak)
+  ω   = 500 rad/s
+  R   = 60 Ω
+  L   = 0.16 H
+
+Step 1 — Inductive reactance:
+  X_L = ω × L = 500 × 0.16 = ___ Ω
+
+Step 2 — Impedance magnitude:
+  |Z| = √(R² + X_L²) = √(60² + ___²) = √___ = ___ Ω
+
+Step 3 — Current:
+  I = V_s ÷ |Z| = 200 ÷ ___ = ___ A</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-4 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_03.html">&#8592; Chapter 3</a>
+      <span class="nav-btn disabled">Chapter 5 &#8594;</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// PROGRESS
+const CHAPTER_ID = 'mb-eb4';
+const ALL_BLOCKS  = ['anim-1','mc-1','sa-1','anim-2','mc-2','sa-2','anim-3','mc-3','sa-3','anim-4','mc-4','chal-1'];
+const SEC_BLOCKS  = {
+  1: ['anim-1','mc-1','sa-1'],
+  2: ['anim-2','mc-2','sa-2'],
+  3: ['anim-3','mc-3','sa-3'],
+  4: ['anim-4','mc-4','chal-1']
+};
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='&#10003;';el.className='chevron done';}else{el.textContent='&#9675;';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){ sc.textContent=all?'&#10003;':`${sd}/${st}`; sc.className='s-count'+(all?' all-done':''); }
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){ rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':''; }
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+// SIDEBAR ACTIVE
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+// ANIMATION
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+// MULTIPLE CHOICE
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> V<sub>m</sub> is the peak (maximum) amplitude — the tallest the wave rises above the zero line.',
+    bad: '<strong>Not quite.</strong> V<sub>m</sub> is the peak voltage, not the RMS or the frequency. It is the coefficient multiplying the sine.'
+  },
+  'mcq-1-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> &#969; = 2&#960;f converts ordinary frequency f (Hz) to angular frequency &#969; (rad/s) used in equations.',
+    bad: '<strong>Not quite.</strong> The correct relationship is &#969; = 2&#960;f. One full cycle = 2&#960; radians, so &#969; scales f by 2&#960;.'
+  },
+  'mcq-2-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The positive and negative half-cycles cancel, giving a zero average — yet the wave clearly delivers power. RMS solves this by squaring first.',
+    bad: '<strong>Not quite.</strong> A full AC cycle has equal positive and negative areas that cancel. The average is zero even though the signal delivers real power.'
+  },
+  'mcq-2-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Leading means arriving earlier. If A peaks before B, A is leading B.',
+    bad: '<strong>Not quite.</strong> If A peaks earlier than B, A is <em>leading</em> B. Lagging means peaking later.'
+  },
+  'mcq-3-1': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> X<sub>L</sub> = 2&#960;fL — reactance grows linearly with frequency. Higher f means the current changes faster, so the inductor opposes it more.',
+    bad: '<strong>Not quite.</strong> X<sub>L</sub> = 2&#960;fL is directly proportional to f. Doubling the frequency doubles the reactance.'
+  },
+  'mcq-3-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> At DC, f = 0, so X<sub>L</sub> = 2&#960; &times; 0 &times; L = 0 &#937;. The inductor is just a wire — a short circuit.',
+    bad: '<strong>Not quite.</strong> At DC, X<sub>L</sub> = 0 — the inductor offers zero opposition and passes DC freely (short circuit). It is capacitors that block DC.'
+  },
+  'mcq-4-1': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> R and X<sub>L</sub> are 90&#176; apart, so they combine as vectors: |Z| = &#8730;(3&#178; + 4&#178;) = &#8730;25 = 5 &#937;.',
+    bad: '<strong>Not quite.</strong> R and X<sub>L</sub> cannot be added directly — they are 90&#176; out of phase. Use the impedance triangle: |Z| = &#8730;(R&#178; + X<sub>L</sub>&#178;) = 5 &#937;.'
+  },
+  'mcq-4-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The inductor causes the current to lag — the voltage peaks first, the current peaks later by the phase angle &#952; = tan<sup>&#8722;1</sup>(X<sub>L</sub>/R).',
+    bad: '<strong>Not quite.</strong> In an RL circuit, the inductor makes current lag the voltage. Current peaks <em>after</em> the voltage does.'
+  }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name); if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+// SHORT ANSWER
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){ input.value=answer; input.className='sa-input correct'; }
+  if(exp)  { exp.innerHTML=msg; exp.className='explanation visible'; }
+  markDone(blockId);
+}
+
+// CHALLENGE
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Inductive reactance X_L = 80 Ω  (500 × 0.16)',      fn: c => /\b80\b/.test(c) },
+      { name: 'Impedance |Z| = 100 Ω  (√(60² + 80²) = √10000)',    fn: c => /\b100\b/.test(c) },
+      { name: 'Current I = 2 A  (200 ÷ 100)',                       fn: c => /\b2\b/.test(c) }
+    ],
+    defaultCode: 'Series RL Circuit Analysis\n\nGiven:\n  V_s = 200 V  (source voltage, peak)\n  ω   = 500 rad/s\n  R   = 60 Ω\n  L   = 0.16 H\n\nStep 1 — Inductive reactance:\n  X_L = ω × L = 500 × 0.16 = ___ Ω\n\nStep 2 — Impedance magnitude:\n  |Z| = √(R² + X_L²) = √(60² + ___²) = √___ = ___ Ω\n\nStep 3 — Current:\n  I = V_s ÷ |Z| = 200 ÷ ___ = ___ A'
+  }
+};
+
+function checkChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(!ch||!ed||!out) return;
+  const results=ch.tests.map(t=>({...t,pass:t.fn(ed.value)}));
+  out.innerHTML=results.map(r=>`<div class="t-row ${r.pass?'t-pass':'t-fail'}">${r.pass?'&#10003;':'&#10007;'}  ${r.name}</div>`).join('');
+  out.className='chal-output visible';
+  if(results.every(r=>r.pass)) markDone(blockId);
+}
+function resetChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(ed) ed.value=ch?.defaultCode||'';
+  if(out) out.className='chal-output';
+}
+
+// RESET
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  document.querySelectorAll('.chal-output').forEach(el=>el.className='chal-output');
+  Object.keys(CHALLENGES).forEach(id=>{const ed=document.getElementById('ed-'+id);if(ed) ed.value=CHALLENGES[id].defaultCode;});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire Electronics Basics course? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-eb')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

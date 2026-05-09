@@ -176,6 +176,22 @@ All questions share these fields:
 6. Add course card to `index.html` with `href="Courses/CourseName/chapter_01.html"` (update COURSES array in JS too)
 7. **No `shared.js` needed** — chapter and quiz files load `../../assets/shared-nav.js` directly
 
+## Symbol Policy
+
+No emojis anywhere in HTML, JS, or template files. ASCII symbols and plain Unicode characters are both allowed. Emojis render as large colored glyphs on modern OSes and conflict with the design system.
+
+Current conventions in use:
+
+| Old | Replacement | Context |
+|-----|-------------|---------|
+| 🎉 `&#127881;` | _(removed)_ | Completion banner |
+| 🔀 `&#x1F500;` | _(removed)_ | Randomize button |
+| ⚡ `&#9889;` | `/!\` | Weakness Focus button |
+| 💡 `&#128161;` | `(i)` | Hint button |
+| 👀 `&#128065;` | _(removed)_ | Show Answer button |
+
+---
+
 ## Storage Key Conventions
 
 | Page | Key pattern | Example |

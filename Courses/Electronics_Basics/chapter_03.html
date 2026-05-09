@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Chapter 3: Diodes &amp; BJTs</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Chapter 3 — Diodes &amp; Bipolar Junction Transistors</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">12 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 3 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="chapter_04.html">Chapter 4</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  Chapter complete! <a href="chapter_04.html">Continue to Chapter 4 &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">3.1 Diodes <span class="s-count" id="sc-1">0/3</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">3.2 Diode Circuits &amp; H-Bridge <span class="s-count" id="sc-2">0/3</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">3.3 BJT Structure &amp; Modes <span class="s-count" id="sc-3">0/3</span></a>
+    <a href="#sec-4" class="sidebar-link" data-sec="4">3.4 BJT as a Switch <span class="s-count" id="sc-4">0/3</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">&#8635; Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">&#8635; Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_02.html">&#8592; Chapter 2</a>
+      <a class="nav-btn" href="chapter_04.html">Chapter 4 &#8594;</a>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1 — DIODES
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">3.1</span> Diodes</h2>
+
+      <div class="block block-reading">
+        <p>A <span class="term">diode</span> is a two-terminal semiconductor component that allows current to flow in only one direction. It is built from a <strong>P-N junction</strong> — a P-type semiconductor region (the <span class="term">anode</span>) bonded to an N-type region (the <span class="term">cathode</span>).</p>
+        <p>The schematic symbol is a triangle pointing toward a vertical bar. The base of the triangle is the anode; the bar is the cathode. Current flows in the direction the triangle points — from anode to cathode.</p>
+        <ul>
+          <li><strong>Forward bias</strong> — anode is more positive than cathode; current flows once V exceeds the forward voltage threshold</li>
+          <li><strong>Reverse bias</strong> — cathode is more positive; current is blocked (ideally zero)</li>
+          <li><strong>Forward voltage (V<sub>f</sub>)</strong> — the voltage drop across a conducting diode; approximately 0.7 V for silicon, 0.3 V for germanium, 1.5–3.5 V for LEDs</li>
+        </ul>
+        <p>Common diode types: <strong>1N4007</strong> (power rectifier, up to 1 A), <strong>1N4148</strong> (fast signal diode, low current), <strong>Zener</strong> (controlled reverse breakdown for voltage regulation), and <strong>LED</strong> (emits light when forward biased).</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 3.1 — Diode Symbol, Terminals, and Types</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">Schematic Symbol</div>
+              <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:15px;line-height:1.8;text-align:center;">
+                <div style="color:var(--accent-cool);">Anode (P)</div>
+                <div>──▶|──</div>
+                <div style="color:var(--accent-warm);">Cathode (N)</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:6px;text-align:center;">Current flows left → right<br>when forward biased</div>
+            </div>
+            <div style="flex:1;min-width:220px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Type</th><th>Part No.</th><th>V<sub>f</sub></th><th>Use case</th></tr></thead>
+                <tbody>
+                  <tr><td>Power rectifier</td><td>1N4007</td><td>~0.7 V</td><td>AC-to-DC conversion, up to 1 A</td></tr>
+                  <tr><td>Signal diode</td><td>1N4148</td><td>~0.7 V</td><td>High-speed switching, small current</td></tr>
+                  <tr><td>Zener</td><td>varies</td><td>reverse breakdown</td><td>Voltage regulation</td></tr>
+                  <tr><td>LED</td><td>varies</td><td>1.5–3.5 V</td><td>Light output, indicators</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">Silicon diodes drop ~0.7 V when conducting. LEDs drop more — check the datasheet for the specific V<sub>f</sub>.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">3.1.1 — Diode I-V Characteristics</span>
+          <span class="chevron pend" id="chev-anim-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The diode P-N junction determines which way current can flow.">
+              <strong>Step 1 — The P-N Junction</strong><br><br>
+              Inside a diode, P-type material (excess holes) meets N-type material (excess electrons) at a <strong>junction</strong>. A thin depletion region forms at the boundary, creating a built-in electric field.<br><br>
+              <div style="font-family:monospace;font-size:14px;text-align:center;padding:10px;line-height:1.8;">
+                <div>P-type &nbsp;|&nbsp; N-type</div>
+                <div style="color:var(--accent-cool);">(+holes) &nbsp;|&nbsp; (−electrons)</div>
+                <div>Anode &nbsp;&nbsp;&nbsp;|&nbsp; Cathode</div>
+              </div>
+              This built-in field must be overcome before current can flow — which is what the forward voltage threshold represents.
+            </div>
+            <div class="anim-frame" data-cap="Forward bias overcomes the junction barrier, allowing current to flow.">
+              <strong>Step 2 — Forward Bias</strong><br><br>
+              Apply a positive voltage to the anode relative to the cathode. When V<sub>anode</sub> − V<sub>cathode</sub> exceeds ~0.7 V:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>The depletion region narrows</li>
+                <li>Current flows freely from anode to cathode</li>
+                <li>The diode voltage drop stays approximately constant at V<sub>f</sub> ≈ 0.7 V</li>
+              </ul>
+              <br>
+              Circuit current: <strong>I = (V<sub>S</sub> − V<sub>f</sub>) / R</strong>
+            </div>
+            <div class="anim-frame" data-cap="Reverse bias widens the depletion region and blocks current.">
+              <strong>Step 3 — Reverse Bias</strong><br><br>
+              Apply a positive voltage to the cathode instead. The depletion region <em>widens</em>, reinforcing the barrier.<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>Virtually no current flows (only a tiny leakage current)</li>
+                <li>The full reverse voltage appears across the diode</li>
+                <li>If V<sub>reverse</sub> exceeds the <strong>breakdown voltage</strong>, the diode conducts destructively (unless it is a Zener, which is designed for this)</li>
+              </ul>
+            </div>
+            <div class="anim-frame" data-cap="The I-V curve shows exponential forward conduction and near-zero reverse current.">
+              <strong>Step 4 — The I-V Curve</strong><br><br>
+              <div style="font-family:monospace;font-size:12px;line-height:1.5;padding:4px 0;">
+                <div style="display:flex;align-items:flex-end;gap:0;">
+                  <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;color:var(--text-muted);padding-right:4px;">Current (I)</div>
+                  <div>
+                    <div style="border-left:2px solid var(--text-muted);border-bottom:2px solid var(--text-muted);width:180px;height:80px;position:relative;">
+                      <div style="position:absolute;bottom:0;left:60%;width:2px;height:100%;background:var(--text-muted);opacity:0.3;"></div>
+                      <div style="position:absolute;bottom:20px;left:60%;color:var(--accent-cool);font-size:10px;"> 0.7V</div>
+                      <svg width="178" height="78" style="position:absolute;top:0;left:0;" viewBox="0 0 178 78">
+                        <path d="M0,70 Q60,68 107,65 Q120,60 135,30 Q145,10 155,2" stroke="var(--accent-cool)" stroke-width="2" fill="none"/>
+                        <path d="M0,70 L106,70" stroke="var(--accent-error)" stroke-width="2" fill="none" stroke-dasharray="4,2"/>
+                      </svg>
+                    </div>
+                    <div style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:2px;">Voltage (V) →</div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:13px;margin-top:8px;">Blue: forward conduction (steep rise past 0.7 V). Red dashed: reverse region (near-zero current until breakdown).</div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">The diode P-N junction determines which way current can flow.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.1.2 — Diode Concepts Check</span>
+          <span class="chevron pend" id="chev-mc-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> In the diode symbol (a triangle pointing at a bar), what is the base of the triangle called?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>Cathode — the N-type terminal</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Anode — the P-type terminal where current enters</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>Gate — the control terminal</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> A silicon diode has 0.3 V applied across it (anode positive). What happens?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>Current flows freely — any positive voltage is enough</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>No significant current flows — 0.3 V is below the ~0.7 V forward threshold</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>The diode breaks down in the reverse direction</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.1.3 — Forward Current Calculation</span>
+          <span class="chevron pend" id="chev-sa-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">A 5 V source, a 430 &#937; resistor, and a silicon diode (V<sub>f</sub> = 0.7 V) are connected in series. Using <strong>I = (V<sub>S</sub> &#8722; V<sub>f</sub>) / R</strong>, what is the circuit current in <strong>milliamps</strong>?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="mA" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['10','10ma','10 ma'], '<strong>Correct!</strong> I = (5 &minus; 0.7) / 430 = 4.3 / 430 = 0.01 A = <strong>10 mA</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', '10', 'I = (5 − 0.7) / 430 = 4.3 / 430 = 0.01 A = 10 mA.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- =================================================================
+         SECTION 2 — DIODE CIRCUITS & H-BRIDGE
+         ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">3.2</span> Diode Circuits &amp; H-Bridge</h2>
+
+      <div class="block block-reading">
+        <p>An <span class="term">H-bridge</span> is a circuit that uses four switches arranged in an H shape to control a DC motor in both directions. By closing different pairs of switches, current can flow through the motor in either direction, reversing its spin.</p>
+        <p>When a motor runs, the spinning coil is an inductor storing magnetic energy. If the driving current is <em>suddenly interrupted</em> (a switch opens), that energy must go somewhere — it appears as a large voltage spike called <span class="term">back EMF</span> (electromotive force). This spike can easily exceed the transistor's breakdown voltage and destroy it.</p>
+        <ul>
+          <li><strong>Flyback diode</strong> (also called a freewheeling diode) — placed in parallel with the motor, reverse-biased during normal operation, but catches the back-EMF spike when a switch opens and conducts the current safely back to the supply</li>
+          <li>Each transistor switch in an H-bridge gets its own flyback diode, clamping spikes to approximately V<sub>supply</sub> + 0.7 V</li>
+          <li>Without protection, back EMF spikes can reach many times the supply voltage in microseconds</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 3.2 — H-Bridge Motor Control Circuit</span>
+        </div>
+        <div class="figure-body">
+          <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:13px;line-height:1.7;text-align:center;padding:4px 0;">
+            <div style="color:var(--accent-cool);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V+</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div>&nbsp;&nbsp;&nbsp;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;</div>
+            <div>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div>&nbsp;&nbsp; [S1]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[S3]</div>
+            <div>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div>&nbsp;&#9135;&#9135;&#9135;&#9135;&#9135;&nbsp;[MOTOR]&nbsp;&#9135;&#9135;&#9135;&#9135;&#9135;</div>
+            <div>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div>&nbsp;&nbsp; [S2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[S4]</div>
+            <div>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div>&nbsp;&nbsp;&nbsp;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+            <div style="color:var(--text-muted);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GND</div>
+          </div>
+          <table class="comp-table" style="margin-top:14px;font-size:13px;">
+            <thead><tr><th>Switches closed</th><th>Motor direction</th></tr></thead>
+            <tbody>
+              <tr><td>S1 + S4</td><td>Forward (current left-to-right)</td></tr>
+              <tr><td>S2 + S3</td><td>Reverse (current right-to-left)</td></tr>
+              <tr><td>S1 + S2 or S3 + S4</td><td>AVOID — short-circuits the supply</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">In practice S1/S3 are PNP (high-side) and S2/S4 are NPN (low-side) transistors. A flyback diode is placed across each switch pair.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">3.2.1 — H-Bridge Operation &amp; Back EMF</span>
+          <span class="chevron pend" id="chev-anim-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Four switches arranged in an H shape around a motor.">
+              <strong>Step 1 — The H-Bridge Structure</strong><br><br>
+              Picture the letter H: the motor sits in the crossbar, two switches are on the left leg (S1 top, S2 bottom), two are on the right leg (S3 top, S4 bottom).<br><br>
+              The top of both legs connects to V+. The bottom of both connects to ground. By choosing which pair to close, you choose which direction current flows through the motor.
+            </div>
+            <div class="anim-frame" data-cap="S1 and S4 closed: current flows left-to-right through the motor.">
+              <strong>Step 2 — Forward Direction</strong><br><br>
+              Close <strong>S1</strong> (top-left) and <strong>S4</strong> (bottom-right). Leave S2 and S3 open.<br><br>
+              <div style="font-family:monospace;font-size:14px;padding:8px 0;text-align:center;">
+                V+ &#8594; S1 &#8594; Motor &#8594; S4 &#8594; GND
+              </div>
+              Current flows left-to-right through the motor coil. The motor spins in the <strong>forward</strong> direction.
+            </div>
+            <div class="anim-frame" data-cap="S2 and S3 closed: current flows right-to-left, reversing the motor.">
+              <strong>Step 3 — Reverse Direction</strong><br><br>
+              Now open S1/S4 and close <strong>S2</strong> (bottom-left) and <strong>S3</strong> (top-right).<br><br>
+              <div style="font-family:monospace;font-size:14px;padding:8px 0;text-align:center;">
+                V+ &#8594; S3 &#8594; Motor &#8594; S2 &#8594; GND
+              </div>
+              Current flows right-to-left — the motor reverses. The H-bridge gives full bidirectional control with no rewiring.
+            </div>
+            <div class="anim-frame" data-cap="Flyback diodes clamp the back-EMF spike when switches open.">
+              <strong>Step 4 — Back EMF Protection</strong><br><br>
+              When a switch opens, the motor coil (an inductor) fights the change in current:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>L di/dt generates a large voltage spike — <strong>back EMF</strong></li>
+                <li>Without protection this spike can be many times V<sub>supply</sub></li>
+                <li><strong>Flyback diodes</strong> are placed reverse-biased across each switch</li>
+                <li>When a spike occurs, the diode turns on and conducts the energy back to V+, clamping the voltage to V<sub>supply</sub> + 0.7 V</li>
+              </ul>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">Four switches arranged in an H shape around a motor.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.2.2 — H-Bridge &amp; Back EMF Check</span>
+          <span class="chevron pend" id="chev-mc-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> In an H-bridge, closing switches S2 and S3 (with S1 and S4 open) causes the motor to:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>Stop immediately</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>Run in the reverse direction compared to S1+S4</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Short-circuit the supply</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> What causes back EMF in a motor circuit?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>The motor drawing too much current at startup</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>The motor coil (inductor) generating a voltage spike when its current is suddenly interrupted</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>The supply voltage being too high for the motor</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.2.3 — Flyback Diode Role</span>
+          <span class="chevron pend" id="chev-sa-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">When the motor in an H-bridge is running normally (switches closed), the flyback diodes are <strong>reverse biased</strong> and carry no current. When a switch opens suddenly, what component conducts to protect the transistors from the back-EMF voltage spike? (One word answer.)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-2" placeholder="component name" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-2', ['diode','diodes','flyback diode','flyback diodes'], '<strong>Correct!</strong> The flyback diode turns on during the spike and conducts the inductive energy back to the supply, clamping the voltage to V<sub>supply</sub> + 0.7 V.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-2', 'diode', 'The flyback diode catches the back-EMF spike and safely reroutes the current.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-2"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- =================================================================
+         SECTION 3 — BJT STRUCTURE & MODES
+         ================================================================= -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">3.3</span> BJT Structure &amp; Modes</h2>
+
+      <div class="block block-reading">
+        <p>A <span class="term">Bipolar Junction Transistor (BJT)</span> is a three-terminal semiconductor device that uses a small base current to control a much larger collector current. It is a <strong>current-controlled</strong> device — unlike a FET, which is voltage-controlled.</p>
+        <p>An <strong>NPN BJT</strong> has three terminals: <span class="term">Emitter (E)</span>, <span class="term">Base (B)</span>, and <span class="term">Collector (C)</span>. Two PN junctions form inside — one between base and emitter, one between base and collector. The base region is very thin, which is why charge carriers injected through the B-E junction can cross and exit at the collector.</p>
+        <p>Key current relationships:</p>
+        <ul>
+          <li><strong>I<sub>C</sub> = &#946; &#215; I<sub>B</sub></strong> — collector current equals current gain times base current</li>
+          <li><strong>I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub></strong> — emitter current is the sum of collector and base currents</li>
+          <li>&#946; (also written h<sub>FE</sub>) is the DC current gain, typically 30–300 depending on the transistor and operating point</li>
+          <li><strong>V<sub>BE</sub> &#8776; 0.6–0.7 V</strong> is required to forward-bias the base-emitter junction and turn the transistor on</li>
+        </ul>
+        <p>Two operating modes relevant to switching:</p>
+        <ul>
+          <li><strong>Cutoff</strong> — I<sub>B</sub> = 0, no base current, transistor is fully OFF (I<sub>C</sub> &#8776; 0)</li>
+          <li><strong>Saturation</strong> — I<sub>B</sub> is large enough to drive I<sub>C</sub> to its maximum; transistor is fully ON; V<sub>CE(sat)</sub> &#8776; 0.1–0.2 V</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 3.3 — NPN BJT Symbol, Equations, and Modes</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">NPN Symbol</div>
+              <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:14px;line-height:1.6;text-align:left;">
+                <div style="color:var(--accent-cool);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</div>
+                <div>B &#9135;&#9135;|</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\&#9658;</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div style="color:var(--accent-warm);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Arrow on emitter<br>points outward (NPN)</div>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Equation</th><th>Meaning</th></tr></thead>
+                <tbody>
+                  <tr><td><code>I<sub>C</sub> = &#946; &#215; I<sub>B</sub></code></td><td>Collector current is gain times base current</td></tr>
+                  <tr><td><code>I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub></code></td><td>All current exits through emitter</td></tr>
+                  <tr><td><code>V<sub>BE</sub> &#8776; 0.7 V</code></td><td>Threshold to turn transistor on</td></tr>
+                </tbody>
+              </table>
+              <table class="comp-table" style="font-size:13px;margin-top:10px;">
+                <thead><tr><th>Mode</th><th>I<sub>B</sub></th><th>I<sub>C</sub></th><th>V<sub>CE</sub></th></tr></thead>
+                <tbody>
+                  <tr><td>Cutoff (OFF)</td><td>0</td><td>&#8776; 0</td><td>&#8776; V<sub>supply</sub></td></tr>
+                  <tr><td>Saturation (ON)</td><td>large</td><td>max</td><td>0.1–0.2 V</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">The 2N3904 is a common NPN BJT: V<sub>CEO</sub> max 40 V, I<sub>C</sub> max 200 mA, &#946; min &#8764;100 at 10 mA, V<sub>CE(sat)</sub> max 200 mV.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">3.3.1 — BJT Operating Modes</span>
+          <span class="chevron pend" id="chev-anim-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The BJT has three terminals and two internal PN junctions.">
+              <strong>Step 1 — Structure &amp; Terminals</strong><br><br>
+              The NPN BJT consists of two N-type regions sandwiching a very thin P-type <strong>base</strong> region:<br><br>
+              <div style="font-family:monospace;text-align:center;font-size:14px;padding:8px 0;line-height:2;">
+                <div>Collector (N)</div>
+                <div style="color:var(--text-muted);">&#9135;&#9135; B-C junction &#9135;&#9135;</div>
+                <div>Base (P) &#8592; control input</div>
+                <div style="color:var(--text-muted);">&#9135;&#9135; B-E junction &#9135;&#9135;</div>
+                <div>Emitter (N)</div>
+              </div>
+              A small current into the base controls a much larger current from collector to emitter.
+            </div>
+            <div class="anim-frame" data-cap="I_C = β × I_B — base current controls collector current by the gain factor β.">
+              <strong>Step 2 — Current Gain (&beta;)</strong><br><br>
+              The base-emitter junction behaves like a diode. When V<sub>BE</sub> &#8805; 0.7 V, base current I<sub>B</sub> flows, and by transistor action, a much larger I<sub>C</sub> flows:<br><br>
+              <div style="text-align:center;font-size:1.15em;font-weight:700;padding:8px;">I<sub>C</sub> = &#946; &#215; I<sub>B</sub></div>
+              Example: &#946; = 100, I<sub>B</sub> = 1 mA &rarr; I<sub>C</sub> = 100 mA.<br><br>
+              All current exits through the emitter: I<sub>E</sub> = I<sub>B</sub> + I<sub>C</sub> = 1 + 100 = <strong>101 mA</strong>.
+            </div>
+            <div class="anim-frame" data-cap="Cutoff: base current is zero, transistor is off, no collector current flows.">
+              <strong>Step 3 — Cutoff Mode (Switch OFF)</strong><br><br>
+              When V<sub>BE</sub> &lt; 0.7 V (e.g., base connected to ground), no base current flows:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>I<sub>B</sub> = 0</li>
+                <li>I<sub>C</sub> &#8776; 0 (only tiny leakage)</li>
+                <li>V<sub>CE</sub> &#8776; V<sub>supply</sub> (full supply voltage across transistor)</li>
+                <li>Transistor acts like an open switch</li>
+              </ul>
+              <br>
+              This is the <strong>off state</strong> in a digital switching application.
+            </div>
+            <div class="anim-frame" data-cap="Saturation: base current is large enough to drive the transistor fully on.">
+              <strong>Step 4 — Saturation Mode (Switch ON)</strong><br><br>
+              When I<sub>B</sub> is large enough that &#946; &#215; I<sub>B</sub> would exceed the circuit's available current, the transistor is <strong>saturated</strong>:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>V<sub>CE(sat)</sub> &#8776; 0.1–0.2 V (nearly a short circuit)</li>
+                <li>I<sub>C</sub> is set by the external circuit, not by &#946; &#215; I<sub>B</sub></li>
+                <li>Transistor acts like a closed switch</li>
+              </ul>
+              <br>
+              Design rule: drive I<sub>B</sub> to at least I<sub>C</sub>/&#946; to guarantee saturation.
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-3">The BJT has three terminals and two internal PN junctions.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-3')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-3')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-3">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.3.2 — BJT Concepts Check</span>
+          <span class="chevron pend" id="chev-mc-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> What base-emitter voltage (V<sub>BE</sub>) is required to turn on a silicon NPN BJT?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>0 V — the transistor is always on</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>0.6–0.7 V — forward-biases the base-emitter junction</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>3.3 V — logic-level signal voltage</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-3-2">
+            <div class="q-text"><span class="q-num">2)</span> A BJT has &#946; = 100 and I<sub>B</sub> = 0.5 mA. What is I<sub>C</sub>?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-2" value="a"> <span>0.5 mA — same as base current</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="b"> <span>50 mA — base current multiplied by gain</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="c"> <span>100 mA — equal to &#946;</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.3.3 — Collector Current Calculation</span>
+          <span class="chevron pend" id="chev-sa-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">An NPN BJT has &#946; = 150. If the base current I<sub>B</sub> = 2 mA, what is the collector current I<sub>C</sub> in <strong>milliamps</strong>? Use I<sub>C</sub> = &#946; &#215; I<sub>B</sub>.</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-3" placeholder="mA" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-3', ['300','300ma','300 ma'], '<strong>Correct!</strong> I<sub>C</sub> = &#946; &times; I<sub>B</sub> = 150 &times; 2 mA = <strong>300 mA</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-3', '300', 'I_C = β × I_B = 150 × 2 mA = 300 mA.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-3"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <!-- =================================================================
+         SECTION 4 — BJT AS A SWITCH
+         ================================================================= -->
+    <section class="section" id="sec-4">
+      <h2 class="section-heading"><span class="section-num">3.4</span> BJT as a Switch</h2>
+
+      <div class="block block-reading">
+        <p>A BJT used as a digital switch operates only in cutoff (OFF) and saturation (ON). The <span class="term">low-side switch</span> topology places the transistor between the load and ground — the load sits above the transistor, connected to V+, and the emitter connects to ground.</p>
+        <p>When a microcontroller GPIO pin drives the base high, the transistor saturates and the load sees nearly the full supply voltage. When the GPIO goes low, the transistor cuts off and the load is de-energised.</p>
+        <p><strong>Design procedure</strong> — to choose R<sub>B</sub>:</p>
+        <ul>
+          <li><strong>Step 1</strong>: Find i<sub>C(sat)</sub> — the collector current when the transistor is fully on. For a simple resistive or LED load: i<sub>C(sat)</sub> = (V+ &#8722; V<sub>CE(sat)</sub> &#8722; V<sub>load</sub>) / R<sub>load</sub></li>
+          <li><strong>Step 2</strong>: Find the required base current: i<sub>B</sub> = i<sub>C(sat)</sub> / &#946; (use the minimum guaranteed &#946; from the datasheet for worst-case design)</li>
+          <li><strong>Step 3</strong>: Find R<sub>B</sub>: R<sub>B</sub> = (V<sub>in</sub> &#8722; V<sub>BE</sub>) / i<sub>B</sub></li>
+        </ul>
+        <p>The 2N3904 is a standard NPN BJT for this task: I<sub>C</sub> max 200 mA, &#946; minimum &#8764;100 at 10 mA, V<sub>CE(sat)</sub> max 200 mV, V<sub>BE</sub> &#8776; 0.6–0.7 V.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 3.4 — Low-Side Switch Circuit &amp; Design Procedure</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">Circuit</div>
+              <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:13px;line-height:1.7;text-align:left;">
+                <div style="color:var(--accent-cool);">&nbsp;&nbsp;&nbsp;&nbsp;V+</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;[Load / LED + R]</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;C</div>
+                <div>GPIO &#9135; [R<sub>B</sub>] &#9135; B &#9135;&#9135;|</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;E (NPN)</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;|</div>
+                <div style="color:var(--text-muted);">&nbsp;&nbsp;&nbsp;GND</div>
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <table class="comp-table" style="font-size:13px;">
+                <thead><tr><th>Step</th><th>Formula</th></tr></thead>
+                <tbody>
+                  <tr><td>1. i<sub>C(sat)</sub></td><td>(V+ &#8722; V<sub>CE(sat)</sub> &#8722; V<sub>f</sub>) / R<sub>load</sub></td></tr>
+                  <tr><td>2. i<sub>B</sub></td><td>i<sub>C(sat)</sub> / &#946;<sub>min</sub></td></tr>
+                  <tr><td>3. R<sub>B</sub></td><td>(V<sub>in</sub> &#8722; V<sub>BE</sub>) / i<sub>B</sub></td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">V<sub>BE</sub> &#8776; 0.6–0.7 V &nbsp;|&nbsp; V<sub>CE(sat)</sub> &#8776; 0.1–0.2 V</div>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">The base resistor R<sub>B</sub> limits base current and protects the GPIO pin. Always calculate from worst-case (minimum) &#946;.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">3.4.1 — Design Procedure Walk-Through</span>
+          <span class="chevron pend" id="chev-anim-4">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Identify the circuit topology and all known values before calculating.">
+              <strong>Step 1 — Identify the Circuit</strong><br><br>
+              Example: A Raspberry Pi Pico GPIO pin (3.3 V) drives a 2N3904 to switch an LED circuit. Known values:<br><br>
+              <table style="font-size:14px;border-collapse:collapse;width:100%;">
+                <tr><td style="padding:4px 8px;">V<sub>GPIO</sub></td><td style="padding:4px;">3.3 V</td></tr>
+                <tr><td style="padding:4px 8px;">V+ (motor/LED supply)</td><td style="padding:4px;">5 V</td></tr>
+                <tr><td style="padding:4px 8px;">Target I<sub>LED</sub></td><td style="padding:4px;">20 mA</td></tr>
+                <tr><td style="padding:4px 8px;">&#946; (2N3904 min)</td><td style="padding:4px;">100</td></tr>
+                <tr><td style="padding:4px 8px;">V<sub>BE</sub></td><td style="padding:4px;">0.6 V</td></tr>
+              </table>
+            </div>
+            <div class="anim-frame" data-cap="The collector current in saturation is determined by the load, not by β.">
+              <strong>Step 2 — Find i<sub>C(sat)</sub></strong><br><br>
+              In saturation the transistor is fully on. The load (LED + series resistor) sets the collector current. We want the LED to carry 20 mA, so:<br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:700;padding:8px;">i<sub>C(sat)</sub> = 20 mA</div>
+              (In a resistive-only load you would calculate: i<sub>C(sat)</sub> = (V+ &#8722; V<sub>CE(sat)</sub>) / R<sub>load</sub>. Here we specified the target directly.)
+            </div>
+            <div class="anim-frame" data-cap="Divide the required collector current by the minimum β to find the base current needed.">
+              <strong>Step 3 — Find Required i<sub>B</sub></strong><br><br>
+              To guarantee saturation, we need:<br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:700;padding:8px;">i<sub>B</sub> = i<sub>C(sat)</sub> / &#946; = 20 mA / 100 = <span style="color:var(--accent-cool);">0.2 mA</span></div>
+              Always use the <em>minimum</em> &#946; from the datasheet (worst-case part). This ensures every unit of the transistor saturates, even low-gain specimens.
+            </div>
+            <div class="anim-frame" data-cap="R_B sets the base current — it is the only component left to calculate.">
+              <strong>Step 4 — Find R<sub>B</sub></strong><br><br>
+              The base resistor drops (V<sub>GPIO</sub> &#8722; V<sub>BE</sub>). With i<sub>B</sub> = 0.2 mA = 0.0002 A:<br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:700;padding:8px;">R<sub>B</sub> = (3.3 &#8722; 0.6) / 0.0002 = 2.7 / 0.0002 = <span style="color:var(--accent-cool);">13 500 &#937;</span></div>
+              Choose the nearest standard resistor value below this (e.g. 12 k&#937;) to keep sufficient base drive. The design is complete.
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-4">Identify the circuit topology and all known values before calculating.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-4')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-4')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-4">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">3.4.2 — BJT Switch Design Check</span>
+          <span class="chevron pend" id="chev-mc-4">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-4-1">
+            <div class="q-text"><span class="q-num">1)</span> In an NPN low-side switch, where does the emitter terminal connect?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-1" value="a"> <span>To V+ (the positive supply)</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="b"> <span>To ground — the transistor sits between load and ground</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="c"> <span>To the base resistor</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-4-2">
+            <div class="q-text"><span class="q-num">2)</span> When an NPN BJT is in saturation (fully on), V<sub>CE</sub> is approximately:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-2" value="a"> <span>Equal to the supply voltage</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="b"> <span>0.6 V — the base-emitter threshold</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="c"> <span>0.1–0.2 V — nearly a short circuit between collector and emitter</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Activity</span>
+          <span class="act-title">3.4.3 — Design a BJT Low-Side Switch</span>
+          <span class="chevron pend" id="chev-chal-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Follow the three-step design procedure to find the required base current and base resistor. Fill in all the blanks with numeric values. The checker looks for i<sub>B</sub> = 0.2 (mA) and R<sub>B</sub> = 13500 (&#937;).
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>bjt_switch_design.txt</span><span>ANALYSIS</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">BJT Low-Side Switch Design
+
+Given:
+  V_GPIO  = 3.3 V  (microcontroller output)
+  V_BE    = 0.6 V
+  β (h_FE) = 100   (minimum guaranteed)
+  Target collector current i_C(sat) = 20 mA
+
+Step 1 — Required base current:
+  i_B = i_C(sat) ÷ β
+  i_B = 20 mA ÷ 100 = ___ mA
+
+Step 2 — Base resistor R_B:
+  R_B = (V_GPIO − V_BE) ÷ i_B
+  R_B = (3.3 − 0.6) ÷ ___ A = ___ Ω</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-4 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_02.html">&#8592; Chapter 2</a>
+      <a class="nav-btn" href="chapter_04.html">Chapter 4 &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// PROGRESS
+const CHAPTER_ID = 'mb-eb3';
+const ALL_BLOCKS  = ['anim-1','mc-1','sa-1','anim-2','mc-2','sa-2','anim-3','mc-3','sa-3','anim-4','mc-4','chal-1'];
+const SEC_BLOCKS  = {
+  1: ['anim-1','mc-1','sa-1'],
+  2: ['anim-2','mc-2','sa-2'],
+  3: ['anim-3','mc-3','sa-3'],
+  4: ['anim-4','mc-4','chal-1']
+};
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='&#10003;';el.className='chevron done';}else{el.textContent='&#9675;';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){ sc.textContent=all?'&#10003;':`${sd}/${st}`; sc.className='s-count'+(all?' all-done':''); }
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){ rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':''; }
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+// SIDEBAR ACTIVE
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+// ANIMATION
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+// MULTIPLE CHOICE
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The anode is the P-type terminal — the base of the triangle in the schematic symbol — where conventional current enters the diode.',
+    bad: '<strong>Not quite.</strong> The base of the triangle is the anode (P-type). The bar is the cathode (N-type). Diodes have no gate.'
+  },
+  'mcq-1-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Silicon diodes need ~0.7 V to overcome the junction barrier. Below that threshold, the depletion region blocks current.',
+    bad: '<strong>Not quite.</strong> A silicon diode requires about 0.7 V across it before significant current flows. At 0.3 V the junction is still blocking.'
+  },
+  'mcq-2-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> S2 and S3 route current through the motor in the opposite direction compared to S1 and S4, reversing the motor spin.',
+    bad: '<strong>Not quite.</strong> S2+S3 create a reverse current path through the motor — same motor, opposite direction.'
+  },
+  'mcq-2-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The motor coil is an inductor. When current is suddenly interrupted, L di/dt generates a large back-EMF voltage spike.',
+    bad: '<strong>Not quite.</strong> Back EMF is an inductive effect: the motor coil resists sudden current changes by generating its own voltage spike (L di/dt).'
+  },
+  'mcq-3-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> V<sub>BE</sub> &#8776; 0.6&#8211;0.7 V forward-biases the base-emitter junction, just like a regular silicon diode junction.',
+    bad: '<strong>Not quite.</strong> The base-emitter junction behaves like a diode — it needs ~0.7 V to turn on. Below that, I<sub>B</sub> = 0 and the transistor stays off.'
+  },
+  'mcq-3-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> I<sub>C</sub> = &#946; &times; I<sub>B</sub> = 100 &times; 0.5 mA = <strong>50 mA</strong>. The transistor amplifies base current by the gain factor.',
+    bad: '<strong>Not quite.</strong> Use I<sub>C</sub> = &#946; &times; I<sub>B</sub>: 100 &times; 0.5 mA = 50 mA.'
+  },
+  'mcq-4-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> In a low-side switch the emitter connects to ground. The load is above the transistor, between V+ and the collector.',
+    bad: '<strong>Not quite.</strong> Low-side means the transistor is on the ground side. Emitter to GND, load between V+ and collector.'
+  },
+  'mcq-4-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> V<sub>CE(sat)</sub> &#8776; 0.1&#8211;0.2 V — the fully-on transistor is nearly a short circuit, dropping almost no voltage.',
+    bad: '<strong>Not quite.</strong> In saturation V<sub>CE</sub> drops to just 0.1&#8211;0.2 V. The full supply voltage is not across the transistor in this mode.'
+  }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name); if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+// SHORT ANSWER
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){ input.value=answer; input.className='sa-input correct'; }
+  if(exp)  { exp.innerHTML=msg; exp.className='explanation visible'; }
+  markDone(blockId);
+}
+
+// CHALLENGE
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Base current i_B = 0.2 mA  (20 mA ÷ 100)',        fn: c => /\b0\.2\b/.test(c) },
+      { name: 'Base resistor R_B = 13500 Ω  (2.7 V ÷ 0.0002 A)', fn: c => /13500|13\.5/.test(c) }
+    ],
+    defaultCode: 'BJT Low-Side Switch Design\n\nGiven:\n  V_GPIO  = 3.3 V  (microcontroller output)\n  V_BE    = 0.6 V\n  β (h_FE) = 100   (minimum guaranteed)\n  Target collector current i_C(sat) = 20 mA\n\nStep 1 — Required base current:\n  i_B = i_C(sat) ÷ β\n  i_B = 20 mA ÷ 100 = ___ mA\n\nStep 2 — Base resistor R_B:\n  R_B = (V_GPIO − V_BE) ÷ i_B\n  R_B = (3.3 − 0.6) ÷ ___ A = ___ Ω'
+  }
+};
+
+function checkChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(!ch||!ed||!out) return;
+  const results=ch.tests.map(t=>({...t,pass:t.fn(ed.value)}));
+  out.innerHTML=results.map(r=>`<div class="t-row ${r.pass?'t-pass':'t-fail'}">${r.pass?'&#10003;':'&#10007;'}  ${r.name}</div>`).join('');
+  out.className='chal-output visible';
+  if(results.every(r=>r.pass)) markDone(blockId);
+}
+function resetChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(ed) ed.value=ch?.defaultCode||'';
+  if(out) out.className='chal-output';
+}
+
+// RESET
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  document.querySelectorAll('.chal-output').forEach(el=>el.className='chal-output');
+  Object.keys(CHALLENGES).forEach(id=>{const ed=document.getElementById('ed-'+id);if(ed) ed.value=CHALLENGES[id].defaultCode;});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire Electronics Basics course? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-eb')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

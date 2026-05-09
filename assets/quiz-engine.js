@@ -173,8 +173,8 @@ function renderQuestion(){
     } else {
       if(q.formula) html+=`<div class="q-formula-box" id="q-formula" hidden>${q.formula}</div>`;
       html+=`<div class="q-text-answer"><input type="text" class="q-text-input" id="q-text-inp" placeholder="Type your answer…" autocomplete="off" spellcheck="false"></div>`;
-      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">&#128161; Hint</button>`:'';
-      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">&#128065; Show Answer</button>`;
+      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">(i) Hint</button>`:'';
+      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">Show Answer</button>`;
       html+=`<div class="q-hints" id="q-hints">${hints}</div>`;
       document.getElementById('q-card').innerHTML=html;
 
@@ -217,8 +217,8 @@ function renderQuestion(){
         html+=`<label class="choice"><input type="radio" name="quiz-q" value="${k}"> <span>${q.choices[k]}</span></label>`;
       });
       html+=`</div>`;
-      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">&#128161; Hint</button>`:'';
-      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">&#128065; Show Answer</button>`;
+      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">(i) Hint</button>`:'';
+      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">Show Answer</button>`;
       html+=`<div class="q-hints" id="q-hints">${hints}</div>`;
       document.getElementById('q-card').innerHTML=html;
 
@@ -370,7 +370,7 @@ function renderHistory(id){
     const pct=Math.round((e.score/e.total)*100);
     const cls=pct>=70?'good':pct>=50?'mid':'bad';
     const date=new Date(e.ts).toLocaleDateString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-    const mode=e.mode==='weakness'?'&#9889; Weakness':'Standard';
+    const mode=e.mode==='weakness'?'/!\ Weakness':'Standard';
     return `<tr><td>${date}</td><td>${mode}</td><td class="history-score ${cls}">${e.score} / ${e.total}</td></tr>`;
   }).join('');
   el.innerHTML=`<div class="history-section"><div class="history-heading">Past Attempts</div><table class="history-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th></tr></thead><tbody>${rows}</tbody></table></div>`;

@@ -109,27 +109,27 @@ Structure:
 
 Not tracked.
 
-### 3. Participation Activity — Animation
+### 3. Lecture
 A step-through visual that walks the reader through a concept. The reader clicks "Next" / "Prev" to advance through frames. Each frame shows a state change with a caption.
 
 Completion: marked done when the reader reaches the last frame.
 Block ID prefix: `anim-N`
 
-### 4. Participation Activity — Multiple Choice
+### 4. Lecture Review — Multiple Choice
 One or more questions, each with 3–5 radio choices. On selection: immediate feedback (green correct / red wrong) + explanation paragraph.
 
 Completion: marked done when all questions in the block are answered.
 Block ID prefix: `mc-N`
 Question ID format: `mcq-{blockN}-{qN}` (e.g., `mcq-1-1`, `mcq-1-2`)
 
-### 5. Participation Activity — Short Answer
+### 5. Lecture Review — Short Answer
 A text input question with a Check button and a Show Answer button.
 
 Completion: marked done when checked (correct or not) or answer is shown.
 Block ID prefix: `sa-N`
 Input ID: `sa-input-{N}` where N matches the block number
 
-### 6. Challenge Activity — Calculation / Coding Lab
+### 6. Activity — Calculation / Coding Lab
 An open-ended exercise with a textarea. The reader writes or fills in their work, then clicks "Check Answer" to run regex-based test cases against their input.
 
 Structure:
@@ -241,14 +241,15 @@ Path rules from inside `Courses/[Name]/`:
 MyBooks uses an original visual style with three built-in themes. Guidelines that apply to all themes:
 
 - Clean, minimal, readable
+- **No emojis anywhere in the codebase** — not in HTML, JS strings, or button labels. ASCII symbols and plain Unicode characters are both fine as substitutes. Emojis render as large colored glyphs on modern OSes and conflict with the clean visual style.
 - Activity blocks have a distinct left accent border and a type label
 - Color coding by activity type (consistent across themes):
   - Reading/Figure: no warm/cool accent — neutral
   - Figure: `--accent-figure` (steel blue)
-  - Animation: `--accent-warm` left border
-  - Multiple Choice: `--accent-warm` left border
-  - Short Answer: `--accent-warm` left border
-  - Challenge: `--accent-cool` left border
+  - Lecture: `--accent-warm` left border
+  - Lecture Review (Multiple Choice): `--accent-warm` left border
+  - Lecture Review (Short Answer): `--accent-warm` left border
+  - Activity: `--accent-cool` left border
 
 ### Theme System
 
@@ -316,28 +317,30 @@ For each section, include:
 
 ## Implementation Status
 
-| Item | Status |
-|---|---|
-| HTML/CSS/JS template (`_template.html`, `_quiz_template.html`) | ✅ Complete |
-| All six content block types | ✅ Complete |
-| localStorage progress tracking | ✅ Complete |
-| Three-theme system (Light / Dark / Night Shift) | ✅ Complete |
-| SVG pie chart theme switcher | ✅ Complete |
-| Shared asset extraction (`assets/shared.css`, `shared-nav.js`, `quiz-engine.js`) | ✅ Complete |
-| Cross-course dropdown navigation | ✅ Complete |
-| Practice quiz engine with chapter filter + weakness mode + history | ✅ Complete |
-| C Programming — Chapter 1 | ✅ Complete |
-| C Programming — Practice Quiz (25 questions) | ✅ Complete |
-| Electronics Basics — Chapter 1 | ✅ Complete |
-| Electronics Basics — Chapter 2 | ✅ Complete |
-| Electronics Basics — Practice Quiz (26 questions) | ✅ Complete |
-| Architecture + Authoring docs (`_dev/`) | ✅ Complete |
-| GitHub repo structure (`Universal Study Guide/` root, `Courses/` subfolder) | ✅ Complete |
-| C Programming — Chapters 2+ | ⬜ Not started |
-| Electronics Basics — Chapters 3+ | ⬜ Not started |
-| Mistake hint system (common wrong answers with explanations) | ⬜ In progress |
-| Text-input question type | ⬜ In progress |
-| How-It-Do Guide (developer docs as a course) | ⬜ In progress |
-| Additional courses | ⬜ Not started |
-| Mobile sidebar (hamburger menu) | ⬜ Not started |
-| Cross-browser test (Chrome, Firefox, Edge) | ⬜ Not started |
+| Item                                                                             | Status        |
+| -------------------------------------------------------------------------------- | ------------- |
+| HTML/CSS/JS template (`_template.html`, `_quiz_template.html`)                   | [x] Complete    |
+| All six content block types                                                      | [x] Complete    |
+| localStorage progress tracking                                                   | [x] Complete    |
+| Three-theme system (Light / Dark / Night Shift)                                  | [x] Complete    |
+| SVG pie chart theme switcher                                                     | [x] Complete    |
+| Shared asset extraction (`assets/shared.css`, `shared-nav.js`, `quiz-engine.js`) | [x] Complete    |
+| Cross-course dropdown navigation                                                 | [x] Complete    |
+| Practice quiz engine with chapter filter + weakness mode + history               | [x] Complete    |
+| C Programming — Chapter 1                                                        | [x] Complete    |
+| C Programming — Practice Quiz (25 questions)                                     | [x] Complete    |
+| Electronics Basics — Chapter 1                                                   | [x] Complete    |
+| Electronics Basics — Chapter 2                                                   | [x] Complete    |
+| Electronics Basics — Practice Quiz (26 questions)                                | [x] Complete    |
+| Architecture + Authoring docs (`_dev/`)                                          | [x] Complete    |
+| GitHub repo structure (`Universal Study Guide/` root, `Courses/` subfolder)      | [x] Complete    |
+| C Programming — Chapters 2+                                                      | [ ] Not started |
+| Electronics Basics — Chapter 3                                                   | [x] Complete    |
+| Electronics Basics — Chapter 4                                                   | [x] Complete    |
+| Electronics Basics — Chapters 5+                                                 | [ ] Not started |
+| Mistake hint system (common wrong answers with explanations)                     | [~] In progress |
+| Text-input question type                                                         | [~] In progress |
+| How-It-Do Guide (developer docs as a course)                                     | [~] In progress |
+| Additional courses                                                               | [ ] Not started |
+| Mobile sidebar (hamburger menu)                                                  | [ ] Not started |
+| Cross-browser test (Chrome, Firefox, Edge)                                       | [ ] Not started |
