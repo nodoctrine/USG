@@ -20,7 +20,9 @@ Practical rules that follow from this:
 - Chapter files only contain what is genuinely unique to that chapter: content, section structure, progress block IDs, and chapter-specific JS constants
 - Shared files use relative local paths — not CDN links — so portability is preserved and files still open by double-click
 
-Shared assets: `assets/shared.css` (all styles), `assets/shared-nav.js` (theme + tour + nav), `assets/quiz-engine.js` (quiz logic). Adding a new chapter means two tags: `<link rel="stylesheet" href="../../assets/shared.css">` and `<script src="../../assets/shared-nav.js"></script>`.
+Shared assets: `assets/shared.css` (all styles), `assets/shared-nav.js` (CONFIG + all engine logic), `assets/quiz-engine.js` (quiz logic). Adding a new chapter means two tags: `<link rel="stylesheet" href="../../assets/shared.css">` and `<script src="../../assets/shared-nav.js"></script>`.
+
+**`shared-nav.js` owns all behavior.** It defines a `CONFIG` object at the top — the single source of truth for badge labels, chevron symbols, progress strings, feedback text, reset prompts, and theme settings. Change a value in CONFIG and it updates every chapter at once. The chapter's inline `<script>` is data-only: no functions, no hardcoded strings.
 
 ---
 
@@ -83,7 +85,7 @@ Each chapter file contains:
     ...
 ```
 
-**Sticky offset rule:** Because the header (54px) and cross-nav (36px) are both sticky, all elements that must clear them use `top: 90px`. This value must be updated if the header or cross-nav height changes.
+**Sticky offset rule:** The header and cross-nav heights are defined as CSS custom properties `--header-h` (54px) and `--nav-h` (36px) in `shared.css`. All rules that need to clear both use `calc(var(--header-h) + var(--nav-h))`. To change the heights, update only those two variables — every dependent rule recalculates automatically.
 
 ---
 

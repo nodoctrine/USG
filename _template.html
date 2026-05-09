@@ -228,135 +228,64 @@
 <script>
 'use strict';
 
-// ── PROGRESS ─────────────────────────────────────────────────────────
-// CUSTOMIZE: CHAPTER_ID = course localStorage prefix + chapter number
-//   C Programming ch3 → 'mb-c3'   |   Electronics Basics ch2 → 'mb-eb2'
+// ═══════════════════════════════════════════════════════════════════════════════
+// CHAPTER DATA — The only block you edit per chapter.
+// All display logic, activity behavior, and progress tracking live in
+// shared-nav.js, which loads immediately after this script.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// localStorage key for this chapter's progress.
+// Format: 'mb-' + course code + chapter number
+// Known codes: c = C Programming, eb = Electronics Basics
+// Example: Electronics Basics Chapter 3 → 'mb-eb3'
 const CHAPTER_ID = 'mb-[PREFIX][N]';
-// CUSTOMIZE: list every tracked block id
+
+// localStorage prefix for the entire course.
+// resetCourse() in shared-nav.js removes every key that starts with this.
+// Example: 'mb-eb' clears mb-eb1, mb-eb2, mb-eb3, ...
+const COURSE_PREFIX = 'mb-[PREFIX]';
+
+// Every tracked block in the chapter, in document order.
+// Tracked types: anim-N, mc-N, sa-N, chal-N.
+// Reading and Figure blocks are NOT tracked — do not list them here.
+// The count here must equal the initial number shown in #remaining-pill.
 const ALL_BLOCKS = ['anim-1', 'mc-1', 'sa-1', 'chal-1'];
-// CUSTOMIZE: map section number → block ids in that section
+
+// Maps each section number → tracked block IDs in that section.
+// Drives the sidebar done/total pill and the green section checkmark.
+// Every ID in ALL_BLOCKS must appear in exactly one section here.
 const SEC_BLOCKS = { 1: ['anim-1', 'mc-1', 'sa-1', 'chal-1'] };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
-
-function markDone(id) { prog[id] = true; localStorage.setItem(CHAPTER_ID, JSON.stringify(prog)); renderProgress(); }
-
-function renderProgress() {
-  const total = ALL_BLOCKS.length, done = ALL_BLOCKS.filter(id => prog[id]).length, pct = Math.round((done / total) * 100);
-  ALL_BLOCKS.forEach(id => { const el = document.getElementById('chev-' + id); if (!el) return; if (prog[id]) { el.textContent = '✓'; el.className = 'chevron done'; } else { el.textContent = '○'; el.className = 'chevron pend'; } });
-  Object.entries(SEC_BLOCKS).forEach(([sec, ids]) => {
-    const sd = ids.filter(id => prog[id]).length, st = ids.length, all = sd === st;
-    const sc = document.getElementById('sc-' + sec), lk = document.querySelector(`[data-sec="${sec}"]`);
-    if (sc) { sc.textContent = all ? '✓' : `${sd}/${st}`; sc.className = 's-count' + (all ? ' all-done' : ''); }
-    if (lk) lk.classList.toggle('section-done', all);
-  });
-  const pill = document.getElementById('progress-pill');   if (pill) pill.textContent = pct + '% complete';
-  const rem  = total - done, rp = document.getElementById('remaining-pill');
-  if (rp) { rp.textContent = rem > 0 ? `${rem} remaining` : 'all done!'; rp.style.display = rem === 0 ? 'none' : ''; }
-  const bar = document.getElementById('progress-bar');     if (bar) bar.style.width = pct + '%';
-  const bn  = document.getElementById('completion-banner');if (bn)  bn.classList.toggle('visible', done === total);
-}
-
-// ── SIDEBAR ACTIVE ────────────────────────────────────────────────────
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const s = e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active')); const a = document.querySelector(`[data-sec="${s}"]`); if (a) a.classList.add('active'); } }), { threshold: 0.25 });
-document.querySelectorAll('.section').forEach(s => io.observe(s));
-
-// ── ANIMATION ─────────────────────────────────────────────────────────
-const animIdx = {};
-function animGo(id, delta) {
-  const frames = document.querySelectorAll(`#${id} .anim-frame`), n = frames.length;
-  if (!n) return;
-  if (animIdx[id] === undefined) animIdx[id] = 0;
-  animIdx[id] = Math.max(0, Math.min(animIdx[id] + delta, n - 1));
-  const i = animIdx[id];
-  frames.forEach((f, fi) => f.classList.toggle('active', fi === i));
-  const num = id.replace('anim-',''), cap = document.getElementById('anim-cap-' + num), prg = document.getElementById('anim-prog-' + num);
-  if (cap) cap.textContent = frames[i].dataset.cap || '';
-  if (prg) prg.textContent = (i + 1) + ' / ' + n;
-  if (i === n - 1) markDone(id);
-}
-function animNext(id) { animGo(id,  1); }
-function animPrev(id) { animGo(id, -1); }
-
-// ── MULTIPLE CHOICE ───────────────────────────────────────────────────
-// CUSTOMIZE: one entry per question; key = "mcq-[blockN]-[qN]"
+// One entry per MC question (not per block).
+// Key format: 'mcq-{blockNumber}-{questionNumber}'
+// correct → the radio input value that is right
+// ok      → HTML shown on correct answer
+// bad     → HTML shown on wrong answer
 const MC_DATA = {
-  'mcq-1-1': { correct: 'b', ok: '<strong>Correct!</strong> Explanation.', bad: '<strong>Not quite.</strong> Explanation.' }
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Explanation of why.',
+    bad: '<strong>Not quite.</strong> Explanation of the right answer.'
+  }
 };
-const mcDone = {};
-function handleMC(name, value) {
-  const data = MC_DATA[name]; if (!data) return;
-  document.querySelectorAll(`input[name="${name}"]`).forEach(inp => { inp.disabled = true; const lbl = inp.closest('.choice'); if (inp.value === data.correct) lbl.classList.add('correct'); else if (inp.value === value) lbl.classList.add('incorrect'); });
-  const exp = document.getElementById('exp-' + name); if (exp) { const ok = value === data.correct; exp.innerHTML = ok ? data.ok : data.bad; exp.className = 'explanation visible' + (ok ? '' : ' wrong'); }
-  mcDone[name] = true;
-  const blockNum = name.match(/^mcq-(\d+)/)[1], blockId = 'mc-' + blockNum;
-  if (Object.keys(MC_DATA).filter(k => k.startsWith('mcq-' + blockNum)).every(k => mcDone[k])) markDone(blockId);
-}
-document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => inp.addEventListener('change', () => handleMC(inp.name, inp.value)));
 
-// ── SHORT ANSWER ──────────────────────────────────────────────────────
-function checkSA(blockId, accepted, okMsg) {
-  const num = blockId.replace('sa-',''), input = document.getElementById('sa-input-' + num), exp = document.getElementById('exp-' + blockId);
-  if (!input || !exp) return;
-  const ok = accepted.map(a => a.toLowerCase()).includes(input.value.trim().toLowerCase());
-  input.className = 'sa-input ' + (ok ? 'correct' : 'incorrect');
-  exp.innerHTML = ok ? okMsg : 'Not quite — try again or click <em>Show Answer</em>.';
-  exp.className = 'explanation visible' + (ok ? '' : ' wrong');
-  if (ok) markDone(blockId);
-}
-function showSA(blockId, answer, msg) {
-  const num = blockId.replace('sa-',''), input = document.getElementById('sa-input-' + num), exp = document.getElementById('exp-' + blockId);
-  if (input) { input.value = answer; input.className = 'sa-input correct'; }
-  if (exp)   { exp.innerHTML = msg; exp.className = 'explanation visible'; }
-  markDone(blockId);
-}
-
-// ── CHALLENGE ─────────────────────────────────────────────────────────
-// CUSTOMIZE: one entry per challenge block
+// One entry per challenge block.
+// tests[].name — label shown in the output panel next to pass/fail
+// tests[].fn   — function(editorText) → boolean; use \b for numeric boundaries
+// defaultCode  — pre-filled textarea text; restored on Reset
 const CHALLENGES = {
   'chal-1': {
     tests: [
-      { name: 'Test description', fn: c => /pattern/.test(c) }
+      { name: 'Test description shown to reader', fn: c => /pattern/.test(c) }
     ],
-    defaultCode: `// starter code here`
+    defaultCode: `// starter scaffold here`
   }
 };
-function checkChallenge(blockId) {
-  const ch = CHALLENGES[blockId], ed = document.getElementById('ed-' + blockId), out = document.getElementById('out-' + blockId);
-  if (!ch || !ed || !out) return;
-  const results = ch.tests.map(t => ({ ...t, pass: t.fn(ed.value) }));
-  out.innerHTML = results.map(r => `<div class="t-row ${r.pass ? 't-pass' : 't-fail'}">${r.pass ? '✓' : '✗'}  ${r.name}</div>`).join('');
-  out.className = 'chal-output visible';
-  if (results.every(r => r.pass)) markDone(blockId);
-}
-function resetChallenge(blockId) {
-  const ch = CHALLENGES[blockId], ed = document.getElementById('ed-' + blockId), out = document.getElementById('out-' + blockId);
-  if (ed)  ed.value = ch?.defaultCode || '';
-  if (out) out.className = 'chal-output';
-}
 
-// ── RESET ─────────────────────────────────────────────────────────────
-function resetChapter() {
-  if (!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
-  prog = {}; localStorage.removeItem(CHAPTER_ID);
-  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => { inp.checked = false; inp.disabled = false; inp.closest('.choice').className = 'choice'; });
-  document.querySelectorAll('.explanation').forEach(el => el.className = 'explanation');
-  document.querySelectorAll('.sa-input').forEach(el => { el.value = ''; el.className = 'sa-input'; });
-  document.querySelectorAll('.chal-output').forEach(el => el.className = 'chal-output');
-  Object.keys(CHALLENGES).forEach(id => { const ed = document.getElementById('ed-' + id); if (ed) ed.value = CHALLENGES[id].defaultCode; });
-  Object.keys(animIdx).forEach(id => { animIdx[id] = 0; animGo(id, 0); });
-  renderProgress();
-}
-function resetCourse() {
-  // CUSTOMIZE: update course name in confirm message; set PREFIX to this course's localStorage prefix
-  //   C Programming → 'mb-c'   |   Electronics Basics → 'mb-eb'   |   new course → 'mb-[abbr]'
-  if (!confirm('Reset ALL progress for the entire [SUBJECT] course? This cannot be undone.')) return;
-  const PREFIX = 'mb-[PREFIX]';
-  Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => localStorage.removeItem(k));
-  resetChapter();
-}
-
-renderProgress();
+// ── Engine state — do not remove. Referenced by functions in shared-nav.js ────
+var prog    = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+var animIdx = {};  // current frame index per animation block  (e.g. { 'anim-1': 2 })
+var mcDone  = {};  // which MC questions have been answered    (e.g. { 'mcq-1-1': true })
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

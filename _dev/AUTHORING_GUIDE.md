@@ -14,9 +14,21 @@ How to create a new chapter from scratch using the template.
 
 ---
 
+## Architecture: Where Logic Lives
+
+**`assets/shared-nav.js`** owns all behavior. It contains:
+- `CONFIG` — single source of truth for badge labels, chevron symbols, progress strings, feedback text, reset prompts, and theme settings. Edit one value; every chapter updates.
+- All engine functions: `markDone`, `renderProgress`, `animNext/Prev`, `handleMC`, `checkSA`, `showSA`, `checkChallenge`, `resetChallenge`, `resetChapter`, `resetCourse`, IntersectionObserver for sidebar.
+
+**The chapter's inline `<script>`** is data-only — no functions, no hardcoded strings. It defines six constants and three mutable state variables that `shared-nav.js` reads after it loads.
+
+**`assets/shared.css`** defines layout heights as CSS custom properties (`--header-h`, `--nav-h`, `--progress-h`). All sticky offsets use `calc(var(--header-h) + var(--nav-h))` so changing a height requires editing exactly one variable.
+
+---
+
 ## JS Constants: What Each One Does
 
-These four constants at the top of the JS block are the only things that **must** change per chapter. Everything else is reusable logic.
+These are the only things that **must** change per chapter. All logic is in `shared-nav.js`.
 
 ### `CHAPTER_ID`
 The localStorage key for this chapter's progress. Format: `mb-{courseCode}{chapterNumber}`
@@ -27,6 +39,16 @@ const CHAPTER_ID = 'mb-eb1';  // Electronics Basics, Chapter 1
 ```
 
 Course codes defined so far: `c` (C Programming), `eb` (Electronics Basics).
+
+### `COURSE_PREFIX`
+The localStorage prefix for the entire course. `resetCourse()` in `shared-nav.js` removes every key that starts with this string, clearing all chapters at once.
+
+```js
+const COURSE_PREFIX = 'mb-eb';  // clears mb-eb1, mb-eb2, mb-eb3, ...
+const COURSE_PREFIX = 'mb-c';   // clears mb-c1, mb-c2, ...
+```
+
+Must match the course-code portion of `CHAPTER_ID`.
 
 ### `ALL_BLOCKS`
 Array of every tracked block ID in the order they appear in the HTML. Only activities are tracked — Reading and Figure blocks are not.
