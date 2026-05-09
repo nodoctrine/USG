@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · C Programming — Chapter 1: Introduction to C</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<!-- ================================================================
+     HEADER
+     ================================================================ -->
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">C Programming</span>
+    <span class="header-chapter">Chapter 1 — Introduction to C</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">4 remaining</div>
+    <div class="progress-pill" id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z" onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z" onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">C Programming &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 1 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
+</div>
+
+<!-- ================================================================
+     TOUR OVERLAY — populated dynamically by JS
+     ================================================================ -->
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <!-- ==============================================================
+       SIDEBAR
+       ============================================================== -->
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">
+      1.1 What is a Program?
+      <span class="s-count" id="sc-1">0/1</span>
+    </a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">
+      1.2 Variables &amp; Output
+      <span class="s-count" id="sc-2">0/2</span>
+    </a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">
+      1.3 Your First Program
+      <span class="s-count" id="sc-3">0/1</span>
+    </a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <!-- ==============================================================
+       MAIN CONTENT
+       ============================================================== -->
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+    <!-- ===========================================================
+         SECTION 1 — What is a Program?
+         =========================================================== -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">1.1</span> What is a Program?</h2>
+
+      <!-- READING -->
+      <div class="block block-reading">
+        <p>A <span class="term">program</span> is a sequence of instructions executed one at a time by a computer. Programs are written in a <span class="term">programming language</span> — a formal set of rules for expressing those instructions.</p>
+        <p>The basic instruction types in any program are:</p>
+        <ul>
+          <li><span class="term">Input</span> — get data from a file, keyboard, network, or sensor</li>
+          <li><span class="term">Process</span> — perform computations on that data</li>
+          <li><span class="term">Output</span> — send results to a screen, file, or other device</li>
+        </ul>
+        <p>C is a general-purpose language created in the early 1970s. It compiles directly to machine code, giving programs fast execution and direct hardware access. Most operating system kernels and embedded firmware are written in C.</p>
+      </div>
+
+      <!-- FIGURE -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 1.1 — A Simple C Program</span>
+        </div>
+        <div class="code-view">
+          <div class="ln">1
+2
+3
+4
+5
+6
+7</div>
+          <div class="cc"><span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="fn">printf</span>(<span class="str">"Hello, World!\n"</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</div>
+        </div>
+        <div class="figure-caption">The classic first program — every line has a purpose you will learn in this chapter.</div>
+      </div>
+
+      <!-- ANIMATION -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.1.1 — How a C Program Runs</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="You write C instructions as plain text in a file with a .c extension. This is your source code.">
+              <strong>Step 1: Write Source Code</strong><br><br>
+              You write instructions in a <code>.c</code> file using a text editor or IDE.<br><br>
+              <code>hello.c</code> &rarr; plain text containing your C instructions
+            </div>
+            <div class="anim-frame" data-cap="The compiler reads your .c file and translates it into machine code the CPU can execute.">
+              <strong>Step 2: Compile</strong><br><br>
+              Run the compiler: <code>gcc hello.c -o hello</code><br><br>
+              The compiler checks your code for errors and produces a binary executable.
+            </div>
+            <div class="anim-frame" data-cap="The executable runs directly on the CPU. Your program's output appears on the screen.">
+              <strong>Step 3: Execute</strong><br><br>
+              Run the program: <code>./hello</code><br><br>
+              Output: <code>Hello, World!</code>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">You write C instructions as plain text in a file with a .c extension. This is your source code.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- ===========================================================
+         SECTION 2 — Variables & Output
+         =========================================================== -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">1.2</span> Variables &amp; Output</h2>
+
+      <!-- READING -->
+      <div class="block block-reading">
+        <p>A <span class="term">variable</span> is a named location in memory that stores a value. In C, every variable must be declared with a <span class="term">data type</span> before use. The type tells the compiler how much memory to reserve and how to interpret the stored bits.</p>
+        <p>Common primitive types:</p>
+        <ul>
+          <li><code>int</code> — whole numbers (e.g., <code>42</code>, <code>-7</code>)</li>
+          <li><code>float</code> — single-precision decimal numbers (e.g., <code>3.14f</code>)</li>
+          <li><code>double</code> — double-precision decimal numbers</li>
+          <li><code>char</code> — a single character (e.g., <code>'A'</code>)</li>
+        </ul>
+        <p>Output is produced with <code>printf()</code>, which stands for <em>print formatted</em>. It is declared in the standard header <code>&lt;stdio.h&gt;</code>.</p>
+      </div>
+
+      <!-- MULTIPLE CHOICE -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.1 — Variable Types</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> Which type stores the whole number <code>100</code>?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span><code>float</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span><code>double</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span><code>int</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span><code>char</code></span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> What does this line do?<br><code>double pi = 3.14159;</code></div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>Calls a function named <code>pi</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>Declares a <code>double</code> variable named <code>pi</code> with value 3.14159</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>Prints the number 3.14159</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="d"> <span>Declares an integer named <code>pi</code></span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SHORT ANSWER -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.2 — Output Function</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">What is the name of the standard C function used to print output to the screen?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="function name" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['printf'], '<strong>Correct!</strong> <code>printf</code> (print formatted) is the standard output function, declared in <code>&lt;stdio.h&gt;</code>.')">Check</button>
+            <button class="btn btn-ghost" onclick="showSA('sa-1', 'printf', 'The answer is <code>printf</code>. It stands for &quot;print formatted&quot; and is part of the C standard library.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- ===========================================================
+         SECTION 3 — Your First Program
+         =========================================================== -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">1.3</span> Your First Program</h2>
+
+      <!-- READING -->
+      <div class="block block-reading">
+        <p>Every C program must have a <code>main()</code> function. This is the <span class="term">entry point</span> — execution always begins at the first line of <code>main()</code> and ends when <code>main()</code> returns.</p>
+        <p>The <code>return 0;</code> at the end of <code>main()</code> signals to the operating system that the program finished successfully. A non-zero return value indicates an error.</p>
+      </div>
+
+      <!-- FIGURE -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 1.2 — Program Structure</span>
+        </div>
+        <div class="code-view">
+          <div class="ln">1
+2
+3
+4
+5
+6
+7
+8
+9</div>
+          <div class="cc"><span class="cmt">// Include the standard I/O library</span>
+<span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="cmt">// Every C program starts here</span>
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="fn">printf</span>(<span class="str">"My first C program.\n"</span>);
+    <span class="fn">printf</span>(<span class="str">"I am learning C.\n"</span>);
+    <span class="kw">return</span> <span class="num">0</span>;  <span class="cmt">// 0 = success</span>
+}
+</div>
+        </div>
+        <div class="figure-caption">Two <code>printf</code> calls produce two lines of output. The <code>\n</code> is a newline character.</div>
+      </div>
+
+      <!-- CHALLENGE -->
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">1.3.1 — Write a Hello Program</span>
+          <span class="chevron pend" id="chev-chal-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Complete the program so it prints exactly: <code>Hello, World!</code><br>
+            Add a <code>printf</code> call inside <code>main()</code>. Remember to include the newline character <code>\n</code>.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>main.c</span><span>C</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">#include &lt;stdio.h&gt;
+
+int main() {
+    // your code here
+
+    return 0;
+}</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost" onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <!-- FOOTER NAV -->
+    <div class="chapter-nav-footer">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+  </main>
+</div><!-- /layout -->
+
+<!-- ================================================================
+     JAVASCRIPT
+     ================================================================ -->
+<script>
+'use strict';
+
+// -------------------------------------------------------------------
+// PROGRESS
+// -------------------------------------------------------------------
+const CHAPTER_ID = 'mb-c1';
+const ALL_BLOCKS  = ['anim-1', 'mc-1', 'sa-1', 'chal-1'];
+const SEC_BLOCKS  = { 1: ['anim-1'], 2: ['mc-1', 'sa-1'], 3: ['chal-1'] };
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+
+function markDone(id) {
+  prog[id] = true;
+  localStorage.setItem(CHAPTER_ID, JSON.stringify(prog));
+  renderProgress();
+}
+
+function renderProgress() {
+  const total = ALL_BLOCKS.length;
+  const done  = ALL_BLOCKS.filter(id => prog[id]).length;
+  const pct   = Math.round((done / total) * 100);
+
+  // chevrons
+  ALL_BLOCKS.forEach(id => {
+    const el = document.getElementById('chev-' + id);
+    if (!el) return;
+    if (prog[id]) { el.textContent = '✓'; el.className = 'chevron done'; }
+    else          { el.textContent = '○'; el.className = 'chevron pend'; }
+  });
+
+  // sidebar section counts
+  Object.entries(SEC_BLOCKS).forEach(([sec, ids]) => {
+    const secDone  = ids.filter(id => prog[id]).length;
+    const secTotal = ids.length;
+    const allDone  = secDone === secTotal;
+    const sc   = document.getElementById('sc-' + sec);
+    const link = document.querySelector(`[data-sec="${sec}"]`);
+    if (sc) {
+      sc.textContent = allDone ? '✓' : `${secDone}/${secTotal}`;
+      sc.className   = 's-count' + (allDone ? ' all-done' : '');
+    }
+    if (link) link.classList.toggle('section-done', allDone);
+  });
+
+  // progress pill
+  const pill = document.getElementById('progress-pill');
+  if (pill) pill.textContent = pct + '% complete';
+
+  // remaining pill
+  const rem  = total - done;
+  const rpill = document.getElementById('remaining-pill');
+  if (rpill) {
+    rpill.textContent = rem > 0 ? `${rem} remaining` : 'all done!';
+    rpill.style.display = rem === 0 ? 'none' : '';
+  }
+
+  // progress bar
+  const bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = pct + '%';
+
+  // completion banner
+  const banner = document.getElementById('completion-banner');
+  if (banner) banner.classList.toggle('visible', done === total);
+}
+
+// -------------------------------------------------------------------
+// SIDEBAR ACTIVE HIGHLIGHT
+// -------------------------------------------------------------------
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const sec = e.target.id.replace('sec-', '');
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`[data-sec="${sec}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section').forEach(s => io.observe(s));
+
+// -------------------------------------------------------------------
+// ANIMATION
+// -------------------------------------------------------------------
+const animIdx = {};
+
+function animGo(id, delta) {
+  const frames = document.querySelectorAll(`#${id} .anim-frame`);
+  const n = frames.length;
+  if (!n) return;
+  if (animIdx[id] === undefined) animIdx[id] = 0;
+  animIdx[id] = Math.max(0, Math.min(animIdx[id] + delta, n - 1));
+  const i = animIdx[id];
+  frames.forEach((f, fi) => f.classList.toggle('active', fi === i));
+  const num = id.replace('anim-', '');
+  const cap = document.getElementById('anim-cap-' + num);
+  const prg = document.getElementById('anim-prog-' + num);
+  if (cap) cap.textContent = frames[i].dataset.cap || '';
+  if (prg) prg.textContent = (i + 1) + ' / ' + n;
+  if (i === n - 1) markDone(id);
+}
+function animNext(id) { animGo(id,  1); }
+function animPrev(id) { animGo(id, -1); }
+
+// -------------------------------------------------------------------
+// MULTIPLE CHOICE
+// -------------------------------------------------------------------
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'c',
+    ok:   '<strong>Correct!</strong> <code>int</code> stores whole (integer) numbers. 100 has no decimal part, so <code>int</code> is the right choice.',
+    bad:  '<strong>Not quite.</strong> <code>int</code> is the correct type for whole numbers like 100. <code>float</code> and <code>double</code> are for decimals; <code>char</code> is for single characters.'
+  },
+  'mcq-1-2': {
+    correct: 'b',
+    ok:   '<strong>Correct!</strong> This declares a <code>double</code> variable named <code>pi</code> and initializes it to 3.14159.',
+    bad:  '<strong>Not quite.</strong> The line declares a <code>double</code> variable (decimal) called <code>pi</code> with an initial value of 3.14159.'
+  }
+};
+
+const mcDone = {};
+
+function handleMC(name, value) {
+  const data = MC_DATA[name];
+  if (!data) return;
+  const inputs = document.querySelectorAll(`input[name="${name}"]`);
+  inputs.forEach(inp => {
+    inp.disabled = true;
+    const lbl = inp.closest('.choice');
+    if (inp.value === data.correct) lbl.classList.add('correct');
+    else if (inp.value === value)   lbl.classList.add('incorrect');
+  });
+  const exp = document.getElementById('exp-' + name);
+  if (exp) {
+    const ok = value === data.correct;
+    exp.innerHTML = ok ? data.ok : data.bad;
+    exp.className = 'explanation visible' + (ok ? '' : ' wrong');
+  }
+  mcDone[name] = true;
+  // mark block done when all questions answered
+  const blockNum  = name.match(/^mcq-(\d+)/)[1];
+  const blockId   = 'mc-' + blockNum;
+  const allQs     = Object.keys(MC_DATA).filter(k => k.startsWith('mcq-' + blockNum));
+  if (allQs.every(k => mcDone[k])) markDone(blockId);
+}
+
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => {
+  inp.addEventListener('change', () => handleMC(inp.name, inp.value));
+});
+
+// -------------------------------------------------------------------
+// SHORT ANSWER
+// -------------------------------------------------------------------
+function checkSA(blockId, accepted, okMsg) {
+  const num   = blockId.replace('sa-', '');
+  const input = document.getElementById('sa-input-' + num);
+  const exp   = document.getElementById('exp-' + blockId);
+  if (!input || !exp) return;
+  const val = input.value.trim().toLowerCase();
+  const ok  = accepted.map(a => a.toLowerCase()).includes(val);
+  input.className = 'sa-input ' + (ok ? 'correct' : 'incorrect');
+  exp.innerHTML   = ok ? okMsg : 'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className   = 'explanation visible' + (ok ? '' : ' wrong');
+  if (ok) markDone(blockId);
+}
+
+function showSA(blockId, answer, msg) {
+  const num   = blockId.replace('sa-', '');
+  const input = document.getElementById('sa-input-' + num);
+  const exp   = document.getElementById('exp-' + blockId);
+  if (input) { input.value = answer; input.className = 'sa-input correct'; }
+  if (exp)   { exp.innerHTML = msg; exp.className = 'explanation visible'; }
+  markDone(blockId);
+}
+
+// -------------------------------------------------------------------
+// CHALLENGE
+// -------------------------------------------------------------------
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Contains printf call',               fn: c => /printf\s*\(/.test(c) },
+      { name: 'Prints "Hello, World!"',             fn: c => /printf\s*\(\s*["']Hello,\s*World!/.test(c) },
+      { name: 'Includes newline (\\n)',             fn: c => /\\n/.test(c) }
+    ],
+    defaultCode: `#include <stdio.h>\n\nint main() {\n    // your code here\n\n    return 0;\n}`
+  }
+};
+
+function checkChallenge(blockId) {
+  const ch  = CHALLENGES[blockId];
+  const ed  = document.getElementById('ed-' + blockId);
+  const out = document.getElementById('out-' + blockId);
+  if (!ch || !ed || !out) return;
+  const code   = ed.value;
+  const results = ch.tests.map(t => ({ ...t, pass: t.fn(code) }));
+  const allPass = results.every(r => r.pass);
+  out.innerHTML = results.map(r =>
+    `<div class="t-row ${r.pass ? 't-pass' : 't-fail'}">${r.pass ? '✓' : '✗'}  ${r.name}</div>`
+  ).join('');
+  out.className = 'chal-output visible';
+  if (allPass) markDone(blockId);
+}
+
+function resetChallenge(blockId) {
+  const ch  = CHALLENGES[blockId];
+  const ed  = document.getElementById('ed-' + blockId);
+  const out = document.getElementById('out-' + blockId);
+  if (ed)  ed.value    = ch?.defaultCode || '';
+  if (out) out.className = 'chal-output';
+}
+
+// -------------------------------------------------------------------
+// RESET
+// -------------------------------------------------------------------
+function resetChapter() {
+  if (!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog = {};
+  localStorage.removeItem(CHAPTER_ID);
+  // re-enable all inputs
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => {
+    inp.checked = false;
+    inp.disabled = false;
+    inp.closest('.choice').className = 'choice';
+  });
+  document.querySelectorAll('.explanation').forEach(el => el.className = 'explanation');
+  document.querySelectorAll('.sa-input').forEach(el => { el.value = ''; el.className = 'sa-input'; });
+  document.querySelectorAll('.chal-output').forEach(el => el.className = 'chal-output');
+  Object.keys(CHALLENGES).forEach(id => {
+    const ed = document.getElementById('ed-' + id);
+    if (ed) ed.value = CHALLENGES[id].defaultCode;
+  });
+  Object.keys(animIdx).forEach(id => { animIdx[id] = 0; animGo(id, 0); });
+  renderProgress();
+}
+
+function resetCourse() {
+  if (!confirm('Reset ALL progress for the entire C Programming course? This will clear every chapter. This cannot be undone.')) return;
+  const COURSE_PREFIX = 'mb-c';
+  Object.keys(localStorage)
+    .filter(k => k.startsWith(COURSE_PREFIX))
+    .forEach(k => localStorage.removeItem(k));
+  resetChapter();
+}
+
+// -------------------------------------------------------------------
+// INIT
+// -------------------------------------------------------------------
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

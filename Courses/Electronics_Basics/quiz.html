@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Practice Quiz</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Practice Quiz</span>
+  </div>
+  <div class="header-right">
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Practice Quiz &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+    </div>
+  </div>
+</nav>
+
+<main class="quiz-main">
+
+  <div id="screen-setup">
+    <div class="quiz-hero">
+      <h1>Practice Quiz</h1>
+      <p>Up to 10 random questions from a pool of <span class="q-count" id="pool-count"></span></p>
+    </div>
+    <div class="mode-row">
+      <button class="mode-btn active" id="mode-btn-standard" onclick="setMode('standard')">
+        <span class="mode-btn-label">Standard</span>
+        <span class="mode-btn-desc">10 random questions from the selected chapters</span>
+      </button>
+      <button class="mode-btn" id="mode-btn-weakness" onclick="setMode('weakness')">
+        <span class="mode-btn-label">&#9889; Weakness Focus</span>
+        <span class="mode-btn-desc">Prioritises questions you often get wrong</span>
+      </button>
+    </div>
+    <div class="filter-row" id="chapter-filter">
+      <div class="filter-label">Chapters to Include in This Quiz</div>
+      <div class="filter-sublabel">Toggle chapters on or off — only selected chapters will appear in your questions.</div>
+      <div class="filter-chips" id="chapter-chips"></div>
+    </div>
+    <div class="start-row">
+      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz &#8594;</button>
+    </div>
+    <div id="history-setup"></div>
+  </div>
+
+  <div id="screen-quiz" hidden>
+    <div class="quiz-progress-row">
+      <span class="quiz-counter" id="q-counter">Question 1 of 10</span>
+      <span class="quiz-score-live" id="q-score-live"></span>
+    </div>
+    <div class="q-card" id="q-card"></div>
+    <div class="q-actions">
+      <button class="btn btn-ghost" id="btn-prev" onclick="prevQuestion()" hidden>&#8592; Prev</button>
+      <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()" disabled>Check Answer</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()" hidden>Next &#8594;</button>
+    </div>
+    <div class="explanation" id="q-exp"></div>
+  </div>
+
+  <div id="screen-results" hidden>
+    <div class="results-hero">
+      <div class="score-display" id="score-display"></div>
+      <div class="score-label"   id="score-label"></div>
+    </div>
+    <div class="wrong-section" id="wrong-section" hidden>
+      <div class="wrong-heading">Questions to review</div>
+      <div id="wrong-list"></div>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-ghost"   onclick="showSetup()">&#8592; Back</button>
+      <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+      <button class="btn btn-success" id="btn-wk-result" onclick="setModeAndStart('weakness')">&#9889; Weakness Focus</button>
+    </div>
+    <div id="history-results" style="margin-top:32px;"></div>
+  </div>
+
+</main>
+
+<script>
+'use strict';
+
+// ── QUESTION POOL ─────────────────────────────────────────────────
+// chapter: 1 = Electronic Systems Fundamentals, 2 = Power, KCL, KVL & Capacitors
+const QUESTIONS = [
+  { id:'q01', topic:"Ohm's Law", chapter:1,
+    text:"A circuit has a voltage of <strong>12 V</strong> and a resistance of <strong>4 Ω</strong>. What is the current?",
+    formula:'I = V / R',
+    choices:{a:'48 A',b:'8 A',c:'3 A',d:'0.33 A'}, correct:'c',
+    explanation:'I = V ÷ R = 12 ÷ 4 = <strong>3 A</strong>' },
+
+  { id:'q02', topic:"Ohm's Law", chapter:1,
+    text:"A resistor has <strong>9 V</strong> across it and <strong>3 A</strong> through it. What is its resistance?",
+    formula:'R = V / I',
+    choices:{a:'27 Ω',b:'3 Ω',c:'6 Ω',d:'0.33 Ω'}, correct:'b',
+    explanation:'R = V ÷ I = 9 ÷ 3 = <strong>3 Ω</strong>' },
+
+  { id:'q03', topic:"Ohm's Law", chapter:1,
+    text:"If resistance <strong>doubles</strong> while voltage stays constant, what happens to current?",
+    choices:{a:'Doubles',b:'Stays the same',c:'Halves',d:'Quadruples'}, correct:'c',
+    explanation:'I = V/R — if R doubles and V is fixed, I halves. They are inversely proportional.' },
+
+  { id:'q04', topic:'Series Circuits', chapter:1,
+    text:"<strong>R₁ = 8 Ω</strong> and <strong>R₂ = 12 Ω</strong> are in series. What is the total resistance?",
+    formula:'R_total = R₁ + R₂',
+    choices:{a:'4.8 Ω',b:'96 Ω',c:'20 Ω',d:'10 Ω'}, correct:'c',
+    explanation:'Series resistances add directly: 8 + 12 = <strong>20 Ω</strong>' },
+
+  { id:'q05', topic:'Series Circuits', chapter:1,
+    text:"A series circuit: <strong>Vs = 30 V</strong>, <strong>R₁ = 6 Ω</strong>, <strong>R₂ = 9 Ω</strong>. What current flows?",
+    formula:'I = V_s / (R₁ + R₂)',
+    choices:{a:'5 A',b:'2 A',c:'3.3 A',d:'1.5 A'}, correct:'b',
+    explanation:'R_total = 15 Ω. I = 30 ÷ 15 = <strong>2 A</strong>' },
+
+  { id:'q06', topic:'Series Circuits', chapter:1,
+    text:"In a series circuit, which quantity is identical through all components?",
+    choices:{a:'Voltage',b:'Power',c:'Resistance',d:'Current'}, correct:'d',
+    explanation:'There is only one path, so <strong>current</strong> is the same everywhere in the loop.' },
+
+  { id:'q07', topic:'Series Circuits', chapter:1,
+    text:"One component in a series circuit fails open. What happens to the rest of the circuit?",
+    choices:{a:'Current doubles',b:'All current stops',c:'Others continue normally',d:'Voltage increases'}, correct:'b',
+    explanation:'An open break removes the only current path — <strong>no current flows anywhere</strong> in the loop.' },
+
+  { id:'q08', topic:'Parallel Circuits', chapter:1,
+    text:"<strong>R₁ = 6 Ω</strong> and <strong>R₂ = 12 Ω</strong> are in parallel. What is the equivalent resistance?",
+    formula:'1/R_eq = 1/R₁ + 1/R₂',
+    choices:{a:'18 Ω',b:'9 Ω',c:'6 Ω',d:'4 Ω'}, correct:'d',
+    explanation:'1/R_eq = 1/6 + 1/12 = 3/12, so R_eq = <strong>4 Ω</strong>' },
+
+  { id:'q09', topic:'Parallel Circuits', chapter:1,
+    text:"In a parallel circuit, which quantity is the same across all branches?",
+    choices:{a:'Current',b:'Resistance',c:'Voltage',d:'Power'}, correct:'c',
+    explanation:'<strong>Voltage</strong> is identical across all parallel branches. Current splits according to each branch\'s resistance.' },
+
+  { id:'q10', topic:'Parallel Circuits', chapter:1,
+    text:"One branch of a parallel circuit fails open. What happens to the other branches?",
+    choices:{a:'All current stops',b:'They are unaffected',c:'Resistance decreases',d:'Voltage doubles'}, correct:'b',
+    explanation:'Parallel branches are independent. The remaining branches keep the same voltage and current — <strong>they are unaffected</strong>.' },
+
+  { id:'q11', topic:'Power', chapter:2,
+    text:"A component has <strong>10 V</strong> across it and draws <strong>3 A</strong>. What is the power dissipated?",
+    formula:'P = V × I',
+    choices:{a:'3.3 W',b:'30 W',c:'13 W',d:'0.3 W'}, correct:'b',
+    explanation:'P = V × I = 10 × 3 = <strong>30 W</strong>' },
+
+  { id:'q12', topic:'Power', chapter:2,
+    text:"<strong>4 A</strong> flows through a <strong>5 Ω</strong> resistor. What is the power dissipated?",
+    formula:'P = I² × R',
+    choices:{a:'0.8 W',b:'9 W',c:'20 W',d:'80 W'}, correct:'d',
+    explanation:'P = I² × R = 16 × 5 = <strong>80 W</strong>' },
+
+  { id:'q13', topic:'Power', chapter:2,
+    text:"<strong>6 V</strong> is applied across a <strong>3 Ω</strong> resistor. What is the power?",
+    formula:'P = V² / R',
+    choices:{a:'2 W',b:'9 W',c:'12 W',d:'18 W'}, correct:'c',
+    explanation:'P = V² ÷ R = 36 ÷ 3 = <strong>12 W</strong>' },
+
+  { id:'q14', topic:'Power', chapter:2,
+    text:"What is the SI unit of electrical power?",
+    choices:{a:'Joule',b:'Volt',c:'Watt',d:'Ampere'}, correct:'c',
+    explanation:'Power is measured in <strong>Watts (W)</strong>. 1 W = 1 J/s.' },
+
+  { id:'q15', topic:'KCL', chapter:2,
+    text:"At a node: <strong>5 A</strong> and <strong>3 A</strong> flow in; <strong>4 A</strong> flows out on one branch. What flows out on the other?",
+    choices:{a:'8 A out',b:'4 A out',c:'2 A in',d:'12 A out'}, correct:'b',
+    explanation:'KCL: total in = total out. 5 + 3 = 8 A in; 4 + x = 8, so x = <strong>4 A out</strong>' },
+
+  { id:'q16', topic:'KCL', chapter:2,
+    text:"Three wires meet at a junction. <strong>6 A</strong> in on wire 1, <strong>2 A</strong> out on wire 2. What flows on wire 3?",
+    choices:{a:'8 A in',b:'4 A in',c:'4 A out',d:'2 A out'}, correct:'c',
+    explanation:'In: 6 A. Out on wire 2: 2 A. Wire 3 = 6 − 2 = <strong>4 A out</strong>' },
+
+  { id:'q17', topic:'KCL', chapter:2,
+    text:"Kirchhoff\'s Current Law states that the algebraic sum of currents at any node equals:",
+    choices:{a:'The source voltage',b:'Zero',c:'Total resistance',d:'Total power'}, correct:'b',
+    explanation:'KCL: current in equals current out — the sum is <strong>zero</strong>.' },
+
+  { id:'q18', topic:'KVL', chapter:2,
+    text:"A series loop: <strong>Vs = 18 V</strong>, <strong>V_R1 = 7 V</strong>. What is V_R2?",
+    formula:'V_s = V_R1 + V_R2',
+    choices:{a:'7 V',b:'18 V',c:'11 V',d:'25 V'}, correct:'c',
+    explanation:'V_R2 = 18 − 7 = <strong>11 V</strong>' },
+
+  { id:'q19', topic:'KVL', chapter:2,
+    text:"<strong>Vs = 20 V</strong>, <strong>R₁ = 4 Ω</strong>, <strong>R₂ = 6 Ω</strong> in series. What is the voltage across R₂?",
+    formula:'I = V_s / (R₁ + R₂),  V_R2 = I × R₂',
+    choices:{a:'8 V',b:'12 V',c:'10 V',d:'6 V'}, correct:'b',
+    explanation:'I = 20 ÷ 10 = 2 A. V_R2 = 2 × 6 = <strong>12 V</strong>' },
+
+  { id:'q20', topic:'KVL', chapter:2,
+    text:"Kirchhoff\'s Voltage Law states that the sum of all voltages around a closed loop equals:",
+    choices:{a:'The supply voltage',b:'Zero',c:'Total current × resistance',d:'Total power'}, correct:'b',
+    explanation:'KVL: voltage rises minus voltage drops around any closed loop sum to <strong>zero</strong>.' },
+
+  { id:'q21', topic:'Capacitors', chapter:2,
+    text:"<strong>C = 200 µF</strong>, charged to <strong>V = 5 V</strong>. How much charge is stored?",
+    formula:'Q = C × V',
+    choices:{a:'40 C',b:'25 µC',c:'1000 µC',d:'0.04 C'}, correct:'c',
+    explanation:'Q = 0.0002 × 5 = 0.001 C = <strong>1000 µC</strong>' },
+
+  { id:'q22', topic:'Capacitors', chapter:2,
+    text:"<strong>C = 400 µF</strong> charged to <strong>10 V</strong>. How much energy is stored?",
+    formula:'E = ½ × C × V²',
+    choices:{a:'0.02 J',b:'0.04 J',c:'2 J',d:'0.002 J'}, correct:'a',
+    explanation:'E = 0.5 × 0.0004 × 100 = <strong>0.02 J</strong>' },
+
+  { id:'q23', topic:'Capacitors', chapter:2,
+    text:"Two <strong>10 µF</strong> capacitors are in series. What is the total capacitance?",
+    formula:'1/C_t = 1/C₁ + 1/C₂',
+    choices:{a:'20 µF',b:'10 µF',c:'5 µF',d:'100 µF'}, correct:'c',
+    explanation:'1/C_t = 1/10 + 1/10 = 2/10, so C_t = <strong>5 µF</strong>' },
+
+  { id:'q24', topic:'Capacitors', chapter:2,
+    text:"A capacitor stores energy in which form?",
+    choices:{a:'Magnetic field',b:'Current flow',c:'Electric field',d:'Resistance'}, correct:'c',
+    explanation:'Capacitors store energy in an <strong>electric field</strong> between their plates.' },
+
+  { id:'q25', topic:"Ohm's Law", chapter:1,
+    text:"One Ohm (Ω) is equivalent to:",
+    choices:{a:'V / A',b:'A / V',c:'W / V',d:'J / C'}, correct:'a',
+    explanation:'From R = V/I, one Ohm = <strong>one Volt per Ampere (V/A)</strong>.' },
+
+  { id:'q26', topic:'Parallel Circuits', chapter:1,
+    text:`<p>What is the voltage across <strong>R1</strong> in the circuit below?</p>
+<svg viewBox="0 0 300 185" width="300" height="185" xmlns="http://www.w3.org/2000/svg"
+     style="display:block;margin:12px auto;stroke:currentColor;stroke-width:2;fill:none;font-family:inherit">
+
+  <!-- Top rail: left corner → R1 node → right corner -->
+  <line x1="40" y1="40" x2="260" y2="40"/>
+
+  <!-- Bottom rail: left corner → bottom-left → right corner -->
+  <line x1="40" y1="145" x2="260" y2="145"/>
+
+  <!-- Left wire: source top to top rail -->
+  <line x1="40" y1="40" x2="40" y2="70"/>
+  <!-- Voltage source circle -->
+  <circle cx="40" cy="92" r="22"/>
+  <!-- + / − labels inside source -->
+  <text x="40" y="83" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">+</text>
+  <text x="40" y="104" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">−</text>
+  <!-- Source label -->
+  <text x="10" y="96" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Vs</text>
+  <text x="10" y="109" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">14.2V</text>
+  <!-- Left wire: source bottom to bottom rail -->
+  <line x1="40" y1="114" x2="40" y2="145"/>
+
+  <!-- R1 branch: top junction → resistor → bottom junction (x=120) -->
+  <line x1="120" y1="40" x2="120" y2="62"/>
+  <rect x="108" y="62" width="24" height="48" rx="3"/>
+  <text x="120" y="90" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">R1</text>
+  <text x="120" y="103" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">5Ω</text>
+  <line x1="120" y1="110" x2="120" y2="145"/>
+
+  <!-- R2 branch: top junction → resistor → bottom junction (x=200) -->
+  <line x1="200" y1="40" x2="200" y2="62"/>
+  <rect x="188" y="62" width="24" height="48" rx="3"/>
+  <text x="200" y="90" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">R2</text>
+  <text x="200" y="103" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">9Ω</text>
+  <line x1="200" y1="110" x2="200" y2="145"/>
+
+</svg>`,
+    formula:null,
+    choices:{a:'5.07 V',b:'7.89 V',c:'14.20 V',d:'9.13 V'}, correct:'c',
+    explanation:'In a parallel circuit every branch connects directly across the source, so <strong>V_R1 = V_source = 14.20 V</strong>. The voltage divider formula (V = R/R_total × Vs) only applies in series circuits.' }
+];
+
+const CHAPTER_NAMES = {1:'Ch 1: Fundamentals', 2:'Ch 2: Power & Laws'};
+
+const QUIZ_KEY='mb-eb-quiz';
+
+
+</script>
+<script src="../../assets/shared-nav.js"></script>
+<script src="../../assets/quiz-engine.js"></script>
+</body>
+</html>

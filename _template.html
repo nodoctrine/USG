@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · [SUBJECT] — Chapter [N]: [TITLE]</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<!-- ── CUSTOMIZE: data-theme default is always "dark" ── -->
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">[SUBJECT NAME]</span>
+    <span class="header-chapter">Chapter [N] — [CHAPTER TITLE]</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">[X] remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+  </div>
+</header>
+<!-- CUSTOMIZE: button text = current course/chapter; add one .cn-drop-item per other course/chapter.
+     Dropdown CSS + JS is injected automatically by shared-nav.js — no per-chapter code needed. -->
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">[COURSE NAME] &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../[OtherCourse]/chapter_01.html">[Other Course Name]</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter [N] &#9662;</button>
+    <div class="cn-drop-menu">
+      <!-- <a class="cn-drop-item" href="chapter_NN.html">Chapter NN</a> -->
+    </div>
+  </div>
+</nav>
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! <a href="chapter_[NEXT].html">Continue to Chapter [NEXT] &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <!-- CUSTOMIZE: one .sidebar-link per section; data-sec matches section id number -->
+    <a href="#sec-1" class="sidebar-link" data-sec="1">[N.1] Section Title <span class="s-count" id="sc-1">0/[X]</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">[N.2] Section Title <span class="s-count" id="sc-2">0/[X]</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <!-- First chapter: use <span class="nav-btn disabled"> for Prev -->
+      <a class="nav-btn" href="chapter_[PREV].html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="chapter_[NEXT].html">Next Chapter &#8594;</a>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">[N.1]</span> Section Title</h2>
+
+      <!-- READING BLOCK — no id needed, not tracked -->
+      <div class="block block-reading">
+        <p><span class="term">Key term</span> definition text here.</p>
+        <ul>
+          <li>Bullet point</li>
+        </ul>
+      </div>
+
+      <!-- FIGURE BLOCK — no id needed, not tracked.
+           Two body patterns — use one:
+           A) code-view  → syntax-highlighted code listing (shown below)
+           B) figure-body → for tables, diagrams, formula boxes, SVG, etc. -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure [N.M] — Code Example</span>
+        </div>
+        <!-- Pattern A: code-view -->
+        <div class="code-view">
+          <div class="ln">1
+2</div>
+          <div class="cc"><span class="cmt">// example code</span>
+</div>
+        </div>
+        <div class="figure-caption">Caption text.</div>
+      </div>
+
+      <!-- Pattern B: figure-body with formula box + comparison table -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure [N.M] — Formula / Table Example</span>
+        </div>
+        <div class="figure-body">
+          <div class="formula-box">
+            <strong>Formula Name:</strong>  Symbol = A × B
+            <div class="formula-row">
+              <span class="formula-item">Symbol = A × B</span>
+              <span class="formula-item">A = Symbol / B</span>
+              <span class="formula-item">B = Symbol / A</span>
+            </div>
+          </div>
+          <table class="comp-table">
+            <thead><tr><th>Property</th><th>Case A</th><th>Case B</th></tr></thead>
+            <tbody>
+              <tr><td>Row label</td><td>Value A</td><td>Value B</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">Caption text.</div>
+      </div>
+
+      <!-- ANIMATION BLOCK — id="anim-[N]" -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">[N.1.1] — Animation Title</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Caption for step 1.">
+              <strong>Step 1</strong><br><br>Content.
+            </div>
+            <div class="anim-frame" data-cap="Caption for step 2.">
+              <strong>Step 2</strong><br><br>Content.
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">Caption for step 1.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MULTIPLE CHOICE BLOCK — id="mc-[N]" -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">[N.1.2] — MC Title</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> Question text?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>Choice A</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Choice B (correct)</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>Choice C</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHORT ANSWER BLOCK — id="sa-[N]" -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">[N.1.3] — SA Title</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">Question text?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="answer" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['answer'], '<strong>Correct!</strong> Explanation.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', 'answer', 'The answer is X.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+      <!-- CHALLENGE BLOCK — id="chal-[N]" -->
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">[N.1.4] — Challenge Title</span>
+          <span class="chevron pend" id="chev-chal-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">Instructions describing what to do.</div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>file.ext</span><span>LANG</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">// starter code here</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_[PREV].html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="chapter_[NEXT].html">Next Chapter &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// ── PROGRESS ─────────────────────────────────────────────────────────
+// CUSTOMIZE: CHAPTER_ID = course localStorage prefix + chapter number
+//   C Programming ch3 → 'mb-c3'   |   Electronics Basics ch2 → 'mb-eb2'
+const CHAPTER_ID = 'mb-[PREFIX][N]';
+// CUSTOMIZE: list every tracked block id
+const ALL_BLOCKS = ['anim-1', 'mc-1', 'sa-1', 'chal-1'];
+// CUSTOMIZE: map section number → block ids in that section
+const SEC_BLOCKS = { 1: ['anim-1', 'mc-1', 'sa-1', 'chal-1'] };
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+
+function markDone(id) { prog[id] = true; localStorage.setItem(CHAPTER_ID, JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress() {
+  const total = ALL_BLOCKS.length, done = ALL_BLOCKS.filter(id => prog[id]).length, pct = Math.round((done / total) * 100);
+  ALL_BLOCKS.forEach(id => { const el = document.getElementById('chev-' + id); if (!el) return; if (prog[id]) { el.textContent = '✓'; el.className = 'chevron done'; } else { el.textContent = '○'; el.className = 'chevron pend'; } });
+  Object.entries(SEC_BLOCKS).forEach(([sec, ids]) => {
+    const sd = ids.filter(id => prog[id]).length, st = ids.length, all = sd === st;
+    const sc = document.getElementById('sc-' + sec), lk = document.querySelector(`[data-sec="${sec}"]`);
+    if (sc) { sc.textContent = all ? '✓' : `${sd}/${st}`; sc.className = 's-count' + (all ? ' all-done' : ''); }
+    if (lk) lk.classList.toggle('section-done', all);
+  });
+  const pill = document.getElementById('progress-pill');   if (pill) pill.textContent = pct + '% complete';
+  const rem  = total - done, rp = document.getElementById('remaining-pill');
+  if (rp) { rp.textContent = rem > 0 ? `${rem} remaining` : 'all done!'; rp.style.display = rem === 0 ? 'none' : ''; }
+  const bar = document.getElementById('progress-bar');     if (bar) bar.style.width = pct + '%';
+  const bn  = document.getElementById('completion-banner');if (bn)  bn.classList.toggle('visible', done === total);
+}
+
+// ── SIDEBAR ACTIVE ────────────────────────────────────────────────────
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const s = e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active')); const a = document.querySelector(`[data-sec="${s}"]`); if (a) a.classList.add('active'); } }), { threshold: 0.25 });
+document.querySelectorAll('.section').forEach(s => io.observe(s));
+
+// ── ANIMATION ─────────────────────────────────────────────────────────
+const animIdx = {};
+function animGo(id, delta) {
+  const frames = document.querySelectorAll(`#${id} .anim-frame`), n = frames.length;
+  if (!n) return;
+  if (animIdx[id] === undefined) animIdx[id] = 0;
+  animIdx[id] = Math.max(0, Math.min(animIdx[id] + delta, n - 1));
+  const i = animIdx[id];
+  frames.forEach((f, fi) => f.classList.toggle('active', fi === i));
+  const num = id.replace('anim-',''), cap = document.getElementById('anim-cap-' + num), prg = document.getElementById('anim-prog-' + num);
+  if (cap) cap.textContent = frames[i].dataset.cap || '';
+  if (prg) prg.textContent = (i + 1) + ' / ' + n;
+  if (i === n - 1) markDone(id);
+}
+function animNext(id) { animGo(id,  1); }
+function animPrev(id) { animGo(id, -1); }
+
+// ── MULTIPLE CHOICE ───────────────────────────────────────────────────
+// CUSTOMIZE: one entry per question; key = "mcq-[blockN]-[qN]"
+const MC_DATA = {
+  'mcq-1-1': { correct: 'b', ok: '<strong>Correct!</strong> Explanation.', bad: '<strong>Not quite.</strong> Explanation.' }
+};
+const mcDone = {};
+function handleMC(name, value) {
+  const data = MC_DATA[name]; if (!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp => { inp.disabled = true; const lbl = inp.closest('.choice'); if (inp.value === data.correct) lbl.classList.add('correct'); else if (inp.value === value) lbl.classList.add('incorrect'); });
+  const exp = document.getElementById('exp-' + name); if (exp) { const ok = value === data.correct; exp.innerHTML = ok ? data.ok : data.bad; exp.className = 'explanation visible' + (ok ? '' : ' wrong'); }
+  mcDone[name] = true;
+  const blockNum = name.match(/^mcq-(\d+)/)[1], blockId = 'mc-' + blockNum;
+  if (Object.keys(MC_DATA).filter(k => k.startsWith('mcq-' + blockNum)).every(k => mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => inp.addEventListener('change', () => handleMC(inp.name, inp.value)));
+
+// ── SHORT ANSWER ──────────────────────────────────────────────────────
+function checkSA(blockId, accepted, okMsg) {
+  const num = blockId.replace('sa-',''), input = document.getElementById('sa-input-' + num), exp = document.getElementById('exp-' + blockId);
+  if (!input || !exp) return;
+  const ok = accepted.map(a => a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className = 'sa-input ' + (ok ? 'correct' : 'incorrect');
+  exp.innerHTML = ok ? okMsg : 'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className = 'explanation visible' + (ok ? '' : ' wrong');
+  if (ok) markDone(blockId);
+}
+function showSA(blockId, answer, msg) {
+  const num = blockId.replace('sa-',''), input = document.getElementById('sa-input-' + num), exp = document.getElementById('exp-' + blockId);
+  if (input) { input.value = answer; input.className = 'sa-input correct'; }
+  if (exp)   { exp.innerHTML = msg; exp.className = 'explanation visible'; }
+  markDone(blockId);
+}
+
+// ── CHALLENGE ─────────────────────────────────────────────────────────
+// CUSTOMIZE: one entry per challenge block
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Test description', fn: c => /pattern/.test(c) }
+    ],
+    defaultCode: `// starter code here`
+  }
+};
+function checkChallenge(blockId) {
+  const ch = CHALLENGES[blockId], ed = document.getElementById('ed-' + blockId), out = document.getElementById('out-' + blockId);
+  if (!ch || !ed || !out) return;
+  const results = ch.tests.map(t => ({ ...t, pass: t.fn(ed.value) }));
+  out.innerHTML = results.map(r => `<div class="t-row ${r.pass ? 't-pass' : 't-fail'}">${r.pass ? '✓' : '✗'}  ${r.name}</div>`).join('');
+  out.className = 'chal-output visible';
+  if (results.every(r => r.pass)) markDone(blockId);
+}
+function resetChallenge(blockId) {
+  const ch = CHALLENGES[blockId], ed = document.getElementById('ed-' + blockId), out = document.getElementById('out-' + blockId);
+  if (ed)  ed.value = ch?.defaultCode || '';
+  if (out) out.className = 'chal-output';
+}
+
+// ── RESET ─────────────────────────────────────────────────────────────
+function resetChapter() {
+  if (!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog = {}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp => { inp.checked = false; inp.disabled = false; inp.closest('.choice').className = 'choice'; });
+  document.querySelectorAll('.explanation').forEach(el => el.className = 'explanation');
+  document.querySelectorAll('.sa-input').forEach(el => { el.value = ''; el.className = 'sa-input'; });
+  document.querySelectorAll('.chal-output').forEach(el => el.className = 'chal-output');
+  Object.keys(CHALLENGES).forEach(id => { const ed = document.getElementById('ed-' + id); if (ed) ed.value = CHALLENGES[id].defaultCode; });
+  Object.keys(animIdx).forEach(id => { animIdx[id] = 0; animGo(id, 0); });
+  renderProgress();
+}
+function resetCourse() {
+  // CUSTOMIZE: update course name in confirm message; set PREFIX to this course's localStorage prefix
+  //   C Programming → 'mb-c'   |   Electronics Basics → 'mb-eb'   |   new course → 'mb-[abbr]'
+  if (!confirm('Reset ALL progress for the entire [SUBJECT] course? This cannot be undone.')) return;
+  const PREFIX = 'mb-[PREFIX]';
+  Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

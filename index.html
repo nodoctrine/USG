@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide</title>
+<style>
+:root {
+  --bg:             #f4f6f8;
+  --surface:        #ffffff;
+  --surface-alt:    #f0f2f4;
+  --text:           #1c1e21;
+  --text-muted:     #5f6368;
+  --border:         #dde1e7;
+  --header-bg:      #1a2332;
+  --header-text:    #e8ecf0;
+  --accent-figure:  #4a7fb5;
+  --accent-warm:    #d4690a;
+  --accent-cool:    #2563eb;
+  --accent-success: #16a34a;
+  --accent-gray:    #9ca3af;
+  --radius:         6px;
+  --shadow:         0 1px 3px rgba(0,0,0,0.08), 0 1px 8px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg:             #0f1117;
+  --surface:        #1a1d27;
+  --surface-alt:    #242736;
+  --text:           #e2e4e9;
+  --text-muted:     #8b8fa8;
+  --border:         #2e3247;
+  --header-bg:      #0d0f18;
+  --header-text:    #e2e4e9;
+  --accent-figure:  #6a9fd8;
+  --accent-warm:    #f08030;
+  --accent-cool:    #4f8ef7;
+  --accent-success: #22c55e;
+  --accent-gray:    #6b7280;
+}
+[data-theme="retro"] {
+  --bg:             #1c1308;
+  --surface:        #261a0a;
+  --surface-alt:    #321f0d;
+  --text:           #f0dca0;
+  --text-muted:     #9e7636;
+  --border:         #483016;
+  --header-bg:      #100d04;
+  --header-text:    #f0dca0;
+  --accent-figure:  #c08830;
+  --accent-warm:    #e07820;
+  --accent-cool:    #c07828;
+  --accent-success: #5a7e28;
+  --accent-gray:    #786040;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; font-size: 16px; min-height: 100vh; }
+a { color: var(--accent-cool); text-decoration: none; }
+
+/* HEADER */
+.page-header { background: var(--header-bg); color: var(--header-text); padding: 0 24px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 12px rgba(0,0,0,0.25); }
+.header-left { display: flex; flex-direction: column; gap: 1px; }
+.header-sub   { font-size: 11px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
+.header-brand { font-size: 16px; font-weight: 700; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.theme-pie { cursor: default; flex-shrink: 0; display: block; }
+.pie-seg { stroke: var(--header-bg); stroke-width: 2.5; transition: opacity 0.15s; cursor: pointer; opacity: 0.38; }
+.pie-seg[data-t="default"] { fill: #d0dae8; }
+.pie-seg[data-t="dark"]    { fill: #6878a8; }
+.pie-seg[data-t="retro"]   { fill: #e08a20; }
+.pie-seg.pie-active        { opacity: 1; }
+.pie-seg:not(.pie-active):hover { opacity: 0.65; }
+
+/* MAIN */
+.main-content { max-width: 900px; margin: 0 auto; padding: 52px 24px 80px; }
+
+.hero { text-align: center; margin-bottom: 52px; }
+.hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+.hero p  { font-size: 16px; color: var(--text-muted); }
+
+/* COURSES GRID */
+.courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
+
+/* COURSE CARD */
+.course-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
+.course-card-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); }
+.course-accent { height: 4px; border-radius: 2px; margin-bottom: 14px; }
+.course-title  { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+.course-desc   { font-size: 13.5px; color: var(--text-muted); }
+.chapter-list  { padding: 6px 0 10px; }
+
+/* CHAPTER ROW */
+.chapter-row { display: block; padding: 10px 22px; transition: background 0.12s; }
+.chapter-row:hover { background: var(--surface-alt); }
+.chapter-row-top { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.ch-num   { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); flex-shrink: 0; }
+.ch-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.ch-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+.badge-new      { background: var(--surface-alt); color: var(--text-muted); border: 1px solid var(--border); }
+.badge-progress { background: rgba(79,142,247,0.15); color: var(--accent-cool); }
+.badge-done     { background: var(--accent-success); color: #fff; }
+.course-pct { font-size: 13px; font-weight: 600; color: var(--accent-success); margin-left: 8px; }
+
+@media (max-width: 620px) {
+  .courses { grid-template-columns: 1fr; }
+  .main-content { padding: 32px 16px 60px; }
+  .hero h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-sub">Interactive Learning</span>
+    <span class="header-brand">Universal Study Guide</span>
+  </div>
+  <div class="header-right">
+    <svg class="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+  </div>
+</header>
+
+<main class="main-content">
+
+  <div class="hero">
+    <h1>Your Study Guides</h1>
+    <p>Interactive chapters with animations, quizzes, and hands-on challenges.<br>Progress saves automatically in your browser.</p>
+  </div>
+
+  <div class="courses">
+
+    <div class="course-card">
+      <div class="course-card-header">
+        <div class="course-accent" style="background: var(--accent-figure);"></div>
+        <div class="course-title">Electronics Basics <span class="course-pct" id="cpct-eb"></span></div>
+        <div class="course-desc">Circuits, components, and the fundamental laws of electronics.</div>
+      </div>
+      <div class="chapter-list">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_01.html" data-key="mb-eb1" data-total="12">
+          <div class="chapter-row-top">
+            <span class="ch-num">Ch 1</span>
+            <span class="ch-title">Electronic Systems Fundamentals</span>
+            <span class="ch-badge badge-new" id="badge-mb-eb1">0%</span>
+          </div>
+        </a>
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_02.html" data-key="mb-eb2" data-total="12">
+          <div class="chapter-row-top">
+            <span class="ch-num">Ch 2</span>
+            <span class="ch-title">Power, KCL, KVL &amp; Capacitors</span>
+            <span class="ch-badge badge-new" id="badge-mb-eb2">0%</span>
+          </div>
+        </a>
+        <a class="chapter-row" href="Courses/Electronics_Basics/quiz.html">
+          <div class="chapter-row-top">
+            <span class="ch-num">Quiz</span>
+            <span class="ch-title">Practice Quiz</span>
+            <span class="ch-badge badge-progress">26 Q</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-card-header">
+        <div class="course-accent" style="background: var(--accent-warm);"></div>
+        <div class="course-title">C Programming <span class="course-pct" id="cpct-c"></span></div>
+        <div class="course-desc">Procedural programming fundamentals in C.</div>
+      </div>
+      <div class="chapter-list">
+        <a class="chapter-row" href="Courses/C_Programming/chapter_01.html" data-key="mb-c1" data-total="4">
+          <div class="chapter-row-top">
+            <span class="ch-num">Ch 1</span>
+            <span class="ch-title">Introduction to C</span>
+            <span class="ch-badge badge-new" id="badge-mb-c1">0%</span>
+          </div>
+        </a>
+        <a class="chapter-row" href="Courses/C_Programming/quiz.html">
+          <div class="chapter-row-top">
+            <span class="ch-num">Quiz</span>
+            <span class="ch-title">Practice Quiz</span>
+            <span class="ch-badge badge-progress">25 Q</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+'use strict';
+
+const THEMES = ['default', 'dark', 'retro'];
+function updatePie(t) { document.querySelectorAll('.pie-seg').forEach(s => s.classList.toggle('pie-active', s.dataset.t === t)); }
+function setTheme(t)  { document.body.setAttribute('data-theme', t); localStorage.setItem('mb-theme', t); updatePie(t); }
+(function initTheme() {
+  const t = localStorage.getItem('mb-theme');
+  const a = (t && THEMES.includes(t)) ? t : 'dark';
+  document.body.setAttribute('data-theme', a);
+  updatePie(a);
+})();
+
+const COURSES = [
+  { id: 'eb', chapters: [{ key: 'mb-eb1', total: 12 }, { key: 'mb-eb2', total: 12 }] },
+  { id: 'c',  chapters: [{ key: 'mb-c1',  total: 4  }] }
+];
+
+function renderProgress() {
+  COURSES.forEach(course => {
+    let courseDone = 0, courseTotal = 0;
+    course.chapters.forEach(ch => {
+      const prog  = JSON.parse(localStorage.getItem(ch.key) || '{}');
+      const done  = Object.values(prog).filter(Boolean).length;
+      courseDone  += done;
+      courseTotal += ch.total;
+
+      const pct   = Math.round((done / ch.total) * 100);
+      const badge = document.getElementById('badge-' + ch.key);
+      if (badge) {
+        if (pct >= 100)  { badge.textContent = 'Done ✓'; badge.className = 'ch-badge badge-done'; }
+        else if (pct > 0){ badge.textContent = pct + '%'; badge.className = 'ch-badge badge-progress'; }
+        else             { badge.textContent = '0%';      badge.className = 'ch-badge badge-new'; }
+      }
+    });
+
+    const cpct = document.getElementById('cpct-' + course.id);
+    if (cpct) cpct.textContent = Math.round((courseDone / courseTotal) * 100) + '%';
+  });
+}
+
+renderProgress();
+window.addEventListener('pageshow', e => { if (e.persisted) renderProgress(); });
+</script>
+</body>
+</html>

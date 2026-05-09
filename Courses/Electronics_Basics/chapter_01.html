@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Chapter 1: Electronic Systems Fundamentals</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Chapter 1 — Electronic Systems Fundamentals</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">12 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 1 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">1.1 Electricity &amp; Matter <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">1.2 Voltage &amp; Current <span class="s-count" id="sc-2">0/3</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">1.3 Resistance <span class="s-count" id="sc-3">0/2</span></a>
+    <a href="#sec-4" class="sidebar-link" data-sec="4">1.4 Ohm's Law <span class="s-count" id="sc-4">0/3</span></a>
+    <a href="#sec-5" class="sidebar-link" data-sec="5">1.5 Circuit Analysis <span class="s-count" id="sc-5">0/2</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+    <!-- ================================================================
+         SECTION 1 — Electricity & Matter
+         ================================================================ -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">1.1</span> Electricity &amp; Matter</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Electricity</span> is all around us — it powers lighting, tools, motors, and control systems. To understand how it works, we start with the building blocks of all matter: <span class="term">atoms</span>.</p>
+        <p>Every atom has a central <span class="term">nucleus</span> containing <span class="term">protons</span> (positive charge) and <span class="term">neutrons</span> (no charge). Orbiting the nucleus are <span class="term">electrons</span>, which carry a negative charge. When electrons move together through a material, that flow of charge is what we call <span class="term">electric current</span>.</p>
+        <p>Materials differ in how easily they let electrons move:</p>
+        <ul>
+          <li><span class="term">Conductors</span> — loosely held outer electrons move freely (copper, silver, gold)</li>
+          <li><span class="term">Semiconductors</span> — can act as either conductor or insulator depending on conditions; used in diodes and transistors</li>
+          <li><span class="term">Insulators</span> — electrons are tightly bound and cannot flow freely (rubber, plastic, glass)</li>
+        </ul>
+        <p><span class="term">Static electricity</span> is a build-up of charge on an insulating surface. When enough charge accumulates, it can discharge as a spark — potentially damaging sensitive electronic components. Preventive measures include ESD (electrostatic discharge) wrist straps and proper grounding when handling electronics.</p>
+      </div>
+
+      <!-- ANIMATION 1 -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.1.1 — How Electrons Create Current</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Every material is made of atoms. Each atom has a nucleus at its center, surrounded by orbiting electrons.">
+              <strong>Atoms: The Building Blocks</strong><br><br>
+              <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+                <div style="text-align:center;font-family:monospace;line-height:1.8;font-size:14px;">
+                  <div style="color:var(--accent-warm)">⊕ Proton (+)</div>
+                  <div style="color:var(--text-muted)">○ Neutron (0)</div>
+                  <div style="color:var(--accent-cool)">⊖ Electron (−)</div>
+                </div>
+                <div style="font-size:13px;color:var(--text-muted);">
+                  Protons and neutrons form the <strong>nucleus</strong>.<br>
+                  Electrons orbit in <strong>shells</strong> around it.<br>
+                  Opposite charges attract — electrons<br>stay close to the positive nucleus.
+                </div>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="In conductors (like copper), the outermost electrons are loosely held — they can drift freely between atoms.">
+              <strong>Free Electrons in Conductors</strong><br><br>
+              <div style="font-family:monospace;font-size:15px;letter-spacing:2px;margin:16px 0;color:var(--accent-cool);">
+                [Cu] [Cu] [Cu] [Cu] [Cu]
+              </div>
+              <div style="font-family:monospace;font-size:13px;color:var(--text-muted);">
+                &nbsp;&nbsp;⊖&nbsp;&nbsp;&nbsp;&nbsp;⊖&nbsp;&nbsp;&nbsp;&nbsp;⊖&nbsp;&nbsp;&nbsp;&nbsp;⊖ &nbsp;← free electrons drifting between atoms
+              </div>
+              <div style="margin-top:12px;font-size:13px;color:var(--text-muted);">
+                Copper has one loosely-held valence electron per atom — these electrons are free to roam.
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="When a voltage source pushes free electrons in the same direction, the resulting flow is called electric current.">
+              <strong>Voltage Pushes Electrons → Current Flows</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;margin:12px 0;">
+                <span style="color:var(--accent-error)">[−]</span> Battery <span style="color:var(--accent-success)">[+]</span>
+              </div>
+              <div style="font-family:monospace;font-size:15px;color:var(--accent-cool);letter-spacing:3px;">
+                ⊖→ ⊖→ ⊖→ ⊖→ ⊖→
+              </div>
+              <div style="margin-top:10px;font-size:13px;">
+                The battery acts like a pump. It creates <strong>electrical pressure</strong> (voltage) that pushes free electrons around the circuit in one direction.
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">Every material is made of atoms. Each atom has a nucleus at its center, surrounded by orbiting electrons.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 1 -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.1.2 — Charges &amp; Conductors</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> Which subatomic particle carries a negative electrical charge?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>Proton</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Neutron</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>Electron</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span>Nucleus</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> Which of the following is a good conductor of electricity?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>Rubber</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>Plastic</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>Glass</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="d"> <span>Copper</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — Voltage & Current
+         ================================================================ -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">1.2</span> Voltage &amp; Current</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Voltage</span> (symbol: <strong>V</strong>) is the electrical pressure that drives current through a circuit. It is measured in <strong>volts (V)</strong> — a 9 V battery provides 9 volts of pressure. Sources of voltage include batteries and generators. 1,000 V = 1 kV (kilovolt).</p>
+        <p>Voltage comes in two forms:</p>
+        <ul>
+          <li><span class="term">DC (Direct Current)</span> — polarity is constant; current flows in one direction. Produced by batteries. Common values: 1.5 V, 3 V, 9 V, 12 V. Used in control systems and mechatronics.</li>
+          <li><span class="term">AC (Alternating Current)</span> — polarity reverses periodically. Used in household power outlets (120 V in the US).</li>
+        </ul>
+        <p><span class="term">Current</span> (symbol: <strong>I</strong>) is the flow of electric charge through a conductor. It is measured in <strong>amperes (A)</strong>. Current requires a <span class="term">closed circuit</span> — a complete, unbroken loop from the voltage source, through the load, and back. An open circuit (broken path) stops all current flow.</p>
+        <p>Note: <span class="term">Conventional current</span> flows from + to −, while <span class="term">electron flow</span> is actually − to +. Both conventions are used in electronics.</p>
+      </div>
+
+      <!-- ANIMATION 2 -->
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.1 — Open vs. Closed Circuit</span>
+          <span class="chevron pend" id="chev-anim-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="An open circuit has a break in the path. Electrons cannot complete the loop — no current flows and the bulb stays dark.">
+              <strong>Open Circuit — No Current</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2;color:var(--text-muted);">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BULB ○]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                ──────────&nbsp;&nbsp;X &nbsp;&nbsp;──────── &nbsp;← break here<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BATTERY]
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--accent-error);">✗ No path → no current → bulb is off</div>
+            </div>
+            <div class="anim-frame" data-cap="A closed circuit provides a complete path. Electrons can flow continuously from the battery, through the bulb, and back.">
+              <strong>Closed Circuit — Current Flows</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent-warm)">[BULB ★]</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                ──────────────────────<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BATTERY]
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--accent-success);">✓ Complete loop → current flows → bulb lights up</div>
+            </div>
+            <div class="anim-frame" data-cap="The battery is the voltage source — it pumps electrons around the closed loop. The bulb is the load — it converts electrical energy to light and heat.">
+              <strong>Voltage Source &amp; Load</strong><br><br>
+              <div style="font-size:14px;line-height:1.8;">
+                <div style="margin-bottom:8px;">
+                  <strong style="color:var(--accent-cool)">Voltage Source (Battery)</strong> — provides the electrical pressure (EMF) that drives current around the loop.
+                </div>
+                <div>
+                  <strong style="color:var(--accent-warm)">Load (Bulb / Resistor)</strong> — converts electrical energy into another form (light, heat, motion). It opposes current flow — this opposition is called <strong>resistance</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">An open circuit has a break in the path. Electrons cannot complete the loop — no current flows and the bulb stays dark.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 2 -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.2 — Voltage &amp; Circuit Types</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> A standard battery produces which type of voltage?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>AC — it alternates direction periodically</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>DC — it flows in one constant direction</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Neither — batteries produce no voltage</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>Both AC and DC at the same time</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> For current to flow in a circuit, the circuit must be:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>Open — with a gap in the path</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>Insulated on all sides</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>Closed — a complete, unbroken loop</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="d"> <span>Disconnected from the voltage source</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SA 1 -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.3 — Unit of Voltage</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">What is the unit used to measure voltage?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="unit name" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1',['volt','volts','v'],'<strong>Correct!</strong> Voltage is measured in <strong>volts (V)</strong>, named after Alessandro Volta.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1','volts','Voltage is measured in <strong>volts (V)</strong>. Common examples: a AA battery is 1.5 V, a car battery is 12 V.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3 — Resistance
+         ================================================================ -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">1.3</span> Resistance</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Resistance</span> (symbol: <strong>R</strong>) is the opposition to the flow of current. It is measured in <span class="term">ohms</span> (symbol: <strong>Ω</strong>). A <span class="term">resistor</span> is a component specifically designed to limit current and control voltage levels in a circuit.</p>
+        <p>The resistance of a conductor depends on four factors:</p>
+        <ul>
+          <li><strong>Material</strong> — copper has lower resistance than iron</li>
+          <li><strong>Length</strong> — longer wire → more resistance</li>
+          <li><strong>Cross-sectional area</strong> — thicker wire → less resistance</li>
+          <li><strong>Temperature</strong> — most metals increase in resistance as temperature rises</li>
+        </ul>
+        <p>Common resistance units: 1 k&Omega; (kiloohm) = 1,000 &Omega; &nbsp;|&nbsp; 1 M&Omega; (megaohm) = 1,000,000 &Omega;</p>
+        <p>The value of a resistor is encoded in <span class="term">color bands</span> painted on its body. A standard 4-band resistor has three value bands and one tolerance band.</p>
+      </div>
+
+      <!-- FIGURE: Resistance Units -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 1.1 — Resistance Units</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table">
+            <thead><tr><th>Unit Name</th><th>Symbol</th><th>Value in Ohms</th></tr></thead>
+            <tbody>
+              <tr><td>Ohm</td><td>1 Ω</td><td>1 Ω</td></tr>
+              <tr><td>Kiloohm</td><td>1 kΩ</td><td>1,000 Ω</td></tr>
+              <tr><td>Megaohm</td><td>1 MΩ</td><td>1,000,000 Ω</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">A 1 kΩ resistor with 5% tolerance has a true value between 950 Ω and 1,050 Ω.</div>
+      </div>
+
+      <!-- SA 2 -->
+      <div class="block block-sa" id="sa-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.3.1 — Unit of Resistance</span>
+          <span class="chevron pend" id="chev-sa-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">What is the unit of electrical resistance called?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-2" placeholder="unit name" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-2',['ohm','ohms'],'<strong>Correct!</strong> Resistance is measured in <strong>ohms (Ω)</strong>, named after Georg Simon Ohm.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-2','ohm','Resistance is measured in <strong>ohms (Ω)</strong>. The symbol Ω is the Greek letter omega.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-2"></div>
+        </div>
+      </div>
+
+      <!-- ANIMATION 3 -->
+      <div class="block block-anim" id="anim-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.3.2 — Reading a 4-Band Resistor</span>
+          <span class="chevron pend" id="chev-anim-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="A 4-band resistor has 4 colored bands. Read from the end with 3 bands close together — the single separated band is the tolerance.">
+              <strong>The Four Bands</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2;margin:8px 0;">
+                <span style="color:#8B4513">▌Band 1▐</span>&nbsp;
+                <span style="color:#555">▌Band 2▐</span>&nbsp;
+                <span style="color:#c00">▌Band 3▐</span>&nbsp;&nbsp;&nbsp;
+                <span style="color:#DAA520">▌Band 4▐</span>
+              </div>
+              <div style="font-size:13px;line-height:1.8;color:var(--text-muted);">
+                Band 1 → 1st digit of value<br>
+                Band 2 → 2nd digit of value<br>
+                Band 3 → Multiplier (×10ⁿ)<br>
+                Band 4 → Tolerance (accuracy) — usually gold (±5%) or silver (±10%)
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="Each color maps to a number 0–9. The multiplier tells you what power of 10 to multiply the two-digit number by.">
+              <strong>Color Code Chart (Key Colors)</strong><br><br>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;font-size:13px;line-height:1.8;">
+                <div><span style="color:#000;background:#888;padding:1px 6px;border-radius:2px;font-weight:700;">Black</span> = 0</div>
+                <div><span style="color:#fff;background:#8B4513;padding:1px 6px;border-radius:2px;font-weight:700;">Brown</span> = 1</div>
+                <div><span style="color:#fff;background:#c00;padding:1px 6px;border-radius:2px;font-weight:700;">Red</span> = 2</div>
+                <div><span style="color:#fff;background:#e65c00;padding:1px 6px;border-radius:2px;font-weight:700;">Orange</span> = 3</div>
+                <div><span style="color:#000;background:#e6c200;padding:1px 6px;border-radius:2px;font-weight:700;">Yellow</span> = 4</div>
+                <div><span style="color:#fff;background:#2a7;padding:1px 6px;border-radius:2px;font-weight:700;">Green</span> = 5</div>
+                <div><span style="color:#fff;background:#006;padding:1px 6px;border-radius:2px;font-weight:700;">Blue</span> = 6</div>
+                <div><span style="color:#fff;background:#606;padding:1px 6px;border-radius:2px;font-weight:700;">Violet</span> = 7</div>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="Example: Brown-Black-Red-Gold → digits 1, 0 × multiplier 100 × tolerance ±5% → 1,000 Ω = 1 kΩ ±5%.">
+              <strong>Worked Example: Brown – Black – Red – Gold</strong><br><br>
+              <div style="font-size:14px;line-height:2;">
+                <span style="color:#fff;background:#8B4513;padding:2px 8px;border-radius:3px;font-weight:700;">Brown</span> = 1 &nbsp;
+                <span style="color:#fff;background:#555;padding:2px 8px;border-radius:3px;font-weight:700;">Black</span> = 0 &nbsp;→ <strong>10</strong><br>
+                <span style="color:#fff;background:#c00;padding:2px 8px;border-radius:3px;font-weight:700;">Red</span> = multiplier ×100<br>
+                <span style="color:#000;background:#DAA520;padding:2px 8px;border-radius:3px;font-weight:700;">Gold</span> = ±5% tolerance<br><br>
+                <strong style="font-size:15px;color:var(--accent-success);">Result: 10 × 100 = 1,000 Ω = 1 kΩ ± 5%</strong>
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-3">A 4-band resistor has 4 colored bands. Read from the end with 3 bands close together — the single separated band is the tolerance.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-3')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-3')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-3">1 / 3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 4 — Ohm's Law
+         ================================================================ -->
+    <section class="section" id="sec-4">
+      <h2 class="section-heading"><span class="section-num">1.4</span> Ohm's Law</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Ohm's Law</span> describes the relationship between voltage, current, and resistance in a circuit. It states that current is directly proportional to voltage and inversely proportional to resistance:</p>
+      </div>
+
+      <!-- FIGURE: EIR Triangle -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 1.2 — Ohm's Law Triangle</span>
+        </div>
+        <div class="figure-body" style="text-align:center;">
+          <div style="display:inline-block;margin:8px auto;">
+            <div style="background:var(--accent-warm);color:#fff;padding:10px 48px;border-radius:8px 8px 0 0;font-weight:700;font-size:20px;letter-spacing:2px;">V</div>
+            <div style="display:flex;">
+              <div style="background:var(--accent-cool);color:#fff;padding:10px 36px;font-weight:700;font-size:20px;border-radius:0 0 0 8px;border-right:2px solid var(--header-bg);">I</div>
+              <div style="background:var(--accent-cool);color:#fff;padding:10px 36px;font-weight:700;font-size:20px;border-radius:0 0 8px 0;">R</div>
+            </div>
+          </div>
+          <div class="formula-row" style="margin-top:16px;">
+            <div class="formula-item">V = I × R</div>
+            <div class="formula-item">I = V ÷ R</div>
+            <div class="formula-item">R = V ÷ I</div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">Cover the unknown letter to reveal the formula for that quantity.</div>
+        </div>
+        <div class="figure-caption">V = Voltage (volts) &nbsp;|&nbsp; I = Current (amps) &nbsp;|&nbsp; R = Resistance (ohms) &nbsp;|&nbsp; ↑V → ↑I &nbsp;|&nbsp; ↑R → ↓I</div>
+      </div>
+
+      <div class="block block-reading">
+        <p><strong>Power</strong> (symbol: <strong>P</strong>) measures the rate at which energy is used, measured in <span class="term">watts (W)</span>. Power in a DC circuit can be calculated three ways:</p>
+        <ul>
+          <li><code>P = V × I</code> — voltage times current</li>
+          <li><code>P = I² × R</code> — current squared times resistance</li>
+          <li><code>P = V² ÷ R</code> — voltage squared divided by resistance</li>
+        </ul>
+        <p>Example: A microwave rated at 1,200 W on a 120 V outlet draws I = P ÷ V = 1200 ÷ 120 = <strong>10 A</strong> of current.</p>
+      </div>
+
+      <!-- MC 3 -->
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.4.1 — Applying Ohm's Law</span>
+          <span class="chevron pend" id="chev-mc-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> A circuit has V = 12 V and R = 4 Ω. Using I = V ÷ R, what is the current?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>48 A</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>0.33 A</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>3 A</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="d"> <span>16 A</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-3-2">
+            <div class="q-text"><span class="q-num">2)</span> If resistance doubles while voltage stays the same, what happens to current?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-2" value="a"> <span>It doubles</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="b"> <span>It stays the same</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="c"> <span>It is cut in half</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="d"> <span>It goes to zero</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SA 3 -->
+      <div class="block block-sa" id="sa-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.4.2 — Ohm's Law Calculation</span>
+          <span class="chevron pend" id="chev-sa-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">A circuit has V = 10 V and R = 5 Ω. Using I = V ÷ R, what is the current in amps? (Enter the number only)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-3" placeholder="e.g. 2" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-3',['2','2a','2 a','2amps','2 amps'],'<strong>Correct!</strong> I = V ÷ R = 10 V ÷ 5 Ω = <strong>2 A</strong>. This is also the example from the lecture slides.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-3','2','I = V ÷ R = 10 ÷ 5 = <strong>2 A</strong>.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-3"></div>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 1 -->
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">1.4.3 — Ohm's Law Practice</span>
+          <span class="chevron pend" id="chev-chal-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Solve the two Ohm's Law problems below. Show your work and write the final answer clearly on its own line. Click <strong>Check Answer</strong> when done.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>calculations.txt</span><span>Math</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">Problem 1: V = 24 V, R = 8 Ω → Find I
+I = V ÷ R = ___ ÷ ___ = ___ A
+
+Problem 2: I = 2 A, R = 6 Ω → Find V
+V = I × R = ___ × ___ = ___ V</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 5 — Circuit Analysis
+         ================================================================ -->
+    <section class="section" id="sec-5">
+      <h2 class="section-heading"><span class="section-num">1.5</span> Circuit Analysis</h2>
+
+      <div class="block block-reading">
+        <p>Resistors can be connected in two fundamental ways:</p>
+        <p><span class="term">Series circuit</span> — components are connected end-to-end in a single path:</p>
+        <ul>
+          <li>Current is the <strong>same</strong> through every component</li>
+          <li>Voltage is <strong>divided</strong> across each resistor</li>
+          <li>Total resistance adds: <code>R<sub>t</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub> + …</code></li>
+        </ul>
+        <p><span class="term">Parallel circuit</span> — components are connected across the same two nodes, providing multiple paths:</p>
+        <ul>
+          <li>Voltage is the <strong>same</strong> across every branch</li>
+          <li>Current is <strong>divided</strong> among branches</li>
+          <li>Total resistance is less than any single branch: <code>1/R<sub>t</sub> = 1/R<sub>1</sub> + 1/R<sub>2</sub> + 1/R<sub>3</sub> + …</code></li>
+        </ul>
+      </div>
+
+      <!-- FIGURE: Series vs Parallel -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 1.3 — Series vs. Parallel</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table">
+            <thead><tr><th>Property</th><th>Series</th><th>Parallel</th></tr></thead>
+            <tbody>
+              <tr><td>Current</td><td>Same everywhere</td><td>Splits at each branch</td></tr>
+              <tr><td>Voltage</td><td>Divides across resistors</td><td>Same across each branch</td></tr>
+              <tr><td>Total Resistance</td><td>R<sub>t</sub> = R<sub>1</sub> + R<sub>2</sub> + …</td><td>1/R<sub>t</sub> = 1/R<sub>1</sub> + 1/R<sub>2</sub> + …</td></tr>
+              <tr><td>If one opens</td><td>All components stop</td><td>Others still work</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">Household wiring uses parallel circuits — one burnt bulb does not turn off the whole house.</div>
+      </div>
+
+      <!-- MC 4 -->
+      <div class="block block-mc" id="mc-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.5.1 — Series &amp; Parallel</span>
+          <span class="chevron pend" id="chev-mc-4">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-4-1">
+            <div class="q-text"><span class="q-num">1)</span> In a series circuit with three resistors, the current through each resistor is:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-1" value="a"> <span>Different — largest near the battery</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="b"> <span>The same throughout the circuit</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="c"> <span>Zero — series circuits block current</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="d"> <span>Equal to the supply voltage</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-4-2">
+            <div class="q-text"><span class="q-num">2)</span> Three resistors — 10 Ω, 20 Ω, and 30 Ω — are connected in series. What is the total resistance?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-2" value="a"> <span>5.45 Ω (parallel formula)</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="b"> <span>30 Ω (largest only)</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="c"> <span>60 Ω</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="d"> <span>600 Ω</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 2 -->
+      <div class="block block-chal" id="chal-2">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">1.5.2 — Resistance Calculations</span>
+          <span class="chevron pend" id="chev-chal-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Solve both resistance problems. Show your work and write the final numerical answer clearly.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>circuits.txt</span><span>Math</span></div>
+            <textarea class="editor" id="ed-chal-2" spellcheck="false">Problem 1 (Series): R1=100Ω, R2=150Ω, R3=250Ω
+Rt = R1 + R2 + R3 = ___ + ___ + ___ = ___ Ω
+
+Problem 2 (Parallel): R1=5Ω, R2=10Ω, R3=20Ω
+1/Rt = 1/5 + 1/10 + 1/20 = ___ → Rt = ___ Ω</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-2')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-2')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chapter-nav-footer">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// PROGRESS
+const CHAPTER_ID = 'mb-eb1';
+const ALL_BLOCKS  = ['anim-1','mc-1','anim-2','mc-2','sa-1','sa-2','anim-3','mc-3','sa-3','chal-1','mc-4','chal-2'];
+const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['anim-2','mc-2','sa-1'], 3:['sa-2','anim-3'], 4:['mc-3','sa-3','chal-1'], 5:['mc-4','chal-2'] };
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='✓';el.className='chevron done';}else{el.textContent='○';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){sc.textContent=all?'✓':`${sd}/${st}`;sc.className='s-count'+(all?' all-done':'');}
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':'';}
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+// SIDEBAR ACTIVE
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+// ANIMATION
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+// MULTIPLE CHOICE
+const MC_DATA = {
+  'mcq-1-1':{ correct:'c', ok:'<strong>Correct!</strong> Electrons carry a negative (−) charge. Their movement through a conductor is what we call electric current.', bad:'<strong>Not quite.</strong> Electrons carry negative charge. Protons (+) are in the nucleus; neutrons carry no charge.' },
+  'mcq-1-2':{ correct:'d', ok:'<strong>Correct!</strong> Copper has loosely-held outer electrons that move freely — making it an excellent conductor. It is the most common material used in electrical wiring.', bad:'<strong>Not quite.</strong> Rubber, plastic, and glass are insulators — they resist current flow. Copper is a good conductor.' },
+  'mcq-2-1':{ correct:'b', ok:'<strong>Correct!</strong> Batteries produce DC — Direct Current flows in one constant direction with fixed polarity.', bad:'<strong>Not quite.</strong> Batteries produce DC (Direct Current) — steady flow in one direction. AC (Alternating Current) is what comes out of wall outlets.' },
+  'mcq-2-2':{ correct:'c', ok:'<strong>Correct!</strong> Current requires a closed, complete loop. Any break in the circuit stops current flow entirely.', bad:'<strong>Not quite.</strong> Current can only flow through a closed (complete, unbroken) circuit.' },
+  'mcq-3-1':{ correct:'c', ok:'<strong>Correct!</strong> I = V ÷ R = 12 V ÷ 4 Ω = <strong>3 A</strong>.', bad:'<strong>Not quite.</strong> Use I = V ÷ R: I = 12 ÷ 4 = 3 A.' },
+  'mcq-3-2':{ correct:'c', ok:'<strong>Correct!</strong> I = V ÷ R. If R doubles, I = V ÷ 2R = half the original current. More resistance → less current.', bad:'<strong>Not quite.</strong> From I = V/R: doubling R while keeping V constant halves the current.' },
+  'mcq-4-1':{ correct:'b', ok:'<strong>Correct!</strong> A series circuit has only one path — the same current flows through every component in that path.', bad:'<strong>Not quite.</strong> In a series circuit there is one path, so the same current flows through every component. Voltage is what divides.' },
+  'mcq-4-2':{ correct:'c', ok:'<strong>Correct!</strong> Series total: R<sub>t</sub> = 10 + 20 + 30 = <strong>60 Ω</strong>.', bad:'<strong>Not quite.</strong> In series, resistances add directly: R<sub>t</sub> = 10 + 20 + 30 = 60 Ω.' }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name);
+  if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+// SHORT ANSWER
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){input.value=answer; input.className='sa-input correct';}
+  if(exp){exp.innerHTML=msg; exp.className='explanation visible';}
+  markDone(blockId);
+}
+
+// CHALLENGE
+const CHALLENGES = {
+  'chal-1':{
+    tests:[
+      { name:'Problem 1: I = 3 A  (24 V ÷ 8 Ω)', fn: c => /\b3\b/.test(c) },
+      { name:'Problem 2: V = 12 V  (2 A × 6 Ω)', fn: c => /\b12\b/.test(c) }
+    ],
+    defaultCode:`Problem 1: V = 24 V, R = 8 Ω → Find I\nI = V ÷ R = ___ ÷ ___ = ___ A\n\nProblem 2: I = 2 A, R = 6 Ω → Find V\nV = I × R = ___ × ___ = ___ V`
+  },
+  'chal-2':{
+    tests:[
+      { name:'Series total = 500 Ω  (100+150+250)', fn: c => /\b500\b/.test(c) },
+      { name:'Parallel total ≈ 2.86 Ω  (5‖10‖20)',  fn: c => /2\.86|2\.857|20\/7/.test(c) }
+    ],
+    defaultCode:`Problem 1 (Series): R1=100Ω, R2=150Ω, R3=250Ω\nRt = R1 + R2 + R3 = ___ + ___ + ___ = ___ Ω\n\nProblem 2 (Parallel): R1=5Ω, R2=10Ω, R3=20Ω\n1/Rt = 1/5 + 1/10 + 1/20 = ___ → Rt = ___ Ω`
+  }
+};
+
+function checkChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(!ch||!ed||!out) return;
+  const results=ch.tests.map(t=>({...t,pass:t.fn(ed.value)}));
+  out.innerHTML=results.map(r=>`<div class="t-row ${r.pass?'t-pass':'t-fail'}">${r.pass?'✓':'✗'}  ${r.name}</div>`).join('');
+  out.className='chal-output visible';
+  if(results.every(r=>r.pass)) markDone(blockId);
+}
+function resetChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(ed) ed.value=ch?.defaultCode||'';
+  if(out) out.className='chal-output';
+}
+
+// RESET
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  document.querySelectorAll('.chal-output').forEach(el=>el.className='chal-output');
+  Object.keys(CHALLENGES).forEach(id=>{const ed=document.getElementById('ed-'+id);if(ed) ed.value=CHALLENGES[id].defaultCode;});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire Electronics Basics course? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-eb')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

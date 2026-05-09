@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Chapter 2: Power, KCL, KVL &amp; Capacitors</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Chapter 2 — Power, KCL, KVL &amp; Capacitors</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">12 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 2 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! Great work — Chapter 3 coming soon.
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">2.1 Electrical Power <span class="s-count" id="sc-1">0/3</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">2.2 Kirchhoff's Current Law <span class="s-count" id="sc-2">0/3</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">2.3 Kirchhoff's Voltage Law <span class="s-count" id="sc-3">0/3</span></a>
+    <a href="#sec-4" class="sidebar-link" data-sec="4">2.4 Capacitors <span class="s-count" id="sc-4">0/3</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Chapter 1</a>
+      <span class="nav-btn disabled">Chapter 3 &#8594;</span>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1 — ELECTRICAL POWER
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">2.1</span> Electrical Power</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Electrical power</span> is the rate at which electrical energy is transferred or converted. Every resistor, motor, and light bulb that draws current is consuming power. The SI unit of power is the <strong>watt (W)</strong>, where 1 W = 1 joule per second.</p>
+        <p>The fundamental power formula combines voltage and current:</p>
+        <ul>
+          <li><strong>P = V × I</strong> — power equals voltage times current</li>
+          <li>By substituting Ohm's Law (<code>V = I·R</code>), two more forms follow</li>
+          <li>All three forms are equivalent — use whichever two quantities you already know</li>
+        </ul>
+        <p><span class="term">Energy</span> is power multiplied by time: <strong>E = P × t</strong> (joules = watts × seconds). Your electricity bill measures energy in kilowatt-hours (kWh), where 1 kWh = 3.6 MJ.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 2.1 — Power Formula Reference</span>
+        </div>
+        <div class="figure-body">
+          <div class="formula-box">
+            <div style="text-align:center;font-weight:700;margin-bottom:4px;">Three Equivalent Power Formulas</div>
+            <div class="formula-row">
+              <div class="formula-item">P = V × I</div>
+              <div class="formula-item">P = I² × R</div>
+              <div class="formula-item">P = V² / R</div>
+            </div>
+          </div>
+          <table class="comp-table" style="margin-top:14px;">
+            <tr><th>Formula</th><th>Use when you know</th><th>Example</th></tr>
+            <tr><td><code>P = V × I</code></td><td>Voltage and current</td><td>V=12 V, I=3 A → P=36 W</td></tr>
+            <tr><td><code>P = I² × R</code></td><td>Current and resistance</td><td>I=2 A, R=5 Ω → P=20 W</td></tr>
+            <tr><td><code>P = V² / R</code></td><td>Voltage and resistance</td><td>V=10 V, R=25 Ω → P=4 W</td></tr>
+          </table>
+        </div>
+        <div class="figure-caption">Derived by substituting V = IR into P = VI.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.1.1 — Deriving the Power Formulas</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Start with the definition: power is energy per unit time.">
+              <strong>Step 1 — The Base Formula</strong><br><br>
+              Power is defined as the rate of energy delivery:<br><br>
+              <div style="text-align:center;font-size:1.2em;font-weight:700;padding:10px;">P = V × I</div>
+              A component with 5 V across it drawing 2 A consumes <strong>10 W</strong>.<br>
+              Units: volts × amperes = watts (V·A = W).
+            </div>
+            <div class="anim-frame" data-cap="Substitute V = I·R into P = V·I to get P in terms of current and resistance.">
+              <strong>Step 2 — Eliminate Voltage (use I and R)</strong><br><br>
+              Ohm's Law says <code>V = I × R</code>. Substitute into P = V × I:<br><br>
+              <div style="text-align:center;font-size:1.1em;padding:8px;">P = (I × R) × I = <strong>I² × R</strong></div>
+              Example: A 10 Ω resistor carrying 3 A dissipates P = 9 × 10 = <strong>90 W</strong>.<br>
+              Notice power grows with the <em>square</em> of current — double the current, quadruple the power.
+            </div>
+            <div class="anim-frame" data-cap="Substitute I = V/R into P = V·I to get P in terms of voltage and resistance.">
+              <strong>Step 3 — Eliminate Current (use V and R)</strong><br><br>
+              Ohm's Law also gives <code>I = V / R</code>. Substitute into P = V × I:<br><br>
+              <div style="text-align:center;font-size:1.1em;padding:8px;">P = V × (V / R) = <strong>V² / R</strong></div>
+              Example: 120 V across a 1440 Ω heater element: P = 14400 / 1440 = <strong>10 W</strong>.<br>
+              Power also grows with the square of voltage — useful when voltage is the known quantity.
+            </div>
+            <div class="anim-frame" data-cap="All three forms are equivalent. Use whichever two quantities you already know.">
+              <strong>Step 4 — Summary</strong><br><br>
+              <table style="width:100%;font-size:14px;border-collapse:collapse;text-align:center;">
+                <tr style="font-weight:700;"><td style="padding:6px;">Known</td><td style="padding:6px;">Formula</td></tr>
+                <tr><td style="padding:6px;">V and I</td><td style="padding:6px;font-weight:600;">P = V × I</td></tr>
+                <tr><td style="padding:6px;">I and R</td><td style="padding:6px;font-weight:600;">P = I² × R</td></tr>
+                <tr><td style="padding:6px;">V and R</td><td style="padding:6px;font-weight:600;">P = V² / R</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">Start with the definition: power is energy per unit time.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.1.2 — Power Formula Check</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> A resistor has 6 V across it and draws 0.5 A. What is the power it dissipates?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>2 W</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>3 W</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>12 W</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> If you double the current through a resistor while keeping the resistance the same, what happens to the power?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>It doubles</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>It quadruples</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>It stays the same</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.1.3 — Power Calculation</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">A resistor of 10 Ω carries a current of 2 A. Using the formula P = I²R, calculate the power dissipated in <strong>watts</strong>. (Enter a number only.)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="watts" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['40','40w','40 w'], '<strong>Correct!</strong> P = I²R = (2)² × 10 = 4 × 10 = <strong>40 W</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', '40', 'P = I²R = 2² × 10 = 4 × 10 = 40 W.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- =================================================================
+         SECTION 2 — KIRCHHOFF'S CURRENT LAW
+         ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">2.2</span> Kirchhoff's Current Law</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Kirchhoff's Current Law (KCL)</span> states that the algebraic sum of all currents at any node in a circuit equals zero. More intuitively: <strong>the total current flowing into a node equals the total current flowing out</strong>.</p>
+        <p>A <span class="term">node</span> is any point in a circuit where two or more conductors meet. KCL is a consequence of charge conservation — charge cannot accumulate at a node; every coulomb that arrives must leave.</p>
+        <ul>
+          <li>Assign a sign convention: currents entering a node are positive, currents leaving are negative (or vice versa — just be consistent)</li>
+          <li>Write the equation: ΣI<sub>in</sub> = ΣI<sub>out</sub></li>
+          <li>KCL applies at every node simultaneously — it is the basis for nodal analysis</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 2.2 — KCL at a Node</span>
+        </div>
+        <div class="figure-body">
+          <div style="text-align:center;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:14px;line-height:2;padding:8px 0;">
+            <div style="color:var(--accent-cool);">I₁ = 3 A →</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0;">
+              <span style="color:var(--accent-cool);">I₂ = 5 A →</span>
+              <span style="display:inline-block;width:16px;height:16px;background:var(--accent-warm);border-radius:50%;vertical-align:middle;"></span>
+              <span style="color:var(--accent-error);">→ I₃ = ?</span>
+            </div>
+            <div style="color:var(--text-muted);font-size:13px;margin-top:8px;">
+              KCL: I₁ + I₂ = I₃ &nbsp;→&nbsp; 3 + 5 = <strong style="color:var(--accent-success);">8 A</strong>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">The orange dot is the node. Currents in (blue) must equal current out (red).</div>
+      </div>
+
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.2.1 — Applying KCL Step by Step</span>
+          <span class="chevron pend" id="chev-anim-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="A node is any junction where conductors meet.">
+              <strong>Step 1 — Identify the Node</strong><br><br>
+              A <strong>node</strong> is where wires connect. It has no physical size — it's a mathematical point.<br><br>
+              Think of a pipe junction: water flowing in from multiple pipes must all flow out somewhere. Current behaves the same way. The junction point is the node.
+            </div>
+            <div class="anim-frame" data-cap="Charge cannot pile up at a node — what arrives must depart.">
+              <strong>Step 2 — Why KCL Is True</strong><br><br>
+              Electrons carry charge. If more electrons arrived at a node than left, charge would <em>accumulate</em> there, building up a large negative field that would repel further current.<br><br>
+              In a steady-state circuit this doesn't happen — the circuit self-balances so that <strong>ΣI<sub>in</sub> = ΣI<sub>out</sub></strong> at every node.
+            </div>
+            <div class="anim-frame" data-cap="Label each current with its direction, then write the KCL equation.">
+              <strong>Step 3 — Write the Equation</strong><br><br>
+              At a node with currents I₁, I₂ flowing <em>in</em> and I₃ flowing <em>out</em>:<br><br>
+              <div style="text-align:center;font-size:1.1em;padding:8px;font-weight:600;">I₁ + I₂ = I₃</div>
+              If I₁ = 4 A and I₂ = 6 A, then I₃ = <strong>10 A</strong>.<br><br>
+              Always define current directions before applying KCL. If a value turns out negative, the actual current flows opposite to your assumed direction.
+            </div>
+            <div class="anim-frame" data-cap="KCL applies at every node in the circuit simultaneously.">
+              <strong>Step 4 — Multiple Nodes</strong><br><br>
+              Real circuits have many nodes. Apply KCL at each one independently:<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>Pick a node</li>
+                <li>List all currents entering and leaving</li>
+                <li>Write ΣI<sub>in</sub> = ΣI<sub>out</sub></li>
+                <li>Solve for the unknown</li>
+              </ul>
+              <br>
+              Combined with KVL (next section), this gives you a complete system of equations to solve any circuit.
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">A node is any junction where conductors meet.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.2.2 — KCL Check</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> What does Kirchhoff's Current Law state?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>The sum of all currents at a node equals zero</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>The sum of all voltages in a loop equals zero</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Current is proportional to resistance</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> Currents of 4 A and 2 A flow into a node. A single current I flows out. What is I?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>2 A</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>4 A</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>6 A</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.2.3 — KCL Calculation</span>
+          <span class="chevron pend" id="chev-sa-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">At a node, currents of 4 A and 7 A flow in. A single current I flows out. Using KCL, what is I in <strong>amperes</strong>?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-2" placeholder="amperes" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-2', ['11','11a','11 a'], '<strong>Correct!</strong> KCL: I = 4 + 7 = <strong>11 A</strong>. What flows in must flow out.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-2', '11', 'KCL: I = 4 A + 7 A = 11 A.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-2"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- =================================================================
+         SECTION 3 — KIRCHHOFF'S VOLTAGE LAW
+         ================================================================= -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">2.3</span> Kirchhoff's Voltage Law</h2>
+
+      <div class="block block-reading">
+        <p><span class="term">Kirchhoff's Voltage Law (KVL)</span> states that the algebraic sum of all voltages around any closed loop in a circuit equals zero. Equivalently: <strong>the sum of voltage rises equals the sum of voltage drops</strong> around any loop.</p>
+        <p>This follows from energy conservation. A charge carrier travelling around a closed loop and returning to its starting point gains and loses exactly equal amounts of energy — net change is zero.</p>
+        <ul>
+          <li>A <span class="term">voltage rise</span> occurs when traversing a source from − to + (e.g., a battery)</li>
+          <li>A <span class="term">voltage drop</span> occurs when traversing a resistor in the direction of current flow</li>
+          <li>Pick a loop, assign a direction (clockwise or counter-clockwise), and sum: ΣV = 0</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 2.3 — KVL in a Series Loop</span>
+        </div>
+        <div class="figure-body">
+          <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:13px;text-align:center;line-height:1.9;padding:4px 0;">
+            <div>┌─────────────────────────────┐</div>
+            <div>│ + <span style="color:var(--accent-success);">V<sub>s</sub> = 12 V</span>  (source rise)     │</div>
+            <div>│ ─────── I → ────────────── │</div>
+            <div>│  <span style="color:var(--accent-error);">V<sub>R1</sub></span> drop    <span style="color:var(--accent-error);">V<sub>R2</sub></span> drop     │</div>
+            <div>└─────────────────────────────┘</div>
+            <div style="color:var(--text-muted);font-size:12px;margin-top:8px;">KVL: V<sub>s</sub> − V<sub>R1</sub> − V<sub>R2</sub> = 0 &nbsp;→&nbsp; V<sub>s</sub> = V<sub>R1</sub> + V<sub>R2</sub></div>
+          </div>
+        </div>
+        <div class="figure-caption">Traversing clockwise: source is a rise (+12 V), each resistor is a drop (−V<sub>R1</sub>, −V<sub>R2</sub>). Sum = 0.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.3.1 — Applying KVL Step by Step</span>
+          <span class="chevron pend" id="chev-anim-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Start by tracing a closed loop through the circuit.">
+              <strong>Step 1 — Choose a Loop</strong><br><br>
+              A <strong>loop</strong> is any closed path through a circuit that returns to the starting point.<br><br>
+              A simple series circuit (one battery, two resistors) has exactly one loop. Complex circuits have multiple loops — apply KVL to each one to generate equations.
+            </div>
+            <div class="anim-frame" data-cap="As you traverse the loop, note voltage rises (sources) and drops (resistors).">
+              <strong>Step 2 — Identify Rises and Drops</strong><br><br>
+              Travelling clockwise around the loop:<br>
+              <ul style="font-size:14px;margin:10px 0 0 20px;">
+                <li><strong>Battery (− to +)</strong>: voltage <em>rise</em> → add to sum</li>
+                <li><strong>Resistor (in current direction)</strong>: voltage <em>drop</em> → subtract from sum</li>
+              </ul>
+              <br>
+              If you enter a component at the + terminal, it's a drop. If at −, it's a rise.
+            </div>
+            <div class="anim-frame" data-cap="Write the equation, set it equal to zero, and solve.">
+              <strong>Step 3 — Write and Solve</strong><br><br>
+              Circuit: V<sub>s</sub> = 9 V, R₁ = 3 Ω, R₂ = 6 Ω.<br><br>
+              Find loop current I, then voltage across each resistor:<br>
+              <div style="font-size:14px;margin:8px 0;">
+                Rt = 3 + 6 = 9 Ω &nbsp;→&nbsp; I = 9 / 9 = <strong>1 A</strong><br>
+                V<sub>R1</sub> = 1 × 3 = <strong>3 V</strong><br>
+                V<sub>R2</sub> = 1 × 6 = <strong>6 V</strong>
+              </div>
+              KVL check: 9 − 3 − 6 = <strong>0 ✓</strong>
+            </div>
+            <div class="anim-frame" data-cap="KVL confirms that all voltage drops around the loop equal the supply voltage.">
+              <strong>Step 4 — The Key Insight</strong><br><br>
+              KVL is a constraint, not a formula to "solve." It tells you that the <strong>supply voltage is shared</strong> among the components in a loop — each resistor gets a voltage proportional to its resistance (voltage divider behaviour).<br><br>
+              <div style="text-align:center;font-size:1.05em;font-weight:600;padding:6px;">V<sub>R</sub> = V<sub>s</sub> × (R / R<sub>total</sub>)</div>
+              Larger resistance → larger share of the voltage.
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-3">Start by tracing a closed loop through the circuit.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-3')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-3')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-3">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.3.2 — KVL Check</span>
+          <span class="chevron pend" id="chev-mc-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> What does Kirchhoff's Voltage Law state about a closed loop?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>The sum of all voltages equals the supply voltage</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>The algebraic sum of all voltages equals zero</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>Voltage rises equal resistance drops</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-3-2">
+            <div class="q-text"><span class="q-num">2)</span> A 9 V battery is connected in series with two resistors. The voltage across R₁ is 3 V. What is the voltage across R₂?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-2" value="a"> <span>6 V</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="b"> <span>9 V</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="c"> <span>3 V</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">2.3.3 — KVL Circuit Analysis</span>
+          <span class="chevron pend" id="chev-chal-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Analyse the series circuit below using Ohm's Law and KVL. Fill in all the blanks. The checker looks for the numeric results for Rt, I, V_R1, and V_R2.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>kvl_circuit.txt</span><span>ANALYSIS</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">KVL Circuit: Vs = 24 V, R1 = 5 Ω, R2 = 7 Ω
+
+Part A — Total resistance
+Rt = R1 + R2 = ___ + ___ = ___ Ω
+
+Part B — Loop current (Ohm's Law)
+I = Vs ÷ Rt = ___ ÷ ___ = ___ A
+
+Part C — Voltage drops (verify KVL)
+V_R1 = I × R1 = ___ × ___ = ___ V
+V_R2 = I × R2 = ___ × ___ = ___ V
+
+KVL check: V_R1 + V_R2 = ___ + ___ = ___ V  ✓</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <!-- =================================================================
+         SECTION 4 — CAPACITORS
+         ================================================================= -->
+    <section class="section" id="sec-4">
+      <h2 class="section-heading"><span class="section-num">2.4</span> Capacitors</h2>
+
+      <div class="block block-reading">
+        <p>A <span class="term">capacitor</span> is a component that stores electrical charge. It consists of two conductive plates separated by an insulating material called the <span class="term">dielectric</span>. When voltage is applied, charge builds up on the plates — equal and opposite — creating an electric field across the dielectric.</p>
+        <p><span class="term">Capacitance</span> (symbol C) is the charge stored per unit voltage: <strong>Q = C × V</strong>. The SI unit is the <strong>farad (F)</strong>, though practical capacitors are usually measured in microfarads (µF, 10⁻⁶ F) or picofarads (pF, 10⁻¹² F).</p>
+        <ul>
+          <li>A capacitor <em>blocks DC</em> once fully charged — no steady-state current flows</li>
+          <li>A capacitor <em>passes AC</em> — alternating voltage keeps charging and discharging it</li>
+          <li>Energy stored: <strong>E = ½ × C × V²</strong> (joules)</li>
+          <li>Larger capacitance or higher voltage = more stored energy</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 2.4 — Capacitor Charging Behaviour</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">Capacitor Symbol</div>
+              <div style="font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:16px;line-height:1.6;text-align:center;">
+                <div>+</div>
+                <div>──┤├──</div>
+                <div>−</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;text-align:center;">Two plates</div>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-muted);">Charge vs. Time (RC circuit)</div>
+              <div style="display:flex;align-items:flex-end;gap:4px;height:70px;">
+                <div style="width:16px;height:14%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:36%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:55%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:70%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:80%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:87%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:92%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:95%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:97%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+                <div style="width:16px;height:99%;background:var(--accent-cool);border-radius:2px 2px 0 0;"></div>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Fast at first, slows as voltage approaches source</div>
+            </div>
+            <div style="flex:1;min-width:160px;">
+              <table class="comp-table" style="font-size:13px;">
+                <tr><th>Quantity</th><th>Formula</th></tr>
+                <tr><td>Charge</td><td>Q = C × V</td></tr>
+                <tr><td>Energy</td><td>E = ½CV²</td></tr>
+                <tr><td>Capacitance</td><td>C = Q / V</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">Charging follows an exponential curve. After 5 time constants (τ = RC) the capacitor is considered fully charged (~99%).</div>
+      </div>
+
+      <div class="block block-anim" id="anim-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.4.1 — How a Capacitor Works</span>
+          <span class="chevron pend" id="chev-anim-4">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="A capacitor is two conductive plates separated by an insulator.">
+              <strong>Step 1 — Structure</strong><br><br>
+              A capacitor has two metal plates facing each other, separated by a non-conducting <strong>dielectric</strong> (air, ceramic, plastic film, or electrolyte).<br><br>
+              <div style="text-align:center;font-family:monospace;font-size:15px;letter-spacing:2px;margin:8px 0;">
+                (+) ────  |  |  ──── (−)
+              </div>
+              The dielectric prevents direct current from flowing through, but allows an electric field to form across it.
+            </div>
+            <div class="anim-frame" data-cap="When voltage is applied, charge accumulates on the plates and voltage across the capacitor rises.">
+              <strong>Step 2 — Charging</strong><br><br>
+              Connect a battery. Electrons flow from the negative terminal onto one plate (−), and are pulled away from the other plate (+).<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>Current flows freely at first (capacitor voltage = 0)</li>
+                <li>As charge builds up, the capacitor voltage rises</li>
+                <li>Current decreases as V<sub>cap</sub> approaches V<sub>battery</sub></li>
+              </ul>
+            </div>
+            <div class="anim-frame" data-cap="Once the capacitor voltage equals the source voltage, current stops flowing.">
+              <strong>Step 3 — Fully Charged</strong><br><br>
+              When V<sub>cap</sub> = V<sub>source</sub>, there is no longer a voltage difference to drive current. <strong>Current drops to zero</strong>.<br><br>
+              The capacitor now holds a charge Q = C × V and energy E = ½CV². It can hold this charge indefinitely (in an ideal capacitor) after the source is disconnected.<br><br>
+              This is why capacitors <em>block DC</em> at steady state.
+            </div>
+            <div class="anim-frame" data-cap="If connected to a load, stored charge flows back out, releasing the stored energy.">
+              <strong>Step 4 — Discharging</strong><br><br>
+              Disconnect the battery and connect a resistor. The stored charge now flows <em>through the resistor</em> as current — opposite direction to charging.<br><br>
+              <ul style="font-size:14px;margin-left:20px;">
+                <li>Current is large initially (full voltage across resistor)</li>
+                <li>Decreases exponentially as V<sub>cap</sub> falls</li>
+                <li>Time constant: τ = R × C (seconds)</li>
+                <li>Fully discharged after ~5τ</li>
+              </ul>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-4">A capacitor is two conductive plates separated by an insulator.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost" onclick="animPrev('anim-4')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-4')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-4">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-4">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.4.2 — Capacitor Check</span>
+          <span class="chevron pend" id="chev-mc-4">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-4-1">
+            <div class="q-text"><span class="q-num">1)</span> What does a capacitor store?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-1" value="a"> <span>Current</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="b"> <span>Electrical charge (and energy)</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-1" value="c"> <span>Resistance</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-4-2">
+            <div class="q-text"><span class="q-num">2)</span> A 200 µF capacitor is charged to 5 V. How much charge is stored?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-4-2" value="a"> <span>0.04 µC</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="b"> <span>40 µC</span></label>
+              <label class="choice"><input type="radio" name="mcq-4-2" value="c"> <span>1000 µC</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-4-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-chal" id="chal-2">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Challenge</span>
+          <span class="act-title">2.4.3 — Capacitor Calculations</span>
+          <span class="chevron pend" id="chev-chal-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Calculate the charge stored and energy stored in the capacitor below. Fill in all the blanks. Express charge in µC (e.g. 500 µC) and energy in mJ (e.g. 2.5 mJ).
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>capacitor.txt</span><span>ANALYSIS</span></div>
+            <textarea class="editor" id="ed-chal-2" spellcheck="false">Capacitor: C = 50 µF, V = 10 V
+
+Charge stored:
+Q = C × V
+Q = 50 × 10⁻⁶ × ___ = ___ C  (= ___ µC)
+
+Energy stored:
+E = ½ × C × V²
+E = 0.5 × 50 × 10⁻⁶ × ___² = ___ J  (= ___ mJ)</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-2')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-2')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-2"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-4 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Chapter 1</a>
+      <span class="nav-btn disabled">Chapter 3 &#8594;</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// PROGRESS
+const CHAPTER_ID = 'mb-eb2';
+const ALL_BLOCKS  = ['anim-1','mc-1','sa-1','anim-2','mc-2','sa-2','anim-3','mc-3','chal-1','anim-4','mc-4','chal-2'];
+const SEC_BLOCKS  = {
+  1: ['anim-1','mc-1','sa-1'],
+  2: ['anim-2','mc-2','sa-2'],
+  3: ['anim-3','mc-3','chal-1'],
+  4: ['anim-4','mc-4','chal-2']
+};
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='✓';el.className='chevron done';}else{el.textContent='○';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){ sc.textContent=all?'✓':`${sd}/${st}`; sc.className='s-count'+(all?' all-done':''); }
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){ rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':''; }
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+// SIDEBAR ACTIVE
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+// ANIMATION
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+// MULTIPLE CHOICE
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> P = V × I = 6 × 0.5 = 3 W.',
+    bad: '<strong>Not quite.</strong> Use P = V × I: 6 V × 0.5 A = 3 W.'
+  },
+  'mcq-1-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> P = I²R. Doubling I squares the factor: (2I)²R = 4I²R — power quadruples.',
+    bad: '<strong>Not quite.</strong> Because P = I²R, doubling I multiplies P by 2² = 4 (quadruples, not doubles).'
+  },
+  'mcq-2-1': {
+    correct: 'a',
+    ok:  '<strong>Correct!</strong> KCL: the algebraic sum of all currents at a node equals zero — what flows in must flow out.',
+    bad: '<strong>Not quite.</strong> KCL is about currents at a node (sum = 0). KVL (next section) is about voltages in a loop.'
+  },
+  'mcq-2-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> KCL: currents in = currents out. 4 A + 2 A = 6 A must leave the node.',
+    bad: '<strong>Not quite.</strong> Apply KCL: total in = 4 + 2 = 6 A, so I out = 6 A.'
+  },
+  'mcq-3-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> KVL: the algebraic sum of all voltages around any closed loop equals zero.',
+    bad: '<strong>Not quite.</strong> KVL states the algebraic sum equals zero — meaning rises and drops cancel exactly.'
+  },
+  'mcq-3-2': {
+    correct: 'a',
+    ok:  '<strong>Correct!</strong> KVL: 9 V − 3 V − V_R2 = 0 → V_R2 = 6 V.',
+    bad: '<strong>Not quite.</strong> KVL: supply = sum of drops. 9 = 3 + V_R2 → V_R2 = 6 V.'
+  },
+  'mcq-4-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Capacitors store electrical charge in an electric field between their plates, along with the associated energy.',
+    bad: '<strong>Not quite.</strong> Capacitors store charge (Q = CV) and energy (E = ½CV²), not current or resistance.'
+  },
+  'mcq-4-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> Q = C × V = 200 × 10⁻⁶ F × 5 V = 1000 × 10⁻⁶ C = <strong>1000 µC</strong>.',
+    bad: '<strong>Not quite.</strong> Q = C × V = 200 µF × 5 V = 1000 µC. Multiply capacitance (in farads) by voltage.'
+  }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name); if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+// SHORT ANSWER
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){ input.value=answer; input.className='sa-input correct'; }
+  if(exp)  { exp.innerHTML=msg; exp.className='explanation visible'; }
+  markDone(blockId);
+}
+
+// CHALLENGE
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Total resistance Rt = 12 Ω  (5 + 7)', fn: c => /\b12\b/.test(c) },
+      { name: 'Loop current I = 2 A  (24 ÷ 12)',     fn: c => /\b2\b/.test(c) },
+      { name: 'V_R1 = 10 V  (2 A × 5 Ω)',            fn: c => /\b10\b/.test(c) },
+      { name: 'V_R2 = 14 V  (2 A × 7 Ω)',            fn: c => /\b14\b/.test(c) }
+    ],
+    defaultCode: `KVL Circuit: Vs = 24 V, R1 = 5 Ω, R2 = 7 Ω\n\nPart A — Total resistance\nRt = R1 + R2 = ___ + ___ = ___ Ω\n\nPart B — Loop current (Ohm's Law)\nI = Vs ÷ Rt = ___ ÷ ___ = ___ A\n\nPart C — Voltage drops (verify KVL)\nV_R1 = I × R1 = ___ × ___ = ___ V\nV_R2 = I × R2 = ___ × ___ = ___ V\n\nKVL check: V_R1 + V_R2 = ___ + ___ = ___ V  ✓`
+  },
+  'chal-2': {
+    tests: [
+      { name: 'Charge Q = 500 µC  (50 µF × 10 V)',      fn: c => /\b500\b|0\.0005/.test(c) },
+      { name: 'Energy E = 2.5 mJ  (½ × 50 µF × 10²)',  fn: c => /0\.0025|2\.5/.test(c) }
+    ],
+    defaultCode: `Capacitor: C = 50 µF, V = 10 V\n\nCharge stored:\nQ = C × V\nQ = 50 × 10⁻⁶ × ___ = ___ C  (= ___ µC)\n\nEnergy stored:\nE = ½ × C × V²\nE = 0.5 × 50 × 10⁻⁶ × ___² = ___ J  (= ___ mJ)`
+  }
+};
+
+function checkChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(!ch||!ed||!out) return;
+  const results=ch.tests.map(t=>({...t,pass:t.fn(ed.value)}));
+  out.innerHTML=results.map(r=>`<div class="t-row ${r.pass?'t-pass':'t-fail'}">${r.pass?'✓':'✗'}  ${r.name}</div>`).join('');
+  out.className='chal-output visible';
+  if(results.every(r=>r.pass)) markDone(blockId);
+}
+function resetChallenge(blockId){
+  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
+  if(ed) ed.value=ch?.defaultCode||'';
+  if(out) out.className='chal-output';
+}
+
+// RESET
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  document.querySelectorAll('.chal-output').forEach(el=>el.className='chal-output');
+  Object.keys(CHALLENGES).forEach(id=>{const ed=document.getElementById('ed-'+id);if(ed) ed.value=CHALLENGES[id].defaultCode;});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire Electronics Basics course? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-eb')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

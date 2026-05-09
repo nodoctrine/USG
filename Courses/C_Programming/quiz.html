@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · C Programming — Practice Quiz</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">C Programming</span>
+    <span class="header-chapter">Practice Quiz</span>
+  </div>
+  <div class="header-right">
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">C Programming &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Practice Quiz &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+    </div>
+  </div>
+</nav>
+
+<main class="quiz-main">
+
+  <div id="screen-setup">
+    <div class="quiz-hero">
+      <h1>Practice Quiz</h1>
+      <p>Up to 10 random questions from a pool of <span class="q-count" id="pool-count"></span></p>
+    </div>
+    <div class="mode-row">
+      <button class="mode-btn active" id="mode-btn-standard" onclick="setMode('standard')">
+        <span class="mode-btn-label">Standard</span>
+        <span class="mode-btn-desc">10 random questions from the selected chapters</span>
+      </button>
+      <button class="mode-btn" id="mode-btn-weakness" onclick="setMode('weakness')">
+        <span class="mode-btn-label">&#9889; Weakness Focus</span>
+        <span class="mode-btn-desc">Prioritises questions you often get wrong</span>
+      </button>
+    </div>
+    <div class="filter-row" id="chapter-filter">
+      <div class="filter-label">Chapters to Include in This Quiz</div>
+      <div class="filter-sublabel">Toggle chapters on or off — only selected chapters will appear in your questions.</div>
+      <div class="filter-chips" id="chapter-chips"></div>
+    </div>
+    <div class="start-row">
+      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz &#8594;</button>
+    </div>
+    <div id="history-setup"></div>
+  </div>
+
+  <div id="screen-quiz" hidden>
+    <div class="quiz-progress-row">
+      <span class="quiz-counter" id="q-counter">Question 1 of 10</span>
+      <span class="quiz-score-live" id="q-score-live"></span>
+    </div>
+    <div class="q-card" id="q-card"></div>
+    <div class="q-actions">
+      <button class="btn btn-ghost" id="btn-prev" onclick="prevQuestion()" hidden>&#8592; Prev</button>
+      <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()" disabled>Check Answer</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()" hidden>Next &#8594;</button>
+    </div>
+    <div class="explanation" id="q-exp"></div>
+  </div>
+
+  <div id="screen-results" hidden>
+    <div class="results-hero">
+      <div class="score-display" id="score-display"></div>
+      <div class="score-label"   id="score-label"></div>
+    </div>
+    <div class="wrong-section" id="wrong-section" hidden>
+      <div class="wrong-heading">Questions to review</div>
+      <div id="wrong-list"></div>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-ghost"   onclick="showSetup()">&#8592; Back</button>
+      <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+      <button class="btn btn-success" id="btn-wk-result" onclick="setModeAndStart('weakness')">&#9889; Weakness Focus</button>
+    </div>
+    <div id="history-results" style="margin-top:32px;"></div>
+  </div>
+
+</main>
+
+<script>
+'use strict';
+
+// ── QUESTION POOL ─────────────────────────────────────────────────
+const QUESTIONS = [
+  { id:'q01', topic:'Variables & Types', chapter:1,
+    text:'Which of these is a valid integer variable declaration in C?',
+    choices:{a:'integer x = 5;',b:'int x = 5;',c:'x int = 5;',d:'Int x = 5;'}, correct:'b',
+    explanation:'<code>int x = 5;</code> is correct. C is case-sensitive — <code>Int</code> is not a keyword.' },
+
+  { id:'q02', topic:'Variables & Types', chapter:1,
+    text:'Which data type would you use to store the value <strong>3.14159</strong> in C?',
+    choices:{a:'int',b:'char',c:'float',d:'bool'}, correct:'c',
+    explanation:'<code>float</code> (or <code>double</code> for more precision) stores decimal numbers.' },
+
+  { id:'q03', topic:'Variables & Types', chapter:1,
+    text:'What does the <code>char</code> data type store?',
+    choices:{a:'Multiple characters',b:'A single character',c:'Boolean true/false',d:'Large integers'}, correct:'b',
+    explanation:'<code>char</code> stores a <strong>single character</strong>, e.g. <code>char c = \'A\';</code>' },
+
+  { id:'q04', topic:'Operators', chapter:1,
+    text:'What does the <strong>%</strong> operator compute in C?',
+    choices:{a:'Division result',b:'Percentage',c:'Remainder after division',d:'Exponentiation'}, correct:'c',
+    explanation:'<code>%</code> is the <strong>modulo</strong> operator — it returns the remainder. Example: <code>17 % 5 = 2</code>' },
+
+  { id:'q05', topic:'Operators', chapter:1,
+    text:'What is the result of <code>17 % 5</code>?',
+    choices:{a:'3',b:'2',c:'1',d:'0'}, correct:'b',
+    explanation:'17 ÷ 5 = 3 remainder <strong>2</strong>. So <code>17 % 5 = 2</code>.' },
+
+  { id:'q06', topic:'Operators', chapter:1,
+    text:'What does <code>printf("%d", 10 / 3)</code> output?',
+    choices:{a:'3.33',b:'3',c:'4',d:'0'}, correct:'b',
+    explanation:'In C, dividing two integers performs <strong>integer division</strong> — the decimal is truncated. 10 / 3 = <strong>3</strong>.' },
+
+  { id:'q07', topic:'Operators', chapter:1,
+    text:'What is the difference between <code>=</code> and <code>==</code> in C?',
+    choices:{a:'No difference',b:'= compares, == assigns',c:'= assigns a value, == compares values',d:'== is only for strings'}, correct:'c',
+    explanation:'<code>=</code> is the <strong>assignment</strong> operator. <code>==</code> is the <strong>equality comparison</strong> operator. Confusing them is a common bug.' },
+
+  { id:'q08', topic:'Operators', chapter:1,
+    text:'After <code>int x = 5; x++;</code>, what is the value of <code>x</code>?',
+    choices:{a:'4',b:'5',c:'6',d:'undefined'}, correct:'c',
+    explanation:'<code>x++</code> (post-increment) increments <code>x</code> by 1. So x becomes <strong>6</strong>.' },
+
+  { id:'q09', topic:'Syntax', chapter:1,
+    text:'What character terminates a statement in C?',
+    choices:{a:'Period (.)',b:'Comma (,)',c:'Colon (:)',d:'Semicolon (;)'}, correct:'d',
+    explanation:'Every C statement ends with a <strong>semicolon</strong>. Omitting it is one of the most common syntax errors.' },
+
+  { id:'q10', topic:'Syntax', chapter:1,
+    text:'What is the return type of <code>main()</code> in standard C?',
+    choices:{a:'void',b:'char',c:'float',d:'int'}, correct:'d',
+    explanation:'<code>main()</code> returns <strong>int</strong>. <code>return 0;</code> signals the program ended successfully.' },
+
+  { id:'q11', topic:'Syntax', chapter:1,
+    text:'Which symbol starts a single-line comment in C?',
+    choices:{a:'--',b:'##',c:'//',d:'<!--'}, correct:'c',
+    explanation:'<code>//</code> starts a single-line comment. <code>/* ... */</code> is used for multi-line comments.' },
+
+  { id:'q12', topic:'Syntax', chapter:1,
+    text:'Which header file must be included to use <code>printf</code> and <code>scanf</code>?',
+    choices:{a:'math.h',b:'stdlib.h',c:'string.h',d:'stdio.h'}, correct:'d',
+    explanation:'<code>#include &lt;stdio.h&gt;</code> provides <strong>printf</strong> and <strong>scanf</strong> (standard input/output).' },
+
+  { id:'q13', topic:'Syntax', chapter:1,
+    text:'What does <code>\\n</code> do inside a string literal in C?',
+    choices:{a:'Null terminator',b:'Tab character',c:'Newline character',d:'Prints a backslash'}, correct:'c',
+    explanation:'<code>\\n</code> is an <strong>escape sequence</strong> for a newline — it moves the cursor to the next line.' },
+
+  { id:'q14', topic:'Input / Output', chapter:1,
+    text:'What does <code>scanf("%d", &x)</code> do?',
+    choices:{a:'Prints x to the screen',b:'Reads an integer from input into x',c:'Declares x as int',d:'Assigns 0 to x'}, correct:'b',
+    explanation:'<code>scanf</code> reads input. <code>"%d"</code> reads an integer. The <code>&</code> gives scanf the <strong>address</strong> of x so it can store the value there.' },
+
+  { id:'q15', topic:'Input / Output', chapter:1,
+    text:'What does <code>printf("%c", 65)</code> output?',
+    choices:{a:'65',b:'A',c:"'A'",d:'Error'}, correct:'b',
+    explanation:'65 is the ASCII code for <strong>A</strong>. <code>%c</code> formats an integer as its ASCII character.' },
+
+  { id:'q16', topic:'Variables & Types', chapter:1,
+    text:'Which is a valid variable name in C?',
+    choices:{a:'2ndValue',b:'my value',c:'my_value',d:'float'}, correct:'c',
+    explanation:'<code>my_value</code> is valid — underscores are allowed. Variable names cannot start with a digit, contain spaces, or be reserved keywords like <code>float</code>.' },
+
+  { id:'q17', topic:'Variables & Types', chapter:1,
+    text:'How many bytes does <code>sizeof(int)</code> typically return on a 32-bit system?',
+    formula:'sizeof(int) → typically 4 bytes on 32-bit / 64-bit systems',
+    choices:{a:'1',b:'2',c:'4',d:'8'}, correct:'c',
+    explanation:'On most modern systems, <code>int</code> is <strong>4 bytes</strong> (32 bits), giving a range of roughly −2 billion to +2 billion.' },
+
+  { id:'q18', topic:'Control Flow', chapter:1,
+    text:'What will <code>printf("%d", 3 + 4 * 2)</code> output?',
+    formula:'C follows standard operator precedence: * before +',
+    choices:{a:'14',b:'11',c:'10',d:'7'}, correct:'b',
+    explanation:'Multiplication has higher precedence: 4 * 2 = 8, then 3 + 8 = <strong>11</strong>.' },
+
+  { id:'q19', topic:'Control Flow', chapter:1,
+    text:'What does the following condition check? <code>if (x > 0 &amp;&amp; y > 0)</code>',
+    choices:{a:'Either x or y is positive',b:'Both x and y are positive',c:'x is greater than y',d:'x plus y is greater than 0'}, correct:'b',
+    explanation:'<code>&amp;&amp;</code> is the logical AND operator — <strong>both</strong> conditions must be true.' },
+
+  { id:'q20', topic:'Control Flow', chapter:1,
+    text:'Which keyword begins a conditional branch in C?',
+    choices:{a:'when',b:'then',c:'check',d:'if'}, correct:'d',
+    explanation:'C uses <strong>if</strong>, <code>else if</code>, and <code>else</code> for conditional branching.' },
+
+  { id:'q21', topic:'Syntax', chapter:1,
+    text:'How do you declare an integer constant named <code>MAX</code> with value 100?',
+    choices:{a:'constant int MAX = 100;',b:'const int MAX = 100;',c:'final int MAX = 100;',d:'#define MAX int 100'}, correct:'b',
+    explanation:'<code>const int MAX = 100;</code> declares a read-only integer. <code>#define MAX 100</code> is also valid but <code>const</code> is type-safe.' },
+
+  { id:'q22', topic:'Variables & Types', chapter:1,
+    text:'What is the purpose of <code>return 0;</code> at the end of <code>main()</code>?',
+    choices:{a:'Returns 0 to a variable',b:'Signals the program ended successfully',c:'Exits an infinite loop',d:'Clears all variables'}, correct:'b',
+    explanation:'<code>return 0</code> from <code>main()</code> tells the operating system the program <strong>completed successfully</strong>. Non-zero values indicate errors.' },
+
+  { id:'q23', topic:'Input / Output', chapter:1,
+    text:'Which format specifier prints a <code>float</code> with <code>printf</code>?',
+    choices:{a:'%d',b:'%c',c:'%s',d:'%f'}, correct:'d',
+    explanation:'<code>%f</code> is the format specifier for <strong>float</strong> and <strong>double</strong>. <code>%d</code> is for int, <code>%c</code> for char, <code>%s</code> for strings.' },
+
+  { id:'q24', topic:'Operators', chapter:1,
+    text:'Which of these is a <strong>comparison</strong> operator in C?',
+    choices:{a:'=',b:'&&',c:'||',d:'=='}, correct:'d',
+    explanation:'<code>==</code> compares two values for equality. <code>=</code> assigns, <code>&&</code> is logical AND, <code>||</code> is logical OR.' },
+
+  { id:'q25', topic:'Variables & Types', chapter:1,
+    text:'C is best described as:',
+    choices:{a:'An interpreted, dynamically typed language',b:'A compiled, statically typed language',c:'A markup language',d:'An object-oriented only language'}, correct:'b',
+    explanation:'C is a <strong>compiled, statically typed</strong> language. Types must be declared at compile time, and the source code is compiled to machine code before running.' }
+];
+
+const CHAPTER_NAMES = {1:'Ch 1: Intro to C'};
+const QUIZ_KEY='mb-c-quiz';
+</script>
+<script src="../../assets/shared-nav.js"></script>
+<script src="../../assets/quiz-engine.js"></script>
+</body>
+</html>
