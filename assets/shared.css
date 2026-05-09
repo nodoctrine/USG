@@ -242,6 +242,7 @@ textarea.editor{display:block;width:100%;min-height:130px;background:var(--code-
 .q-text-input.incorrect{border-color:#ef4444;background:rgba(239,68,68,0.08);}
 .q-text-input[readonly]{cursor:default;}
 .q-correct-ans{font-size:13px;color:var(--text-muted);margin-top:8px;}
+.mistake-hint{background:rgba(212,105,10,0.08);border-left:3px solid var(--accent-warm);border-radius:0 4px 4px 0;padding:10px 14px;margin-bottom:12px;font-size:14px;line-height:1.5;}
 .results-hero{text-align:center;margin-bottom:32px;}
 .score-display{font-size:60px;font-weight:900;line-height:1;margin-bottom:8px;}
 .score-display.perfect,.score-display.good{color:var(--accent-success);}

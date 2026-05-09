@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · How-To Guide — Practice Quiz</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">How-To Guide</span>
+    <span class="header-chapter">Practice Quiz</span>
+  </div>
+  <div class="header-right">
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">How-To Guide &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Practice Quiz &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+    </div>
+  </div>
+</nav>
+
+<main class="quiz-main">
+
+  <div id="screen-setup">
+    <div class="quiz-hero">
+      <h1>Practice Quiz</h1>
+      <p>Up to 10 random questions from a pool of <span class="q-count" id="pool-count"></span></p>
+    </div>
+    <div class="mode-row">
+      <button class="mode-btn active" id="mode-btn-standard" onclick="setMode('standard')">
+        <span class="mode-btn-label">Standard</span>
+        <span class="mode-btn-desc">10 random questions from the selected chapters</span>
+      </button>
+      <button class="mode-btn" id="mode-btn-weakness" onclick="setMode('weakness')">
+        <span class="mode-btn-label">&#9889; Weakness Focus</span>
+        <span class="mode-btn-desc">Prioritises questions you often get wrong</span>
+      </button>
+    </div>
+    <div class="filter-row" id="chapter-filter">
+      <div class="filter-label">Chapters to Include in This Quiz</div>
+      <div class="filter-sublabel">Toggle chapters on or off — only selected chapters will appear in your questions.</div>
+      <div class="filter-chips" id="chapter-chips"></div>
+    </div>
+    <div class="start-row">
+      <button class="btn btn-ghost btn-lg" onclick="setMode('standard');startQuiz()">&#x1F500; Randomize</button>
+      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz &#8594;</button>
+    </div>
+    <div id="history-setup"></div>
+  </div>
+
+  <div id="screen-quiz" hidden>
+    <div class="quiz-progress-row">
+      <span class="quiz-counter" id="q-counter">Question 1 of 10</span>
+      <span class="quiz-score-live" id="q-score-live"></span>
+    </div>
+    <div class="q-card" id="q-card"></div>
+    <div class="q-actions">
+      <button class="btn btn-ghost"   id="btn-prev"  onclick="prevQuestion()" hidden>&#8592; Prev</button>
+      <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()" disabled>Check Answer</button>
+      <button class="btn btn-primary" id="btn-next"  onclick="nextQuestion()" hidden>Next &#8594;</button>
+    </div>
+    <div class="explanation" id="q-exp"></div>
+  </div>
+
+  <div id="screen-results" hidden>
+    <div class="results-hero">
+      <div class="score-display" id="score-display"></div>
+      <div class="score-label"   id="score-label"></div>
+    </div>
+    <div class="wrong-section" id="wrong-section" hidden>
+      <div class="wrong-heading">Questions to review</div>
+      <div id="wrong-list"></div>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-ghost"   onclick="showSetup()">&#8592; Back</button>
+      <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+      <button class="btn btn-ghost"   onclick="setMode('standard');startQuiz()">&#x1F500; New Random</button>
+      <button class="btn btn-success" id="btn-wk-result" onclick="setModeAndStart('weakness')">&#9889; Weakness Focus</button>
+    </div>
+    <div id="history-results" style="margin-top:32px;"></div>
+  </div>
+
+</main>
+
+<script>
+'use strict';
+
+const QUESTIONS = [
+  { id:'q01', topic:'Data Storage', chapter:1,
+    text:'Where does the Universal Study Guide save your chapter progress and quiz history?',
+    formula:null,
+    choices:{a:'On a remote server that syncs across devices',b:'In your browser\'s local storage — no account required',c:'In a file you must manually save after each session',d:'Progress is not saved between sessions'},
+    correct:'b',
+    explanation:'All progress — chapter completions, quiz scores, weakness data, and theme preference — is stored in your browser\'s <code>localStorage</code>. No internet, server, or account is involved.' },
+
+  { id:'q02', topic:'Navigation', chapter:1,
+    text:'What does the cross-nav bar (the row below the page header) allow you to do?',
+    formula:null,
+    choices:{a:'Reset your chapter progress to zero',b:'Switch between courses and chapters without returning to the home page',c:'Toggle between light and dark themes',d:'View your quiz score history'},
+    correct:'b',
+    explanation:'The cross-nav provides dropdown menus to jump directly to any course or chapter from wherever you are — no need to backtrack to <code>index.html</code>.' },
+
+  { id:'q03', topic:'Activities', chapter:1,
+    text:'How do you mark an animation block as complete?',
+    formula:null,
+    choices:{a:'The block completes automatically when you scroll past it',b:'Click the "Skip Animation" button',c:'Step through all frames until you reach the last one',d:'Watch each frame for at least 5 seconds'},
+    correct:'c',
+    explanation:'You must advance through every frame using the Next → button. Only reaching the final frame triggers the completion checkmark (○ → ✓).' },
+
+  { id:'q04', topic:'Activities', chapter:1,
+    text:'What symbol appears next to an activity header once that activity has been successfully completed?',
+    formula:null,
+    choices:{a:'★',b:'✓',c:'●',d:'→'},
+    correct:'b',
+    explanation:'A ✓ (checkmark) replaces the ○ circle when an activity is complete. The sidebar section counter also updates, and turns green once the entire section is done.' },
+
+  { id:'q05', topic:'Interface', chapter:1,
+    text:'The sidebar shows a counter like "2/3" next to a section name. What does this indicate?',
+    formula:null,
+    choices:{a:'You are on page 2 of 3',b:'2 out of 3 quiz attempts have been passed',c:'2 out of 3 activities in that section have been completed',d:'The section is rated 2 out of 3 for difficulty'},
+    correct:'c',
+    explanation:'Each sidebar entry shows completed / total activities for that section. When all are done the counter switches to ✓ and the section label turns green.' },
+
+  { id:'q06', topic:'Interface', chapter:1,
+    text:'Which of the following is NOT one of the three available themes in the study guide?',
+    formula:null,
+    choices:{a:'Light (Default)',b:'Dark',c:'High Contrast',d:'Night Shift (Retro / Amber)'},
+    correct:'c',
+    explanation:'The three themes are <strong>Light</strong>, <strong>Dark</strong>, and <strong>Night Shift</strong> (a warm amber tone selected via the pie icon). There is no High Contrast theme.' },
+
+  { id:'q07', topic:'Interface', chapter:1,
+    text:'Where on the chapter page can you find the progress bar that fills as you complete activities?',
+    formula:null,
+    choices:{a:'Inside each activity block',b:'At the bottom of the sidebar',c:'Across the full width of the page just below the cross-nav bar',d:'In the page footer'},
+    correct:'c',
+    explanation:'A thin progress bar runs the full page width immediately below the cross-nav bar. It fills from left to right as you complete activities and reaches 100% when the chapter is done.' },
+
+  { id:'q08', topic:'Quiz Setup', chapter:2,
+    text:'What does the Randomize button on the quiz setup screen do?',
+    formula:null,
+    choices:{a:'Enables Weakness Focus mode then starts',b:'Shuffles the order of answer choices within each question',c:'Switches to Standard mode and starts the quiz immediately',d:'Resets your stored weakness data to start fresh'},
+    correct:'c',
+    explanation:'Randomize is a one-click shortcut: it sets the mode to Standard and starts the quiz without requiring you to manually select a mode first.' },
+
+  { id:'q09', topic:'Quiz Setup', chapter:2,
+    text:'What is the purpose of the chapter filter chips on the quiz setup screen?',
+    formula:null,
+    choices:{a:'They change the colour theme for the quiz screen',b:'They select which chapters\' questions can appear in your quiz',c:'They set the quiz difficulty level',d:'They are only visible to instructors'},
+    correct:'b',
+    explanation:'Each chip represents one chapter. Toggle them on or off to control which chapters contribute questions. Only toggled-on chapters are included in the random draw.' },
+
+  { id:'q10', topic:'Question Types', chapter:2,
+    text:'Before you select any answer, the Check Answer button is:',
+    formula:null,
+    choices:{a:'Hidden from view',b:'Visible but disabled',c:'Active and immediately clickable',d:'Replaced by a Skip button'},
+    correct:'b',
+    explanation:'The button is rendered but disabled until you make a selection (or type something in a text-input field). This prevents submitting a blank answer.' },
+
+  { id:'q11', topic:'Question Types', chapter:2,
+    text:'After clicking Check Answer on a multiple-choice question you got wrong, what happens?',
+    formula:null,
+    choices:{a:'The quiz ends immediately',b:'You are sent back to the start of the quiz',c:'Your wrong choice turns red, the correct answer turns green, and an explanation appears',d:'Nothing is shown — the correct answer is kept hidden'},
+    correct:'c',
+    explanation:'The engine highlights your incorrect choice in red, marks the correct answer green, and shows an explanation. You can then move to the next question.' },
+
+  { id:'q12', topic:'Question Types', chapter:2,
+    text:'How are text-input answers compared to the correct answer?',
+    formula:null,
+    choices:{a:'Case-sensitive and exact — every character must match',b:'Case-insensitive and trimmed, with optional numeric tolerance',c:'Only numeric answers are accepted — words are always rejected',d:'Compared using AI to judge approximate meaning'},
+    correct:'b',
+    explanation:'String answers are matched case-insensitively with leading/trailing whitespace ignored. Numeric answers may also accept values within a small tolerance range to allow for rounding.' },
+
+  { id:'q13', topic:'Modes', chapter:2,
+    text:'What does Weakness Focus mode (⚡) do differently from Standard mode?',
+    formula:null,
+    choices:{a:'It only shows questions from Chapter 1',b:'It reduces the quiz to 5 questions',c:'It prioritizes questions you have previously answered incorrectly',d:'It reveals answers without grading you'},
+    correct:'c',
+    explanation:'Weakness Focus reads your stored quiz history and weights the random question selection toward questions you have gotten wrong more often — targeting your weakest areas.' },
+
+  { id:'q14', topic:'Progress', chapter:2,
+    text:'How many questions does a standard quiz session draw?',
+    formula:null,
+    choices:{a:'5',b:'10',c:'20',d:'All questions in the pool at once'},
+    correct:'b',
+    explanation:'Each session draws up to <strong>10 random questions</strong> from the selected chapters. If the filtered pool has fewer than 10 questions, all of them are used.' },
+
+  { id:'q15', type:'text', topic:'Data Storage', chapter:2,
+    text:'True or False: You need an active internet connection to use this study guide after downloading the files.',
+    formula:null,
+    correct:'false',
+    badAnswers:[
+      {value:'true', hint:'The study guide is fully self-contained HTML/CSS/JS. Once you have the files, no internet connection is needed for reading chapters or taking quizzes.'}
+    ],
+    explanation:'<strong>False.</strong> All content runs locally from files on your device. No server requests are made during normal use — chapters, quizzes, and progress tracking all work offline.' },
+];
+
+const CHAPTER_NAMES = {
+  1: 'Chapter 1 — Navigation',
+  2: 'Chapter 2 — Quizzes',
+};
+
+const QUIZ_KEY = 'mb-htg-quiz';
+</script>
+<script src="../../assets/shared-nav.js"></script>
+<script src="../../assets/quiz-engine.js"></script>
+</body>
+</html>

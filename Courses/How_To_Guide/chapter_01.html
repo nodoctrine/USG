@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · How-To Guide — Chapter 1: Getting Around</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">How-To Guide</span>
+    <span class="header-chapter">Chapter 1 — Getting Around the Study Guide</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">6 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">How-To Guide &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 1 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">1.1 What Is This Guide? <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">1.2 The Interface <span class="s-count" id="sc-2">0/2</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">1.3 Activities &amp; Completion <span class="s-count" id="sc-3">0/2</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+    <!-- ================================================================
+         SECTION 1 — What Is This Study Guide?
+         ================================================================ -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">1.1</span> What Is This Study Guide?</h2>
+
+      <div class="block block-reading">
+        <p>The <span class="term">Universal Study Guide</span> is a self-contained, interactive textbook that runs entirely in your browser. There is no server, no account, and no internet connection required after you have the files.</p>
+        <p>Content is organized into <span class="term">courses</span> — like Electronics Basics or C Programming. Each course is broken into <span class="term">chapters</span> with reading material and activities, plus an optional <span class="term">practice quiz</span>.</p>
+        <p>Key facts about the system:</p>
+        <ul>
+          <li><span class="term">Progress saves automatically</span> — every activity you complete is stored in your browser's local storage. It persists between sessions as long as you use the same browser.</li>
+          <li><span class="term">Works offline</span> — all files are local. Open the folder, double-click <code>index.html</code>, and you are ready.</li>
+          <li><span class="term">Three themes</span> — Light, Dark, and Night Shift (a warm amber tone). Your preference is remembered across all pages.</li>
+          <li><span class="term">No penalties</span> — activities and quizzes are for practice. Wrong answers provide explanations, not deductions.</li>
+        </ul>
+        <p>This guide (the How-To Guide) explains how the system works. Reading it first will help you get the most out of every other course.</p>
+      </div>
+
+      <!-- ANIMATION 1 -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.1.1 — How the Guide Is Structured</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The home page (index.html) lists all available courses. Each course card shows its chapters and a link to the practice quiz.">
+              <strong>The Home Page</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2;color:var(--text-muted);">
+                ┌─────────────────────────────┐<br>
+                │  Universal Study Guide      │ ← index.html<br>
+                ├─────────────────────────────┤<br>
+                │  📘 Electronics Basics      │<br>
+                │     Ch 1 · Ch 2 · Quiz      │<br>
+                ├─────────────────────────────┤<br>
+                │  💻 C Programming           │<br>
+                │     Ch 1 · Quiz             │<br>
+                ├─────────────────────────────┤<br>
+                │  ❓ How-To Guide            │<br>
+                │     Ch 1 · Ch 2 · Quiz      │<br>
+                └─────────────────────────────┘
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="Each chapter has reading blocks and activity blocks. You read the material, then complete activities to confirm understanding. Progress is tracked per activity.">
+              <strong>Inside a Chapter</strong><br><br>
+              <div style="font-size:13px;line-height:2;">
+                <div style="padding:6px 12px;background:var(--surface-alt);border-left:3px solid var(--accent-cool);border-radius:4px;margin-bottom:8px;">
+                  📖 <strong>Reading Block</strong> — text, diagrams, lists<br>
+                  <span style="color:var(--text-muted);font-size:12px;">No completion required — just read.</span>
+                </div>
+                <div style="padding:6px 12px;background:var(--surface-alt);border-left:3px solid var(--accent-warm);border-radius:4px;margin-bottom:8px;">
+                  ▶ <strong>Animation Block</strong> — step through frames ○→✓<br>
+                  <span style="color:var(--text-muted);font-size:12px;">Reach the last frame to complete.</span>
+                </div>
+                <div style="padding:6px 12px;background:var(--surface-alt);border-left:3px solid var(--accent-figure);border-radius:4px;">
+                  ✏ <strong>MC / Short-Answer Block</strong> — answer questions ○→✓<br>
+                  <span style="color:var(--text-muted);font-size:12px;">Answer correctly (or click Show Answer) to complete.</span>
+                </div>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="Your progress is stored in your browser's localStorage — no account or internet required. Clearing browser data will erase it, but otherwise it persists indefinitely.">
+              <strong>Progress Storage</strong><br><br>
+              <div style="font-size:13px;line-height:1.8;">
+                <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+                  <div style="flex:1;min-width:160px;">
+                    <strong style="color:var(--accent-success)">What is saved:</strong>
+                    <ul style="margin:6px 0 0 16px;color:var(--text-muted);font-size:12px;">
+                      <li>Activity completions</li>
+                      <li>Quiz history &amp; scores</li>
+                      <li>Weakness tracking data</li>
+                      <li>Theme preference</li>
+                    </ul>
+                  </div>
+                  <div style="flex:1;min-width:160px;">
+                    <strong style="color:var(--accent-warn,var(--accent-warm))">Where it goes:</strong>
+                    <div style="margin:6px 0;color:var(--text-muted);font-size:12px;">
+                      Browser <code>localStorage</code><br>
+                      (same device, same browser)<br><br>
+                      No server · No account<br>
+                      No internet required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">The home page (index.html) lists all available courses. Each course card shows its chapters and a link to the practice quiz.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 1 -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.1.2 — About the System</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> Where does the Universal Study Guide store your chapter progress and quiz history?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>On a remote server that syncs across devices</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>In your browser's local storage — no account required</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>In a file you must manually save after each session</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span>Progress is not saved between sessions</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — The Interface
+         ================================================================ -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">1.2</span> The Interface</h2>
+
+      <div class="block block-reading">
+        <p>The chapter interface has four main areas:</p>
+        <ul>
+          <li><span class="term">Page header</span> — fixed at the top. Shows the course name, chapter title, a progress pill ("X% complete"), a remaining pill ("N remaining"), the theme switcher, and a <strong>?</strong> button for the UI tour.</li>
+          <li><span class="term">Cross-nav bar</span> — below the header. Has three controls: a home link (← All Courses), a Course dropdown, and a Chapter dropdown. These let you jump anywhere without backtracking.</li>
+          <li><span class="term">Sidebar</span> — left panel (collapses on small screens). Lists every section with a completion counter (e.g., 1/3). Clicking a label scrolls you to that section. Reset buttons at the bottom let you clear progress for this chapter or the entire course.</li>
+          <li><span class="term">Main content area</span> — the reading and activity blocks that make up the chapter content.</li>
+        </ul>
+        <p>A thin <span class="term">progress bar</span> runs across the full width of the page just below the cross-nav. It fills from left to right as you complete activities. When the chapter is 100% complete, a green <span class="term">completion banner</span> appears with a link to the next chapter.</p>
+      </div>
+
+      <!-- ANIMATION 2 -->
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.1 — Interface Areas</span>
+          <span class="chevron pend" id="chev-anim-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The page header is fixed at the top — it never scrolls away. It shows where you are and gives quick access to the theme switcher and UI tour.">
+              <strong>The Page Header</strong><br><br>
+              <div style="font-family:monospace;font-size:12px;line-height:1.8;background:var(--header-bg,#0d0f18);color:var(--header-text,#e2e4e9);padding:10px 14px;border-radius:6px;">
+                [Course Name] &nbsp;&nbsp; Chapter 1 — Title<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                [3 remaining] [42% complete] [🎨] [?]
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--text-muted);">
+                Left side: course &amp; chapter label<br>
+                Right side: remaining count · progress % · theme pie · tour button
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="The cross-nav bar sits below the header. Use it to jump to any course or chapter without going back to the home page.">
+              <strong>The Cross-Nav Bar</strong><br><br>
+              <div style="font-family:monospace;font-size:12px;line-height:1.8;background:var(--surface-alt);padding:8px 14px;border-radius:6px;border:1px solid var(--border);">
+                ← All Courses &nbsp;│&nbsp; Course: [Electronics Basics ▼] &nbsp;│&nbsp; Chapter: [Chapter 1 ▼]
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--text-muted);">
+                Click any dropdown button to reveal links to other courses or chapters.<br>
+                The home arrow always goes back to <code>index.html</code>.
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="The sidebar shows every section in the current chapter. The counter (e.g., 2/3) updates live as you complete activities. Use reset buttons to clear progress.">
+              <strong>The Sidebar</strong><br><br>
+              <div style="font-family:monospace;font-size:12px;line-height:2;background:var(--surface-alt);padding:8px 14px;border-radius:6px;border:1px solid var(--border);">
+                Sections<br>
+                &gt; 1.1 What Is This Guide? &nbsp;&nbsp;✓<br>
+                &gt; 1.2 The Interface &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1/2<br>
+                &gt; 1.3 Activities &amp; Completion 0/2<br>
+                ─────────────────────────────<br>
+                ↺ Reset this chapter<br>
+                ↺ Reset entire course
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">The page header is fixed at the top — it never scrolls away. It shows where you are and gives quick access to the theme switcher and UI tour.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 2 -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.2.2 — Interface Navigation</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> What does the cross-nav bar allow you to do?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>Reset your chapter progress to zero</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>Switch between courses and chapters without going back to the home page</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Toggle between light and dark themes</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>View your quiz score history</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> The sidebar shows a counter like "2/3" next to each section. What does this indicate?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>You are on page 2 of 3 in the chapter</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>2 out of 3 quiz attempts have been passed</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>2 out of 3 activities in that section have been completed</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="d"> <span>The section difficulty is rated 2 out of 3</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3 — Activities & Completion
+         ================================================================ -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">1.3</span> Activities &amp; Completion</h2>
+
+      <div class="block block-reading">
+        <p>Each chapter page contains two types of content blocks:</p>
+        <ul>
+          <li><span class="term">Reading blocks</span> — plain text, diagrams, and bullet lists. No action required; just read. They do not appear in the progress count.</li>
+          <li><span class="term">Activity blocks</span> — interactive. Each one has a completion chevron (○ → ✓) in the top-right corner that flips when you finish.</li>
+        </ul>
+        <p>The three activity types you will encounter:</p>
+        <ul>
+          <li><span class="term">Animation</span> — step-by-step visual walkthrough. Use the Prev / Next buttons to move through frames. <strong>You must reach the final frame</strong> to mark it complete.</li>
+          <li><span class="term">Multiple Choice (MC)</span> — select one radio button per question. The block marks done when every question in it has been answered. Explanations appear immediately after answering.</li>
+          <li><span class="term">Short Answer (SA)</span> — type a word, phrase, or number. Click Check, or click Show Answer to reveal the correct response (also marks the block done).</li>
+        </ul>
+        <p><strong>When you return</strong> to a chapter you visited before, your previous typed answers are cleared — but the completion checkmarks remain. This is intentional: it encourages you to actively recall the answers again rather than just reading what you typed last time.</p>
+      </div>
+
+      <!-- MC 3 -->
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.3.1 — Activity Completion</span>
+          <span class="chevron pend" id="chev-mc-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> How do you mark an animation block as complete?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>The block completes automatically when you scroll past it</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>Click "Skip Animation"</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>Step through all frames until you reach the last one</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="d"> <span>Watch it for at least 30 seconds</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SA 1 -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">1.3.2 — Completion Symbol</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">What symbol replaces the ○ next to an activity header once that activity has been successfully completed?</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="symbol" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1',['✓','checkmark','check mark','check','tick','a checkmark','a check'],'<strong>Correct!</strong> A <strong>✓</strong> (checkmark) replaces the ○ when an activity is complete. The sidebar counter also updates.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1','✓','A <strong>✓</strong> checkmark appears to the right of the activity title. The sidebar section counter updates too — and turns green when the entire section is done.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chapter-nav-footer">
+      <span class="nav-btn disabled">&#8592; Previous Chapter</span>
+      <a class="nav-btn" href="chapter_02.html">Next Chapter &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const CHAPTER_ID = 'mb-htg1';
+const ALL_BLOCKS  = ['anim-1','mc-1','anim-2','mc-2','mc-3','sa-1'];
+const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['anim-2','mc-2'], 3:['mc-3','sa-1'] };
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='✓';el.className='chevron done';}else{el.textContent='○';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){sc.textContent=all?'✓':`${sd}/${st}`;sc.className='s-count'+(all?' all-done':'');}
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':'';}
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+const MC_DATA = {
+  'mcq-1-1':{ correct:'b', ok:'<strong>Correct!</strong> All progress — chapter completions, quiz scores, weakness data, and theme — is saved in <code>localStorage</code>. No server or account is involved.', bad:'<strong>Not quite.</strong> Progress is stored in your browser\'s <code>localStorage</code>. No internet, server, or account is required.' },
+  'mcq-2-1':{ correct:'b', ok:'<strong>Correct!</strong> The cross-nav provides dropdowns to jump directly to any course or chapter from wherever you are.', bad:'<strong>Not quite.</strong> The cross-nav bar is the row below the header — it lets you switch courses and chapters without returning to the home page.' },
+  'mcq-2-2':{ correct:'c', ok:'<strong>Correct!</strong> The counter shows completed / total activities for that section. It turns ✓ (green) once every activity in the section is done.', bad:'<strong>Not quite.</strong> The sidebar counter tracks activity completion: "2/3" means 2 of 3 activities in that section have been finished.' },
+  'mcq-3-1':{ correct:'c', ok:'<strong>Correct!</strong> You must advance through every frame using the Next → button. Reaching the final frame triggers the completion checkmark.', bad:'<strong>Not quite.</strong> Animations require you to step through ALL frames. Only reaching the last frame marks the block complete.' }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name);
+  if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){input.value=answer; input.className='sa-input correct';}
+  if(exp){exp.innerHTML=msg; exp.className='explanation visible';}
+  markDone(blockId);
+}
+
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire How-To Guide? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-htg')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

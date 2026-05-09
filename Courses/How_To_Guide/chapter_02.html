@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · How-To Guide — Chapter 2: Practice Quizzes</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">How-To Guide</span>
+    <span class="header-chapter">Chapter 2 — Practice Quizzes</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">5 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">How-To Guide &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 2 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  &#127881; Chapter complete! <a href="quiz.html">Try the Practice Quiz &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">2.1 Starting a Quiz <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">2.2 Question Types <span class="s-count" id="sc-2">0/2</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">2.3 Modes &amp; Progress <span class="s-count" id="sc-3">0/1</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="quiz.html">Practice Quiz &#8594;</a>
+    </div>
+
+    <!-- ================================================================
+         SECTION 1 — Starting a Quiz
+         ================================================================ -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">2.1</span> Starting a Quiz</h2>
+
+      <div class="block block-reading">
+        <p>Each course has a <span class="term">Practice Quiz</span> linked from the cross-nav Chapter dropdown and from the course card on the home page. Clicking it takes you to the <span class="term">setup screen</span>, where you configure the quiz before starting.</p>
+        <p>On the setup screen you will find:</p>
+        <ul>
+          <li><span class="term">Question pool count</span> — shows the total number of questions available across all chapters.</li>
+          <li><span class="term">Mode selection</span> — choose Standard or Weakness Focus (covered in Section 2.3).</li>
+          <li><span class="term">Chapter filter chips</span> — if the course has more than one chapter, toggleable chips let you include or exclude each chapter's questions. Only questions from the toggled-on chapters will appear in your quiz.</li>
+          <li><span class="term">Start Quiz</span> — begins a quiz with up to 10 random questions from the selected chapters using whichever mode is active.</li>
+          <li><span class="term">Randomize</span> — a shortcut that switches to Standard mode and starts immediately, bypassing mode selection.</li>
+        </ul>
+        <p>Each quiz session draws <strong>up to 10 questions</strong>. If the filtered pool has fewer than 10, all of them are used.</p>
+      </div>
+
+      <!-- ANIMATION 1 -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.1.1 — The Quiz Setup Flow</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The setup screen appears first. It shows the total question pool size and lets you pick a mode before starting.">
+              <strong>Setup Screen</strong><br><br>
+              <div style="font-size:13px;line-height:2;background:var(--surface-alt);padding:10px 14px;border-radius:6px;border:1px solid var(--border);">
+                <strong>Practice Quiz</strong><br>
+                Up to 10 random questions from a pool of <strong style="color:var(--accent-cool)">26</strong><br><br>
+                [ Standard ] &nbsp;&nbsp; [ ⚡ Weakness Focus ]<br><br>
+                Chapters to Include in This Quiz<br>
+                [✓ Chapter 1] &nbsp; [✓ Chapter 2]<br><br>
+                [ 🔀 Randomize ] &nbsp;&nbsp; [ Start Quiz → ]
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="Chapter filter chips toggle individual chapters on or off. Only selected chapters contribute questions to your quiz session.">
+              <strong>Chapter Filter Chips</strong><br><br>
+              <div style="font-size:13px;line-height:1.8;">
+                <div style="margin-bottom:10px;color:var(--text-muted);">
+                  Toggle each chip to include or exclude that chapter's questions.
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+                  <span style="padding:4px 14px;border-radius:20px;background:var(--accent-cool);color:#fff;font-weight:600;font-size:12px;">✓ Chapter 1</span>
+                  <span style="padding:4px 14px;border-radius:20px;background:var(--surface);color:var(--text-muted);border:1px solid var(--border);font-size:12px;">Chapter 2</span>
+                </div>
+                <div style="font-size:12px;color:var(--text-muted);">
+                  Here, Chapter 1 is ON (blue) and Chapter 2 is OFF (grey).<br>
+                  Only Chapter 1 questions will appear in the quiz.
+                </div>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="The quiz screen shows a progress counter and live score at the top. Navigate between questions with Prev and Next. Your answers are saved so you can go back and review before finishing.">
+              <strong>During the Quiz</strong><br><br>
+              <div style="font-size:13px;line-height:2;background:var(--surface-alt);padding:10px 14px;border-radius:6px;border:1px solid var(--border);">
+                Question 3 of 10 &nbsp;&nbsp;&nbsp;&nbsp; Score: 2/2 ✓<br>
+                ─────────────────────────────────<br>
+                <em>Question text appears here...</em><br><br>
+                ○ Option A<br>
+                ● Option B  ← selected<br>
+                ○ Option C<br><br>
+                [ ← Prev ] &nbsp;&nbsp; [ Check Answer ] &nbsp;&nbsp; [ Next → ]
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">The setup screen appears first. It shows the total question pool size and lets you pick a mode before starting.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 1 -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.1.2 — Quiz Setup</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> What does the Randomize button on the quiz setup screen do?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>Enables Weakness Focus mode before starting</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Shuffles the order of answer choices within each question</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>Switches to Standard mode and starts the quiz immediately</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span>Resets your stored weakness data to start fresh</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — Question Types
+         ================================================================ -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">2.2</span> Question Types</h2>
+
+      <div class="block block-reading">
+        <p>Quiz questions come in two formats:</p>
+        <p><span class="term">Multiple Choice (MC)</span> — four options labeled A–D (sometimes three). Click the radio button next to your choice, then click <strong>Check Answer</strong>. The button is disabled until you make a selection. After checking:</p>
+        <ul>
+          <li>Your choice turns <strong style="color:#22c55e;">green</strong> if correct, <strong style="color:#ef4444;">red</strong> if wrong.</li>
+          <li>The correct answer is highlighted green.</li>
+          <li>An <span class="term">explanation</span> appears below the choices, describing why the correct answer is right.</li>
+          <li>Some wrong choices also show a <span class="term">Common mistake</span> panel explaining the specific misconception.</li>
+          <li>A <strong>Hint</strong> button may appear if the question has a formula — click it to reveal the formula before answering.</li>
+        </ul>
+        <p><span class="term">Text Input</span> — a text box where you type your answer, then click <strong>Check Answer</strong>. Rules for matching:</p>
+        <ul>
+          <li>Comparisons are <strong>case-insensitive</strong> and <strong>trimmed</strong> (extra spaces are ignored).</li>
+          <li>Numeric answers may have a small <span class="term">tolerance</span> (e.g., ±0.01) to allow for rounding differences.</li>
+          <li>The engine automatically detects off-by-a-factor-of-ten errors and shows a specific hint for them.</li>
+          <li>Some questions have a list of known wrong answers with tailored hints to explain the mistake.</li>
+        </ul>
+        <p>You can use the <strong>Prev</strong> and <strong>Next</strong> buttons to navigate between questions. The live score (e.g., "Score: 4/6") is always visible at the top of the quiz screen.</p>
+      </div>
+
+      <!-- MC 2 -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.2.1 — Question Mechanics</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> Before you select any answer choice, the Check Answer button is:</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>Hidden from view</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>Visible but disabled</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Active and immediately clickable</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>Replaced by a Skip button</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> Text-input answers are compared how?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>Case-sensitive and exact — every character must match</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>Case-insensitive and trimmed, with optional numeric tolerance</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>Only numeric answers are accepted; words are always rejected</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="d"> <span>Compared using AI to judge approximate correctness</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SA 1 -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.2.2 — Scoring &amp; Navigation</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">During a quiz, what information is always visible at the top of the quiz screen alongside the question counter? (hint: two words)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="your answer" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1',['live score','score','current score','your score','the score'],'<strong>Correct!</strong> The <strong>live score</strong> (e.g., "Score: 4/7") is shown next to the question counter so you always know how you are doing.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1','live score','The <strong>live score</strong> updates in real time as you answer questions. It is shown as "Score: X/Y" at the top of the quiz screen.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3 — Modes & Progress
+         ================================================================ -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">2.3</span> Modes &amp; Progress Tracking</h2>
+
+      <div class="block block-reading">
+        <p>The quiz engine has two modes:</p>
+        <ul>
+          <li><span class="term">Standard mode</span> — draws 10 questions at random from the selected chapters' pool, with equal probability for each question.</li>
+          <li><span class="term">Weakness Focus mode (⚡)</span> — reads your stored quiz history and weights the random selection toward questions you have answered incorrectly more often. It targets your weakest areas automatically.</li>
+        </ul>
+        <p>After completing a quiz, the <span class="term">results screen</span> shows:</p>
+        <ul>
+          <li>Your score (e.g., 7/10) and a performance label.</li>
+          <li>A <strong>Questions to Review</strong> section listing every question you got wrong, with the correct answer shown.</li>
+          <li>A <strong>Quiz History</strong> panel at the bottom showing your last several attempts with dates and scores.</li>
+        </ul>
+        <p>From the results screen you can:</p>
+        <ul>
+          <li><strong>Back</strong> — return to the setup screen.</li>
+          <li><strong>Try Again</strong> — retake the exact same question set.</li>
+          <li><strong>New Random</strong> — start a new random Standard-mode quiz.</li>
+          <li><strong>⚡ Weakness Focus</strong> — jump straight into a weakness-targeted session.</li>
+        </ul>
+        <p>All quiz data — scores, wrong-answer counts, and history — is stored in your browser's <code>localStorage</code>. No internet connection or account is needed. Note: clearing your browser's site data will erase this history.</p>
+      </div>
+
+      <!-- MC 3 -->
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part">Participation</span>
+          <span class="act-title">2.3.1 — Modes &amp; Data</span>
+          <span class="chevron pend" id="chev-mc-3">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> What does Weakness Focus mode (⚡) do differently from Standard mode?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>It only shows questions from Chapter 1</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>It reduces the quiz to 5 questions</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>It prioritizes questions you have previously answered incorrectly</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="d"> <span>It reveals the correct answer after each question without grading you</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="quiz.html">Practice Quiz &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const CHAPTER_ID = 'mb-htg2';
+const ALL_BLOCKS  = ['anim-1','mc-1','mc-2','sa-1','mc-3'];
+const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['mc-2','sa-1'], 3:['mc-3'] };
+
+let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
+
+function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
+
+function renderProgress(){
+  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
+  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='✓';el.className='chevron done';}else{el.textContent='○';el.className='chevron pend';} });
+  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
+    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
+    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
+    if(sc){sc.textContent=all?'✓':`${sd}/${st}`;sc.className='s-count'+(all?' all-done':'');}
+    if(lk) lk.classList.toggle('section-done',all);
+  });
+  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
+  const rem=total-done, rp=document.getElementById('remaining-pill');
+  if(rp){rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':'';}
+  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
+  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
+document.querySelectorAll('.section').forEach(s=>io.observe(s));
+
+const animIdx={};
+function animGo(id,delta){
+  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
+  if(!n) return;
+  if(animIdx[id]===undefined) animIdx[id]=0;
+  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
+  const i=animIdx[id];
+  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
+  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
+  if(cap) cap.textContent=frames[i].dataset.cap||'';
+  if(prg) prg.textContent=(i+1)+' / '+n;
+  if(i===n-1) markDone(id);
+}
+function animNext(id){ animGo(id,1); }
+function animPrev(id){ animGo(id,-1); }
+
+const MC_DATA = {
+  'mcq-1-1':{ correct:'c', ok:'<strong>Correct!</strong> Randomize sets the mode to Standard and starts immediately — handy for a quick practice run without picking a mode first.', bad:'<strong>Not quite.</strong> Randomize is a shortcut that switches to Standard mode and starts the quiz right away, skipping the mode-selection step.' },
+  'mcq-2-1':{ correct:'b', ok:'<strong>Correct!</strong> Check Answer is visible but disabled until you select an option (or type something for text-input questions). This prevents empty submissions.', bad:'<strong>Not quite.</strong> The button is <em>visible</em> but <em>disabled</em> — it turns active once you make a selection.' },
+  'mcq-2-2':{ correct:'b', ok:'<strong>Correct!</strong> String answers are compared case-insensitively with whitespace trimmed. Numeric questions may also accept answers within a small tolerance range.', bad:'<strong>Not quite.</strong> Text matching is case-insensitive and trimmed. Numeric questions may also allow a small tolerance for rounding.' },
+  'mcq-3-1':{ correct:'c', ok:'<strong>Correct!</strong> Weakness Focus reads your stored history and weights the random draw toward questions you\'ve gotten wrong more often.', bad:'<strong>Not quite.</strong> Weakness Focus uses your past quiz data to target questions where you\'ve struggled — it\'s personalized to your weak spots.' }
+};
+
+const mcDone={};
+function handleMC(name,value){
+  const data=MC_DATA[name]; if(!data) return;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
+  const exp=document.getElementById('exp-'+name);
+  if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
+  mcDone[name]=true;
+  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
+  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
+}
+document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
+
+function checkSA(blockId,accepted,okMsg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(!input||!exp) return;
+  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
+  input.className='sa-input '+(ok?'correct':'incorrect');
+  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
+  exp.className='explanation visible'+(ok?'':' wrong');
+  if(ok) markDone(blockId);
+}
+function showSA(blockId,answer,msg){
+  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
+  if(input){input.value=answer; input.className='sa-input correct';}
+  if(exp){exp.innerHTML=msg; exp.className='explanation visible';}
+  markDone(blockId);
+}
+
+function resetChapter(){
+  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
+  prog={}; localStorage.removeItem(CHAPTER_ID);
+  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
+  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
+  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
+  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
+  renderProgress();
+}
+function resetCourse(){
+  if(!confirm('Reset ALL progress for the entire How-To Guide? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('mb-htg')).forEach(k=>localStorage.removeItem(k));
+  resetChapter();
+}
+
+renderProgress();
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

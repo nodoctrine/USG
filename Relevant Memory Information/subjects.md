@@ -1,5 +1,6 @@
 # Planned Subjects
 
+In no particular order: 
 1. C Programming *(source material in `_Drop Source Content Here/Raw_C_Programming/` — zyBooks HTML exports + PDFs)*
 2. Electrical Troubleshooting
 3. Fluid and Power Systems
@@ -7,3 +8,4 @@
 5. Robotics
 6. Embedded Systems
 7. PLC Programming and Logic
+8. Digital Footprint Management

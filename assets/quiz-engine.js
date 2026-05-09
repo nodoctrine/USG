@@ -51,6 +51,17 @@ function isAnswerCorrect(q,chosen){
   return chosen===q.correct;
 }
 
+function buildExpHTML(q,chosen,revealed){
+  if(revealed) return [`<strong>Answer revealed.</strong> ${q.explanation}`,'explanation visible wrong'];
+  if(chosen===null) return [`<strong>Skipped.</strong> ${q.explanation}`,'explanation visible wrong'];
+  const ok=isAnswerCorrect(q,chosen);
+  let html='';
+  if(!ok&&q.type!=='text'&&q.mistakes&&q.mistakes[chosen])
+    html+=`<div class="mistake-hint"><strong>Common mistake:</strong> ${q.mistakes[chosen]}</div>`;
+  html+=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
+  return [html,'explanation visible'+(ok?'':' wrong')];
+}
+
 // ── MODE ──────────────────────────────────────────────────────────
 function setMode(mode){
   currentMode=mode;
@@ -155,16 +166,7 @@ function renderQuestion(){
       html+=`</div>`;
       document.getElementById('q-card').innerHTML=html;
 
-      if(ans.revealed){
-        exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
-        exp.className='explanation visible wrong';
-      } else if(ans.chosen===null){
-        exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
-        exp.className='explanation visible wrong';
-      } else {
-        exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
-        exp.className='explanation visible'+(ok?'':' wrong');
-      }
+      {const[eH,eC]=buildExpHTML(q,ans.chosen,ans.revealed);exp.innerHTML=eH;exp.className=eC;}
       btnCheck.hidden=true;
       btnNext.hidden=false;
 
@@ -203,17 +205,7 @@ function renderQuestion(){
       html+=`</div>`;
       document.getElementById('q-card').innerHTML=html;
 
-      if(ans.revealed){
-        exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
-        exp.className='explanation visible wrong';
-      } else if(ans.chosen===null){
-        exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
-        exp.className='explanation visible wrong';
-      } else {
-        const ok=ans.chosen===q.correct;
-        exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
-        exp.className='explanation visible'+(ok?'':' wrong');
-      }
+      {const[eH,eC]=buildExpHTML(q,ans.chosen,ans.revealed);exp.innerHTML=eH;exp.className=eC;}
       btnCheck.hidden=true;
       btnNext.hidden=false;
 
@@ -280,16 +272,7 @@ function commitAnswer(chosen,revealed){
   const hints=document.getElementById('q-hints');if(hints) hints.remove();
 
   const exp=document.getElementById('q-exp');
-  if(revealed){
-    exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
-    exp.className='explanation visible wrong';
-  } else if(chosen===null){
-    exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
-    exp.className='explanation visible wrong';
-  } else {
-    exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
-    exp.className='explanation visible'+(ok?'':' wrong');
-  }
+  {const[eH,eC]=buildExpHTML(q,chosen,revealed);exp.innerHTML=eH;exp.className=eC;}
 
   document.getElementById('btn-check').hidden=true;
   document.getElementById('btn-next').hidden=false;

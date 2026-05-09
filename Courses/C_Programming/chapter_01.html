@@ -25,7 +25,13 @@
       <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z" onclick="setTheme('retro')"><title>Night Shift</title></path>
       <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
     </svg>
-    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -37,6 +43,7 @@
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">C Programming &#9662;</button>
     <div class="cn-drop-menu">
       <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
     </div>
   </div>
   <div class="cross-nav-divider"></div>

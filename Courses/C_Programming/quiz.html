@@ -31,6 +31,7 @@
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">C Programming &#9662;</button>
     <div class="cn-drop-menu">
       <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
     </div>
   </div>
   <div class="cross-nav-divider"></div>
@@ -129,21 +130,27 @@ const QUESTIONS = [
   { id:'q04', topic:'Operators', chapter:1,
     text:'What does the <strong>%</strong> operator compute in C?',
     choices:{a:'Division result',b:'Percentage',c:'Remainder after division',d:'Exponentiation'}, correct:'c',
+    mistakes:{a:'Division result is what the / operator returns. The % operator returns the remainder left over after integer division.',
+              b:'The % symbol means percentage in everyday use, but in C it is the modulo operator — it returns the integer remainder after division. There is no percentage operator in C.'},
     explanation:'<code>%</code> is the <strong>modulo</strong> operator — it returns the remainder. Example: <code>17 % 5 = 2</code>' },
 
   { id:'q05', topic:'Operators', chapter:1,
     text:'What is the result of <code>17 % 5</code>?',
     choices:{a:'3',b:'2',c:'1',d:'0'}, correct:'b',
+    mistakes:{a:'3 is the quotient — the result of 17 / 5. The % operator returns the remainder, not the quotient. 17 = 5 × 3 + 2, so 17 % 5 = 2.'},
     explanation:'17 ÷ 5 = 3 remainder <strong>2</strong>. So <code>17 % 5 = 2</code>.' },
 
   { id:'q06', topic:'Operators', chapter:1,
     text:'What does <code>printf("%d", 10 / 3)</code> output?',
     choices:{a:'3.33',b:'3',c:'4',d:'0'}, correct:'b',
+    mistakes:{a:'3.33 would be correct for floating-point division, but both operands are integer literals here. C performs integer division when both sides are int types, truncating (not rounding) the result.',
+              c:'C truncates toward zero — it does not round up. 10 / 3 = 3 remainder 1, so the result is 3, not 4.'},
     explanation:'In C, dividing two integers performs <strong>integer division</strong> — the decimal is truncated. 10 / 3 = <strong>3</strong>.' },
 
   { id:'q07', topic:'Operators', chapter:1,
     text:'What is the difference between <code>=</code> and <code>==</code> in C?',
     choices:{a:'No difference',b:'= compares, == assigns',c:'= assigns a value, == compares values',d:'== is only for strings'}, correct:'c',
+    mistakes:{b:'That is the reverse. In C, = assigns a value (x = 5 stores 5 in x) and == tests equality (x == 5 checks whether x equals 5). Confusing them is one of the most common C bugs.'},
     explanation:'<code>=</code> is the <strong>assignment</strong> operator. <code>==</code> is the <strong>equality comparison</strong> operator. Confusing them is a common bug.' },
 
   { id:'q08', topic:'Operators', chapter:1,
@@ -154,6 +161,7 @@ const QUESTIONS = [
   { id:'q09', topic:'Syntax', chapter:1,
     text:'What character terminates a statement in C?',
     choices:{a:'Period (.)',b:'Comma (,)',c:'Colon (:)',d:'Semicolon (;)'}, correct:'d',
+    mistakes:{a:'Periods end sentences in English, but C statements are terminated with a semicolon (;). Some languages like Python use newlines as implicit terminators, but C requires the semicolon explicitly.'},
     explanation:'Every C statement ends with a <strong>semicolon</strong>. Omitting it is one of the most common syntax errors.' },
 
   { id:'q10', topic:'Syntax', chapter:1,
@@ -169,16 +177,20 @@ const QUESTIONS = [
   { id:'q12', topic:'Syntax', chapter:1,
     text:'Which header file must be included to use <code>printf</code> and <code>scanf</code>?',
     choices:{a:'math.h',b:'stdlib.h',c:'string.h',d:'stdio.h'}, correct:'d',
+    mistakes:{a:'math.h provides mathematical functions like sqrt() and pow(). printf and scanf are input/output functions — they are defined in stdio.h (standard input/output).'},
     explanation:'<code>#include &lt;stdio.h&gt;</code> provides <strong>printf</strong> and <strong>scanf</strong> (standard input/output).' },
 
   { id:'q13', topic:'Syntax', chapter:1,
     text:'What does <code>\\n</code> do inside a string literal in C?',
     choices:{a:'Null terminator',b:'Tab character',c:'Newline character',d:'Prints a backslash'}, correct:'c',
+    mistakes:{a:'The null terminator is \\0 (backslash zero), not \\n. \\0 marks the end of a string in C. \\n is the newline escape sequence.',
+              b:'The tab character is \\t (backslash t). \\n moves the cursor to the beginning of the next line.'},
     explanation:'<code>\\n</code> is an <strong>escape sequence</strong> for a newline — it moves the cursor to the next line.' },
 
   { id:'q14', topic:'Input / Output', chapter:1,
     text:'What does <code>scanf("%d", &x)</code> do?',
     choices:{a:'Prints x to the screen',b:'Reads an integer from input into x',c:'Declares x as int',d:'Assigns 0 to x'}, correct:'b',
+    mistakes:{a:'printf prints to the screen — scanf reads from input. Think "scan" as in scanning/reading input, "print" as in printing output. They are easy to mix up by name.'},
     explanation:'<code>scanf</code> reads input. <code>"%d"</code> reads an integer. The <code>&</code> gives scanf the <strong>address</strong> of x so it can store the value there.' },
 
   { id:'q15', topic:'Input / Output', chapter:1,
@@ -195,12 +207,14 @@ const QUESTIONS = [
     text:'How many bytes does <code>sizeof(int)</code> typically return on a 32-bit system?',
     formula:'sizeof(int) → typically 4 bytes on 32-bit / 64-bit systems',
     choices:{a:'1',b:'2',c:'4',d:'8'}, correct:'c',
+    mistakes:{b:'2 bytes (16 bits) was the int size on older 16-bit systems. On modern 32-bit and 64-bit platforms, int is typically 4 bytes. The size is implementation-defined but 4 is standard on virtually all current systems.'},
     explanation:'On most modern systems, <code>int</code> is <strong>4 bytes</strong> (32 bits), giving a range of roughly −2 billion to +2 billion.' },
 
   { id:'q18', topic:'Control Flow', chapter:1,
     text:'What will <code>printf("%d", 3 + 4 * 2)</code> output?',
     formula:'C follows standard operator precedence: * before +',
     choices:{a:'14',b:'11',c:'10',d:'7'}, correct:'b',
+    mistakes:{a:'14 comes from evaluating left to right: (3 + 4) × 2 = 14. C follows standard mathematical operator precedence — multiplication executes before addition, so 4 * 2 is computed first.'},
     explanation:'Multiplication has higher precedence: 4 * 2 = 8, then 3 + 8 = <strong>11</strong>.' },
 
   { id:'q19', topic:'Control Flow', chapter:1,
@@ -216,6 +230,8 @@ const QUESTIONS = [
   { id:'q21', topic:'Syntax', chapter:1,
     text:'How do you declare an integer constant named <code>MAX</code> with value 100?',
     choices:{a:'constant int MAX = 100;',b:'const int MAX = 100;',c:'final int MAX = 100;',d:'#define MAX int 100'}, correct:'b',
+    mistakes:{a:'<code>constant</code> is not a keyword in C. The correct keyword is <code>const</code> (no "-ant" suffix).',
+              c:'<code>final</code> is a Java keyword, not valid in C. The C equivalent of a typed constant is <code>const int MAX = 100;</code>'},
     explanation:'<code>const int MAX = 100;</code> declares a read-only integer. <code>#define MAX 100</code> is also valid but <code>const</code> is type-safe.' },
 
   { id:'q22', topic:'Variables & Types', chapter:1,
@@ -226,11 +242,13 @@ const QUESTIONS = [
   { id:'q23', topic:'Input / Output', chapter:1,
     text:'Which format specifier prints a <code>float</code> with <code>printf</code>?',
     choices:{a:'%d',b:'%c',c:'%s',d:'%f'}, correct:'d',
+    mistakes:{a:'%d is the format specifier for integers (int). Using %d to print a float produces incorrect output — the bit patterns are interpreted as an integer. Use %f for float and double.'},
     explanation:'<code>%f</code> is the format specifier for <strong>float</strong> and <strong>double</strong>. <code>%d</code> is for int, <code>%c</code> for char, <code>%s</code> for strings.' },
 
   { id:'q24', topic:'Operators', chapter:1,
     text:'Which of these is a <strong>comparison</strong> operator in C?',
     choices:{a:'=',b:'&&',c:'||',d:'=='}, correct:'d',
+    mistakes:{a:'= is the assignment operator, not a comparison. Writing = inside a condition is a common C bug — it assigns the value and evaluates whether the result is non-zero, which can silently cause unexpected behavior.'},
     explanation:'<code>==</code> compares two values for equality. <code>=</code> assigns, <code>&&</code> is logical AND, <code>||</code> is logical OR.' },
 
   { id:'q25', topic:'Variables & Types', chapter:1,

@@ -31,6 +31,7 @@
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
     <div class="cn-drop-menu">
       <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
     </div>
   </div>
   <div class="cross-nav-divider"></div>
@@ -117,23 +118,28 @@ const QUESTIONS = [
     text:"A circuit has a voltage of <strong>12 V</strong> and a resistance of <strong>4 Ω</strong>. What is the current?",
     formula:'I = V / R',
     choices:{a:'48 A',b:'8 A',c:'3 A',d:'0.33 A'}, correct:'c',
+    mistakes:{a:'48 A comes from multiplying V × R. Current is voltage divided by resistance: I = V ÷ R.',
+              d:'0.33 A comes from dividing R by V (4 ÷ 12). The formula is I = V ÷ R, not R ÷ V.'},
     explanation:'I = V ÷ R = 12 ÷ 4 = <strong>3 A</strong>' },
 
   { id:'q02', topic:"Ohm's Law", chapter:1,
     text:"A resistor has <strong>9 V</strong> across it and <strong>3 A</strong> through it. What is its resistance?",
     formula:'R = V / I',
     choices:{a:'27 Ω',b:'3 Ω',c:'6 Ω',d:'0.33 Ω'}, correct:'b',
+    mistakes:{a:'27 Ω comes from multiplying V × I. Resistance is voltage divided by current: R = V ÷ I.'},
     explanation:'R = V ÷ I = 9 ÷ 3 = <strong>3 Ω</strong>' },
 
   { id:'q03', topic:"Ohm's Law", chapter:1,
     text:"If resistance <strong>doubles</strong> while voltage stays constant, what happens to current?",
     choices:{a:'Doubles',b:'Stays the same',c:'Halves',d:'Quadruples'}, correct:'c',
+    mistakes:{a:'Doubling would be correct for voltage if current were held constant (V = IR). Here voltage is fixed — doubling R in I = V/R cuts current in half. Resistance and current are inversely proportional when V is constant.'},
     explanation:'I = V/R — if R doubles and V is fixed, I halves. They are inversely proportional.' },
 
   { id:'q04', topic:'Series Circuits', chapter:1,
     text:"<strong>R₁ = 8 Ω</strong> and <strong>R₂ = 12 Ω</strong> are in series. What is the total resistance?",
     formula:'R_total = R₁ + R₂',
     choices:{a:'4.8 Ω',b:'96 Ω',c:'20 Ω',d:'10 Ω'}, correct:'c',
+    mistakes:{a:'4.8 Ω is the result of the parallel resistor formula: (R₁ × R₂) ÷ (R₁ + R₂). These resistors are in series — series resistances add directly.'},
     explanation:'Series resistances add directly: 8 + 12 = <strong>20 Ω</strong>' },
 
   { id:'q05', topic:'Series Circuits', chapter:1,
@@ -145,27 +151,32 @@ const QUESTIONS = [
   { id:'q06', topic:'Series Circuits', chapter:1,
     text:"In a series circuit, which quantity is identical through all components?",
     choices:{a:'Voltage',b:'Power',c:'Resistance',d:'Current'}, correct:'d',
+    mistakes:{a:'Voltage is the same across all branches in a parallel circuit, not a series circuit. In a series circuit there is only one path, so current is identical everywhere.'},
     explanation:'There is only one path, so <strong>current</strong> is the same everywhere in the loop.' },
 
   { id:'q07', topic:'Series Circuits', chapter:1,
     text:"One component in a series circuit fails open. What happens to the rest of the circuit?",
     choices:{a:'Current doubles',b:'All current stops',c:'Others continue normally',d:'Voltage increases'}, correct:'b',
+    mistakes:{c:'That is how a parallel circuit behaves — open one branch and the others continue independently. In a series circuit there is only one path; any break stops all current everywhere.'},
     explanation:'An open break removes the only current path — <strong>no current flows anywhere</strong> in the loop.' },
 
   { id:'q08', topic:'Parallel Circuits', chapter:1,
     text:"<strong>R₁ = 6 Ω</strong> and <strong>R₂ = 12 Ω</strong> are in parallel. What is the equivalent resistance?",
     formula:'1/R_eq = 1/R₁ + 1/R₂',
     choices:{a:'18 Ω',b:'9 Ω',c:'6 Ω',d:'4 Ω'}, correct:'d',
+    mistakes:{a:'18 Ω is the series result (R₁ + R₂ = 6 + 12). Parallel resistors use the reciprocal formula — equivalent resistance is always lower than the smallest branch value.'},
     explanation:'1/R_eq = 1/6 + 1/12 = 3/12, so R_eq = <strong>4 Ω</strong>' },
 
   { id:'q09', topic:'Parallel Circuits', chapter:1,
     text:"In a parallel circuit, which quantity is the same across all branches?",
     choices:{a:'Current',b:'Resistance',c:'Voltage',d:'Power'}, correct:'c',
+    mistakes:{a:'Current is the same at all points in a series circuit. In a parallel circuit, current splits across branches according to resistance — branches share the same voltage, not the same current.'},
     explanation:'<strong>Voltage</strong> is identical across all parallel branches. Current splits according to each branch\'s resistance.' },
 
   { id:'q10', topic:'Parallel Circuits', chapter:1,
     text:"One branch of a parallel circuit fails open. What happens to the other branches?",
     choices:{a:'All current stops',b:'They are unaffected',c:'Resistance decreases',d:'Voltage doubles'}, correct:'b',
+    mistakes:{a:'That is what happens in a series circuit — any break stops all current. Parallel branches are independent paths each connected directly across the source, so the remaining branches are unaffected.'},
     explanation:'Parallel branches are independent. The remaining branches keep the same voltage and current — <strong>they are unaffected</strong>.' },
 
   { id:'q11', topic:'Power', chapter:2,
@@ -178,12 +189,14 @@ const QUESTIONS = [
     text:"<strong>4 A</strong> flows through a <strong>5 Ω</strong> resistor. What is the power dissipated?",
     formula:'P = I² × R',
     choices:{a:'0.8 W',b:'9 W',c:'20 W',d:'80 W'}, correct:'d',
+    mistakes:{c:'20 W comes from multiplying I × R without squaring I. The formula is P = I² × R — current must be squared first: 4² × 5 = 16 × 5 = 80 W.'},
     explanation:'P = I² × R = 16 × 5 = <strong>80 W</strong>' },
 
   { id:'q13', topic:'Power', chapter:2,
     text:"<strong>6 V</strong> is applied across a <strong>3 Ω</strong> resistor. What is the power?",
     formula:'P = V² / R',
     choices:{a:'2 W',b:'9 W',c:'12 W',d:'18 W'}, correct:'c',
+    mistakes:{d:'18 W comes from multiplying V × R (6 × 3). The formula for power from voltage and resistance is P = V² ÷ R: 6² ÷ 3 = 36 ÷ 3 = 12 W.'},
     explanation:'P = V² ÷ R = 36 ÷ 3 = <strong>12 W</strong>' },
 
   { id:'q14', topic:'Power', chapter:2,
@@ -210,6 +223,8 @@ const QUESTIONS = [
     text:"A series loop: <strong>Vs = 18 V</strong>, <strong>V_R1 = 7 V</strong>. What is V_R2?",
     formula:'V_s = V_R1 + V_R2',
     choices:{a:'7 V',b:'18 V',c:'11 V',d:'25 V'}, correct:'c',
+    mistakes:{b:'18 V is the source voltage, not the drop across R₂. Since V_R1 accounts for 7 V of the source, V_R2 = 18 − 7 = 11 V.',
+              d:'25 V comes from adding V_R1 and V_s together. KVL states the source equals the sum of drops — to find a missing drop, subtract the known drops from the source.'},
     explanation:'V_R2 = 18 − 7 = <strong>11 V</strong>' },
 
   { id:'q19', topic:'KVL', chapter:2,
@@ -233,22 +248,26 @@ const QUESTIONS = [
     text:"<strong>C = 400 µF</strong> charged to <strong>10 V</strong>. How much energy is stored?",
     formula:'E = ½ × C × V²',
     choices:{a:'0.02 J',b:'0.04 J',c:'2 J',d:'0.002 J'}, correct:'a',
+    mistakes:{b:'0.04 J omits the ½ factor. The formula is E = ½ × C × V², not C × V². The ½ arises because energy accumulates gradually as the capacitor charges, not all at once.'},
     explanation:'E = 0.5 × 0.0004 × 100 = <strong>0.02 J</strong>' },
 
   { id:'q23', topic:'Capacitors', chapter:2,
     text:"Two <strong>10 µF</strong> capacitors are in series. What is the total capacitance?",
     formula:'1/C_t = 1/C₁ + 1/C₂',
     choices:{a:'20 µF',b:'10 µF',c:'5 µF',d:'100 µF'}, correct:'c',
+    mistakes:{a:'20 µF is the result for capacitors in parallel (C₁ + C₂). Series capacitors use the reciprocal formula — the opposite rule from resistors. Two equal capacitors in series give half the value of one.'},
     explanation:'1/C_t = 1/10 + 1/10 = 2/10, so C_t = <strong>5 µF</strong>' },
 
   { id:'q24', topic:'Capacitors', chapter:2,
     text:"A capacitor stores energy in which form?",
     choices:{a:'Magnetic field',b:'Current flow',c:'Electric field',d:'Resistance'}, correct:'c',
+    mistakes:{a:'Magnetic fields store energy in inductors, not capacitors. A capacitor stores energy in the electric field that builds between its plates as charge accumulates.'},
     explanation:'Capacitors store energy in an <strong>electric field</strong> between their plates.' },
 
   { id:'q25', topic:"Ohm's Law", chapter:1,
     text:"One Ohm (Ω) is equivalent to:",
     choices:{a:'V / A',b:'A / V',c:'W / V',d:'J / C'}, correct:'a',
+    mistakes:{b:'A/V is the unit of conductance (the siemens), the reciprocal of resistance. From R = V/I, one Ohm = one Volt per Ampere (V/A), not A/V.'},
     explanation:'From R = V/I, one Ohm = <strong>one Volt per Ampere (V/A)</strong>.' },
 
   { id:'q26', topic:'Parallel Circuits', chapter:1,
@@ -292,6 +311,8 @@ const QUESTIONS = [
 </svg>`,
     formula:null,
     choices:{a:'5.07 V',b:'7.89 V',c:'14.20 V',d:'9.13 V'}, correct:'c',
+    mistakes:{a:'5.07 V is the series voltage divider result: R₁/(R₁+R₂) × Vs = 5/14 × 14.2. The voltage divider formula only applies to series circuits. In a parallel circuit every branch connects directly across the source.',
+              b:'7.89 V applies a ratio of R₁/R₂ × Vs to a parallel circuit. The voltage divider formula only works in series circuits — in parallel, every branch sees the full source voltage regardless of resistance values.'},
     explanation:'In a parallel circuit every branch connects directly across the source, so <strong>V_R1 = V_source = 14.20 V</strong>. The voltage divider formula (V = R/R_total × Vs) only applies in series circuits.' }
 ];
 
