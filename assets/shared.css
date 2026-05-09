@@ -218,7 +218,7 @@ textarea.editor{display:block;width:100%;min-height:130px;background:var(--code-
 .chip{padding:7px 18px;border:2px solid var(--border);border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;background:var(--surface);color:var(--text-muted);transition:all .12s;font-family:inherit;}
 .chip.active{background:var(--accent-cool);color:#fff;border-color:var(--accent-cool);}
 .chip:hover:not(.active){border-color:var(--accent-cool);color:var(--text);}
-.start-row{text-align:center;margin-bottom:36px;}
+.start-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;}
 .history-section{border-top:1px solid var(--border);padding-top:20px;}
 .history-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:12px;}
 .history-table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -235,6 +235,13 @@ textarea.editor{display:block;width:100%;min-height:130px;background:var(--code-
 .q-formula-box{background:var(--surface-alt);border:2px solid var(--accent-warm);border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;font-size:14px;text-align:center;font-weight:600;font-family:'Cascadia Code','Fira Code','Courier New',monospace;}
 .q-actions{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;}
 .q-hints{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.q-text-answer{margin:16px 0 8px;}
+.q-text-input{width:100%;padding:10px 14px;font-size:15px;font-family:inherit;border:2px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s,background .15s;}
+.q-text-input:focus{border-color:var(--accent-cool);}
+.q-text-input.correct{border-color:var(--accent-success);background:rgba(22,163,74,0.08);}
+.q-text-input.incorrect{border-color:#ef4444;background:rgba(239,68,68,0.08);}
+.q-text-input[readonly]{cursor:default;}
+.q-correct-ans{font-size:13px;color:var(--text-muted);margin-top:8px;}
 .results-hero{text-align:center;margin-bottom:32px;}
 .score-display{font-size:60px;font-weight:900;line-height:1;margin-bottom:8px;}
 .score-display.perfect,.score-display.good{color:var(--accent-success);}

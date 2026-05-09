@@ -127,21 +127,42 @@ const QUIZ_KEY = 'mb-XX-quiz';               // unique localStorage key
 
 ## Question Object Format
 
+All questions share these fields:
+
 ```javascript
 {
-  id:          'q01',              // unique string, stable across sessions
-  topic:       "Ohm's Law",        // short topic label shown on card
-  chapter:     1,                  // integer key in CHAPTER_NAMES
-  text:        "What is ...",      // HTML allowed
-  formula:     'V = I × R',        // optional — shown as hint / auto-revealed
-  choices: {
-    a: 'Option A',
-    b: 'Option B',
-    c: 'Option C',
-    d: 'Option D',                 // d is optional — omit for 3-choice questions
-  },
-  correct:     'b',                // key of correct choice
-  explanation: 'Because ...',      // HTML allowed — shown after answer
+  id:          'q01',           // unique string, stable across sessions
+  type:        'mc',            // 'mc' (default, safe to omit) | 'text'
+  topic:       "Ohm's Law",     // short label shown above the card
+  chapter:     1,               // integer key in CHAPTER_NAMES
+  text:        "What is ...",   // HTML allowed (<code>, <strong>, SVG, etc.)
+  formula:     'V = I × R',     // optional hint — null to omit
+  explanation: 'Because ...',   // HTML allowed — shown after answer checked
+}
+```
+
+### MC questions (`type: 'mc'` or omit `type`)
+
+```javascript
+{
+  // ...shared fields...
+  choices: { a:'...', b:'...', c:'...', d:'...' },  // d is optional
+  correct: 'b',                 // key of the correct choice ('a'–'d')
+}
+```
+
+### Text questions (`type: 'text'`)
+
+```javascript
+{
+  // ...shared fields...
+  correct:    '14.20',          // expected answer string; comparison is case-insensitive + trimmed
+  tolerance:  0.01,             // optional number — enables numeric comparison within ±tolerance
+                                // omit or null for exact string match
+  badAnswers: [                 // optional — known wrong inputs with custom hints
+    { value: '7.89', hint: 'That applies the voltage divider formula, which is for series circuits.' },
+  ],
+  // Engine also auto-detects off-by-decimal-point errors for numeric questions.
 }
 ```
 

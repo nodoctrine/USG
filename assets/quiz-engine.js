@@ -12,6 +12,45 @@ let qIndex=0;
 let answers=[];
 let selectedChapters=new Set();
 
+// ── TEXT ANSWER HELPERS ───────────────────────────────────────────
+function normalizeText(s){return String(s).trim().toLowerCase();}
+
+function isNumericMatch(input,correct,tolerance){
+  const a=parseFloat(input),b=parseFloat(correct);
+  if(isNaN(a)||isNaN(b)) return false;
+  return Math.abs(a-b)<=tolerance;
+}
+
+function sigFigHint(input,correct){
+  const a=parseFloat(input),b=parseFloat(correct);
+  if(isNaN(a)||isNaN(b)||b===0) return null;
+  const ratio=a/b;
+  const powers=[0.001,0.01,0.1,10,100,1000];
+  if(powers.some(p=>Math.abs(ratio-p)<0.0001))
+    return 'Check your decimal point — the value looks off by a factor of '+Math.round(ratio>1?ratio:1/ratio)+'.';
+  return null;
+}
+
+function findBadAnswerHint(input,q){
+  const norm=normalizeText(input);
+  if(q.badAnswers){
+    for(const ba of q.badAnswers){
+      if(normalizeText(ba.value)===norm) return ba.hint;
+    }
+  }
+  if(q.tolerance!=null) return sigFigHint(input,q.correct);
+  return null;
+}
+
+function isAnswerCorrect(q,chosen){
+  if(chosen===null) return false;
+  if(q.type==='text'){
+    if(q.tolerance!=null) return isNumericMatch(chosen,q.correct,q.tolerance);
+    return normalizeText(chosen)===normalizeText(q.correct);
+  }
+  return chosen===q.correct;
+}
+
 // ── MODE ──────────────────────────────────────────────────────────
 function setMode(mode){
   currentMode=mode;
@@ -80,7 +119,7 @@ function startQuiz(){
 }
 
 function liveScore(){
-  return answers.filter((a,i)=>a&&quizQueue[i]&&a.chosen===quizQueue[i].correct).length;
+  return answers.filter((a,i)=>a&&isAnswerCorrect(quizQueue[i],a.chosen)).length;
 }
 
 function renderQuestion(){
@@ -103,77 +142,142 @@ function renderQuestion(){
 
   let html=`<div class="q-topic">${q.topic}</div><div class="q-text">${q.text}</div>`;
 
-  if(isAnswered){
-    if(q.formula) html+=`<div class="q-formula-box">${q.formula}</div>`;
-    html+=`<div class="choices">`;
-    ['a','b','c','d'].forEach(k=>{
-      if(!q.choices[k]) return;
-      let cls='choice';
-      if(k===q.correct) cls+=' correct';
-      else if(k===ans.chosen) cls+=' incorrect';
-      const checked=k===ans.chosen?' checked':'';
-      html+=`<label class="${cls}"><input type="radio" name="quiz-q" value="${k}"${checked} disabled> <span>${q.choices[k]}</span></label>`;
-    });
-    html+=`</div>`;
-    document.getElementById('q-card').innerHTML=html;
+  if(q.type==='text'){
+    // ── TEXT INPUT QUESTION ────────────────────────────────────────
+    if(isAnswered){
+      const ok=isAnswerCorrect(q,ans.chosen);
+      const cls=ans.revealed||ans.chosen===null?'incorrect':ok?'correct':'incorrect';
+      const val=ans.revealed?q.correct:(ans.chosen||'');
+      if(q.formula) html+=`<div class="q-formula-box">${q.formula}</div>`;
+      html+=`<div class="q-text-answer"><input class="q-text-input ${cls}" value="${val.replace(/"/g,'&quot;')}" readonly>`;
+      if(!ok&&!ans.revealed&&ans.chosen!==null)
+        html+=`<div class="q-correct-ans">Correct answer: <strong>${q.correct}</strong></div>`;
+      html+=`</div>`;
+      document.getElementById('q-card').innerHTML=html;
 
-    if(ans.revealed){
-      exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
-      exp.className='explanation visible wrong';
-    } else if(ans.chosen===null){
-      exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
-      exp.className='explanation visible wrong';
+      if(ans.revealed){
+        exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
+        exp.className='explanation visible wrong';
+      } else if(ans.chosen===null){
+        exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
+        exp.className='explanation visible wrong';
+      } else {
+        exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
+        exp.className='explanation visible'+(ok?'':' wrong');
+      }
+      btnCheck.hidden=true;
+      btnNext.hidden=false;
+
     } else {
-      const ok=ans.chosen===q.correct;
-      exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
-      exp.className='explanation visible'+(ok?'':' wrong');
-    }
-    btnCheck.hidden=true;
-    btnNext.hidden=false;
-  } else {
-    if(q.formula) html+=`<div class="q-formula-box" id="q-formula" hidden>${q.formula}</div>`;
-    html+=`<div class="choices">`;
-    ['a','b','c','d'].forEach(k=>{
-      if(!q.choices[k]) return;
-      html+=`<label class="choice"><input type="radio" name="quiz-q" value="${k}"> <span>${q.choices[k]}</span></label>`;
-    });
-    html+=`</div>`;
-    let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">&#128161; Hint</button>`:'';
-    hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">&#128065; Show Answer</button>`;
-    html+=`<div class="q-hints" id="q-hints">${hints}</div>`;
-    document.getElementById('q-card').innerHTML=html;
+      if(q.formula) html+=`<div class="q-formula-box" id="q-formula" hidden>${q.formula}</div>`;
+      html+=`<div class="q-text-answer"><input type="text" class="q-text-input" id="q-text-inp" placeholder="Type your answer…" autocomplete="off" spellcheck="false"></div>`;
+      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">&#128161; Hint</button>`:'';
+      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">&#128065; Show Answer</button>`;
+      html+=`<div class="q-hints" id="q-hints">${hints}</div>`;
+      document.getElementById('q-card').innerHTML=html;
 
-    btnCheck.hidden=false;
-    btnCheck.disabled=true;
-    btnNext.hidden=true;
+      btnCheck.hidden=false;
+      btnCheck.disabled=true;
+      btnNext.hidden=true;
 
-    document.querySelectorAll('input[name="quiz-q"]').forEach(inp=>{
-      inp.addEventListener('change',()=>{
-        btnCheck.disabled=false;
-        btnNext.hidden=false;
+      document.getElementById('q-text-inp').addEventListener('input',function(){
+        const hasVal=this.value.trim()!=='';
+        btnCheck.disabled=!hasVal;
+        btnNext.hidden=!hasVal;
       });
-    });
+    }
+
+  } else {
+    // ── MULTIPLE CHOICE QUESTION ───────────────────────────────────
+    if(isAnswered){
+      if(q.formula) html+=`<div class="q-formula-box">${q.formula}</div>`;
+      html+=`<div class="choices">`;
+      ['a','b','c','d'].forEach(k=>{
+        if(!q.choices[k]) return;
+        let cls='choice';
+        if(k===q.correct) cls+=' correct';
+        else if(k===ans.chosen) cls+=' incorrect';
+        const checked=k===ans.chosen?' checked':'';
+        html+=`<label class="${cls}"><input type="radio" name="quiz-q" value="${k}"${checked} disabled> <span>${q.choices[k]}</span></label>`;
+      });
+      html+=`</div>`;
+      document.getElementById('q-card').innerHTML=html;
+
+      if(ans.revealed){
+        exp.innerHTML=`<strong>Answer revealed.</strong> ${q.explanation}`;
+        exp.className='explanation visible wrong';
+      } else if(ans.chosen===null){
+        exp.innerHTML=`<strong>Skipped.</strong> ${q.explanation}`;
+        exp.className='explanation visible wrong';
+      } else {
+        const ok=ans.chosen===q.correct;
+        exp.innerHTML=ok?`<strong>Correct!</strong> ${q.explanation}`:`<strong>Incorrect.</strong> ${q.explanation}`;
+        exp.className='explanation visible'+(ok?'':' wrong');
+      }
+      btnCheck.hidden=true;
+      btnNext.hidden=false;
+
+    } else {
+      if(q.formula) html+=`<div class="q-formula-box" id="q-formula" hidden>${q.formula}</div>`;
+      html+=`<div class="choices">`;
+      ['a','b','c','d'].forEach(k=>{
+        if(!q.choices[k]) return;
+        html+=`<label class="choice"><input type="radio" name="quiz-q" value="${k}"> <span>${q.choices[k]}</span></label>`;
+      });
+      html+=`</div>`;
+      let hints=q.formula?`<button class="btn btn-ghost btn-sm" onclick="toggleFormulaHint()">&#128161; Hint</button>`:'';
+      hints+=`<button class="btn btn-ghost btn-sm" onclick="revealAnswer()">&#128065; Show Answer</button>`;
+      html+=`<div class="q-hints" id="q-hints">${hints}</div>`;
+      document.getElementById('q-card').innerHTML=html;
+
+      btnCheck.hidden=false;
+      btnCheck.disabled=true;
+      btnNext.hidden=true;
+
+      document.querySelectorAll('input[name="quiz-q"]').forEach(inp=>{
+        inp.addEventListener('change',()=>{
+          btnCheck.disabled=false;
+          btnNext.hidden=false;
+        });
+      });
+    }
   }
 }
 
 function commitAnswer(chosen,revealed){
   const q=quizQueue[qIndex];
+  const ok=isAnswerCorrect(q,chosen);
   answers[qIndex]={chosen,revealed};
-  const ok=chosen===q.correct;
+
   const data=loadData();
   if(!data.perf[q.id]) data.perf[q.id]={c:0,w:0};
   if(ok) data.perf[q.id].c++; else data.perf[q.id].w++;
   saveData(data);
 
-  document.querySelectorAll('input[name="quiz-q"]').forEach(inp=>{
-    inp.disabled=true;
-    const lbl=inp.closest('.choice');
-    if(inp.value===q.correct) lbl.classList.add('correct');
-    else if(inp.value===chosen&&!ok) lbl.classList.add('incorrect');
-  });
+  if(q.type==='text'){
+    const inp=document.getElementById('q-text-inp');
+    if(inp){
+      if(revealed) inp.value=q.correct;
+      inp.readOnly=true;
+      inp.classList.add(ok?'correct':'incorrect');
+      if(!ok&&!revealed&&chosen!==null){
+        const ca=document.createElement('div');
+        ca.className='q-correct-ans';
+        ca.innerHTML=`Correct answer: <strong>${q.correct}</strong>`;
+        inp.closest('.q-text-answer').appendChild(ca);
+      }
+    }
+  } else {
+    document.querySelectorAll('input[name="quiz-q"]').forEach(inp=>{
+      inp.disabled=true;
+      const lbl=inp.closest('.choice');
+      if(inp.value===q.correct) lbl.classList.add('correct');
+      else if(inp.value===chosen&&!ok) lbl.classList.add('incorrect');
+    });
+  }
 
-  const f=document.getElementById('q-formula'); if(f) f.hidden=false;
-  const hints=document.getElementById('q-hints'); if(hints) hints.remove();
+  const f=document.getElementById('q-formula');if(f) f.hidden=false;
+  const hints=document.getElementById('q-hints');if(hints) hints.remove();
 
   const exp=document.getElementById('q-exp');
   if(revealed){
@@ -194,24 +298,34 @@ function commitAnswer(chosen,revealed){
 
 function checkAnswer(){
   if(answers[qIndex]!==null) return;
-  const sel=document.querySelector('input[name="quiz-q"]:checked');
-  if(!sel) return;
-  commitAnswer(sel.value,false);
+  const q=quizQueue[qIndex];
+  if(q.type==='text'){
+    const inp=document.getElementById('q-text-inp');
+    if(!inp||inp.value.trim()==='') return;
+    commitAnswer(inp.value.trim(),false);
+  } else {
+    const sel=document.querySelector('input[name="quiz-q"]:checked');
+    if(!sel) return;
+    commitAnswer(sel.value,false);
+  }
 }
 
 function nextQuestion(){
   if(answers[qIndex]===null){
-    const sel=document.querySelector('input[name="quiz-q"]:checked');
-    commitAnswer(sel?sel.value:null,false);
+    const q=quizQueue[qIndex];
+    if(q.type==='text'){
+      const inp=document.getElementById('q-text-inp');
+      commitAnswer(inp&&inp.value.trim()?inp.value.trim():null,false);
+    } else {
+      const sel=document.querySelector('input[name="quiz-q"]:checked');
+      commitAnswer(sel?sel.value:null,false);
+    }
   }
   qIndex++;
   if(qIndex>=quizQueue.length) showResults(); else renderQuestion();
 }
 
-function prevQuestion(){
-  qIndex--;
-  renderQuestion();
-}
+function prevQuestion(){qIndex--;renderQuestion();}
 
 function toggleFormulaHint(){
   const f=document.getElementById('q-formula');if(f) f.hidden=!f.hidden;
@@ -226,7 +340,7 @@ function revealAnswer(){
 function showResults(){
   answers.forEach((a,i)=>{if(a===null) answers[i]={chosen:null,revealed:false};});
   const total=quizQueue.length;
-  const correctCount=answers.filter((a,i)=>a&&a.chosen===quizQueue[i].correct).length;
+  const correctCount=answers.filter((a,i)=>a&&isAnswerCorrect(quizQueue[i],a.chosen)).length;
   const pct=Math.round((correctCount/total)*100);
   const tier=pct===100?'perfect':pct>=70?'good':pct>=50?'mid':'bad';
   const msgs={perfect:'Perfect score!',good:'Great work!',mid:'Getting there!',bad:'Keep practising!'};
@@ -237,7 +351,7 @@ function showResults(){
 
   const wrongItems=[];
   answers.forEach((a,i)=>{
-    if(!a||a.chosen===quizQueue[i].correct) return;
+    if(!a||isAnswerCorrect(quizQueue[i],a.chosen)) return;
     wrongItems.push({q:quizQueue[i],chosen:a.chosen,revealed:a.revealed});
   });
   const ws=document.getElementById('wrong-section'),wl=document.getElementById('wrong-list');
@@ -248,8 +362,10 @@ function showResults(){
       let yourAns;
       if(revealed) yourAns='<em>Answer revealed</em>';
       else if(chosen===null) yourAns='<em>Skipped</em>';
+      else if(q.type==='text') yourAns='Your answer: '+chosen;
       else yourAns='Your answer: '+q.choices[chosen];
-      return `<div class="wrong-item"><div class="wrong-item-q">${qText}</div><div class="wrong-item-ans">${yourAns} &nbsp;&middot;&nbsp;<span class="correct-ans">Correct: ${q.choices[q.correct]}</span></div></div>`;
+      const correctDisplay=q.type==='text'?q.correct:q.choices[q.correct];
+      return `<div class="wrong-item"><div class="wrong-item-q">${qText}</div><div class="wrong-item-ans">${yourAns} &nbsp;&middot;&nbsp;<span class="correct-ans">Correct: ${correctDisplay}</span></div></div>`;
     }).join('');
   } else {ws.hidden=true;}
 

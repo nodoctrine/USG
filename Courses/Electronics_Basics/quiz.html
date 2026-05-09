@@ -67,6 +67,7 @@
       <div class="filter-chips" id="chapter-chips"></div>
     </div>
     <div class="start-row">
+      <button class="btn btn-ghost btn-lg" onclick="setMode('standard');startQuiz()">&#x1F500; Randomize</button>
       <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz &#8594;</button>
     </div>
     <div id="history-setup"></div>
@@ -98,6 +99,7 @@
     <div class="results-actions">
       <button class="btn btn-ghost"   onclick="showSetup()">&#8592; Back</button>
       <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+      <button class="btn btn-ghost"   onclick="setMode('standard');startQuiz()">&#x1F500; New Random</button>
       <button class="btn btn-success" id="btn-wk-result" onclick="setModeAndStart('weakness')">&#9889; Weakness Focus</button>
     </div>
     <div id="history-results" style="margin-top:32px;"></div>

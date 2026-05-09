@@ -77,6 +77,7 @@
       <div class="filter-chips" id="chapter-chips"></div>
     </div>
     <div class="start-row">
+      <button class="btn btn-ghost btn-lg" onclick="setMode('standard');startQuiz()">&#x1F500; Randomize</button>
       <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz &#8594;</button>
     </div>
     <div id="history-setup"></div>
@@ -108,6 +109,7 @@
     <div class="results-actions">
       <button class="btn btn-ghost"   onclick="showSetup()">&#8592; Back</button>
       <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+      <button class="btn btn-ghost"   onclick="setMode('standard');startQuiz()">&#x1F500; New Random</button>
       <button class="btn btn-success" id="btn-wk-result" onclick="setModeAndStart('weakness')">&#9889; Weakness Focus</button>
     </div>
     <div id="history-results" style="margin-top:32px;"></div>
@@ -120,32 +122,56 @@
 
 // ── QUESTION POOL ─────────────────────────────────────────────────
 // CUSTOMIZE: Replace placeholder questions with real ones.
+//
+// SHARED FIELDS (all question types):
 //   id          — unique string per question, e.g. 'q01' … 'q25'
+//   type        — 'mc' (default, omit to keep MC) | 'text' (typed answer)
 //   topic       — label shown above the question
 //   chapter     — integer; must match a key in CHAPTER_NAMES below
 //   text        — question text; HTML supported (<code>, <strong>, etc.)
-//   formula     — (optional) shown only when user clicks Hint; use null to omit
-//   choices     — exactly four options keyed a/b/c/d
-//   correct     — key of the correct answer ('a', 'b', 'c', or 'd')
+//   formula     — (optional) shown when user clicks Hint; null to omit
 //   explanation — shown after answering; explain WHY the correct answer is right
+//
+// MC QUESTIONS (type: 'mc' or omit type):
+//   choices     — options keyed a/b/c/d (d is optional for 3-choice)
+//   correct     — key of the correct answer ('a', 'b', 'c', or 'd')
+//
+// TEXT QUESTIONS (type: 'text'):
+//   correct     — the correct answer string (comparison is case-insensitive, trimmed)
+//   tolerance   — (optional) number; enables numeric comparison within ±tolerance
+//                 e.g. tolerance:0.01 accepts 14.19–14.21 for correct:'14.20'
+//   badAnswers  — (optional) array of {value, hint} for known wrong inputs
+//                 hint is shown in matter-of-fact tone explaining the common mistake
+//                 e.g. {value:'7.89', hint:'That result applies the voltage divider...'}
+//                 The engine also auto-detects off-by-decimal-point errors.
 const QUESTIONS = [
+  // MC example
   { id:'q01', topic:'Topic A', chapter:1,
-    text:'Sample question one?',
+    text:'Sample multiple choice question?',
     formula:null,
     choices:{a:'Option A',b:'Option B',c:'Option C',d:'Option D'}, correct:'a',
     explanation:'Explanation for question one.' },
 
-  { id:'q02', topic:'Topic A', chapter:1,
-    text:'Sample question two with a formula hint?',
-    formula:'key = value / other_value',
-    choices:{a:'Option A',b:'Option B',c:'Option C',d:'Option D'}, correct:'b',
-    explanation:'Explanation for question two.' },
-
-  { id:'q03', topic:'Topic B', chapter:2,
-    text:'Sample question three from chapter 2?',
+  // Text example (string match)
+  { id:'q02', type:'text', topic:'Topic A', chapter:1,
+    text:'What keyword is used to declare a variable in C?',
     formula:null,
-    choices:{a:'Option A',b:'Option B',c:'Option C',d:'Option D'}, correct:'c',
-    explanation:'Explanation for question three.' },
+    correct:'int',
+    badAnswers:[
+      {value:'var', hint:'<code>var</code> is used in JavaScript, not C. C uses explicit type keywords like <code>int</code>, <code>float</code>, or <code>char</code>.'}
+    ],
+    explanation:'In C, variables are declared using a type keyword such as <code>int</code>, <code>float</code>, <code>char</code>, etc.' },
+
+  // Text example (numeric with tolerance)
+  { id:'q03', type:'text', topic:'Topic B', chapter:2,
+    text:'A resistor has 12 V across it and 3 A through it. What is its resistance in ohms?',
+    formula:'R = V / I',
+    correct:'4',
+    tolerance:0.01,
+    badAnswers:[
+      {value:'36', hint:'That is V × I — you multiplied instead of divided. R = V / I.'}
+    ],
+    explanation:'R = V / I = 12 / 3 = <strong>4 Ω</strong>.' },
 
   // CUSTOMIZE: Add questions. Aim for 20+ in the pool.
 ];
