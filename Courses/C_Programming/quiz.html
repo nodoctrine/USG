@@ -39,6 +39,7 @@
   <div class="cn-dropdown">
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Practice Quiz &#9662;</button>
     <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_00.html">Chapter 0</a>
       <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
     </div>
   </div>
@@ -112,6 +113,40 @@
 
 // ── QUESTION POOL ─────────────────────────────────────────────────
 const QUESTIONS = [
+  { id:'q26', topic:'Bit Manipulation', chapter:0,
+    text:'What is the result of <code>0b10110100 &amp; 0b00001111</code>?',
+    choices:{a:'<code>0b10111111</code>',b:'<code>0b00000100</code>',c:'<code>0b10110000</code>',d:'<code>0b10110100</code>'}, correct:'b',
+    mistakes:{a:'OR combines bits from both operands — AND does not. AND keeps a bit only where both inputs are 1. The upper nibble of the mask is 0000, so the entire upper nibble is forced to 0.',
+              c:'That result would come from ANDing with 0b11110000, not 0b00001111. The mask here keeps the lower nibble, not the upper.'},
+    explanation:'AND keeps bits only where both inputs are 1. Upper nibble: <code>1011 &amp; 0000 = 0000</code>. Lower nibble: <code>0100 &amp; 1111 = 0100</code>. Result: <code>0b00000100</code>.' },
+
+  { id:'q27', topic:'Bit Manipulation', chapter:0,
+    text:'Which expression correctly <strong>clears</strong> bit 5 of variable <code>x</code> without affecting other bits?',
+    choices:{a:'<code>x |= (1 &lt;&lt; 5)</code>',b:'<code>x ^= (1 &lt;&lt; 5)</code>',c:'<code>x &amp;= ~(1 &lt;&lt; 5)</code>',d:'<code>x = ~(1 &lt;&lt; 5)</code>'}, correct:'c',
+    mistakes:{a:'|= sets bits, it does not clear them. OR can only turn a bit on — once a bit is 1, ORing with 1 keeps it 1.',
+              b:'^= toggles the bit — if it was 1 it becomes 0, but if it was 0 it becomes 1. That is not reliably clearing.',
+              d:'This replaces the entire value of x with the inverted mask, destroying all other bits. Always use &= to read-modify-write.'},
+    explanation:'<code>~(1&lt;&lt;5)</code> inverts the mask, giving all 1s except at bit 5. ANDing forces bit 5 to 0 while leaving all other bits untouched.' },
+
+  { id:'q28', topic:'Bit Manipulation', chapter:0,
+    text:'What does <code>(1 &lt;&lt; N)</code> produce?',
+    choices:{a:'The value N multiplied by 2',b:'An integer with only bit N set to 1',c:'A mask with bits 0 through N all set to 1',d:'The value N shifted right by 1'}, correct:'b',
+    explanation:'Left-shifting 1 by N places moves the single set bit to position N. <code>(1&lt;&lt;5) = 0b00100000</code> — only bit 5 is set. This is the standard way to build a bit mask.' },
+
+  { id:'q29', topic:'Register Control', chapter:0,
+    text:'Why must pointers to hardware registers be declared <code>volatile</code> in C?',
+    choices:{a:'To make the register read-only',b:'To store the value in a CPU register for faster access',c:'To prevent the compiler from caching reads or eliminating writes that it considers redundant',d:'To reserve the memory address so no other variable can use it'}, correct:'c',
+    mistakes:{a:'volatile does not make anything read-only — const does. volatile is purely about telling the compiler not to optimize around the variable.',
+              b:'volatile has the opposite effect — it forces the compiler to read and write actual memory every time, not cache the value in a CPU register.'},
+    explanation:'Hardware can change a register\'s value at any time (interrupts, peripherals). <code>volatile</code> tells the compiler to always re-read from and write to the real address, never assume the value is unchanged between accesses.' },
+
+  { id:'q30', topic:'Register Control', chapter:0,
+    text:'A control register holds <code>0b11001010</code>. You execute <code>REG = (1 &lt;&lt; 3);</code>. What does REG contain afterward?',
+    choices:{a:'<code>0b11001010</code> — unchanged except bit 3 set',b:'<code>0b11001110</code> — bit 3 added safely',c:'<code>0b00001000</code> — all other bits zeroed',d:'<code>0b11000010</code> — bit 3 toggled'}, correct:'c',
+    mistakes:{a:'A plain assignment does not preserve existing bits — it replaces the entire register. To add a bit safely you need |= not =.',
+              b:'That result would require |= (read-modify-write). The plain = operator overwrites the register with exactly the right-hand value.'},
+    explanation:'<code>REG = (1&lt;&lt;3)</code> is a plain assignment. It sets REG to exactly <code>0b00001000</code>, silently zeroing every other bit. The safe form is <code>REG |= (1&lt;&lt;3)</code>.' },
+
   { id:'q01', topic:'Variables & Types', chapter:1,
     text:'Which of these is a valid integer variable declaration in C?',
     choices:{a:'integer x = 5;',b:'int x = 5;',c:'x int = 5;',d:'Int x = 5;'}, correct:'b',
@@ -257,7 +292,7 @@ const QUESTIONS = [
     explanation:'C is a <strong>compiled, statically typed</strong> language. Types must be declared at compile time, and the source code is compiled to machine code before running.' }
 ];
 
-const CHAPTER_NAMES = {1:'Ch 1: Intro to C'};
+const CHAPTER_NAMES = {0:'Ch 0: Bit Manipulation & Registers', 1:'Ch 1: Intro to C'};
 const QUIZ_KEY='mb-c-quiz';
 </script>
 <script src="../../assets/shared-nav.js"></script>

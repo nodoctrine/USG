@@ -336,6 +336,7 @@ For each section, include:
 | Electronics Basics — Practice Quiz (26 questions)                                | [x] Complete    |
 | Architecture + Authoring docs (`_dev/`)                                          | [x] Complete    |
 | GitHub repo structure (`Universal Study Guide/` root, `Courses/` subfolder)      | [x] Complete    |
+| C Programming — Chapter 0                                                        | [x] Complete    |
 | C Programming — Chapters 2+                                                      | [ ] Not started |
 | Electronics Basics — Chapter 3                                                   | [x] Complete    |
 | Electronics Basics — Chapter 4                                                   | [x] Complete    |

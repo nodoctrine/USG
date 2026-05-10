@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · C Programming — Chapter 0: Bit Manipulation &amp; Register Control</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">C Programming</span>
+    <span class="header-chapter">Chapter 0 — Bit Manipulation &amp; Register Control</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">6 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">C Programming &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="../Electronics_Basics/chapter_01.html">Electronics Basics</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 0 &#9662;</button>
+    <div class="cn-drop-menu">
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  Chapter complete! You have finished the C Programming course.
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">0.1 Bitwise Operators <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">0.2 Bit Masking Patterns <span class="s-count" id="sc-2">0/2</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">0.3 Hardware Register Control <span class="s-count" id="sc-3">0/2</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">&#8634; Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">&#8634; Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1 — Bitwise Operators
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">0.1</span> Bitwise Operators</h2>
+
+      <div class="block block-reading">
+        <p>C provides six <span class="term">bitwise operators</span> that operate on integer values one bit at a time. Unlike arithmetic operators, they work directly on the binary representation and do not care about sign or magnitude — they just flip, combine, or shift individual bits.</p>
+        <ul>
+          <li><code>&amp;</code> (AND) — output bit is 1 only if <em>both</em> input bits are 1. Used to <strong>isolate</strong> or <strong>test</strong> bits.</li>
+          <li><code>|</code> (OR) — output bit is 1 if <em>either</em> input bit is 1. Used to <strong>set</strong> bits.</li>
+          <li><code>^</code> (XOR) — output bit is 1 if the input bits <em>differ</em>. Used to <strong>toggle</strong> bits.</li>
+          <li><code>~</code> (NOT) — flips every bit. Used to build <strong>inverted masks</strong> for clearing bits.</li>
+          <li><code>&lt;&lt;</code> (left shift) — moves all bits toward the high end; vacated bits fill with 0. Multiplies by 2 per shift.</li>
+          <li><code>&gt;&gt;</code> (right shift) — moves all bits toward the low end. Divides by 2 per shift (unsigned values).</li>
+        </ul>
+        <p>These operators are foundational in embedded C, where every bit of a hardware register often controls a distinct piece of behavior.</p>
+      </div>
+
+      <!-- FIGURE: truth table -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 0.1 — Bitwise Operator Truth Tables</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table">
+            <thead><tr><th>A</th><th>B</th><th>A &amp; B</th><th>A | B</th><th>A ^ B</th><th>~A</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+              <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+              <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+              <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">Each row shows what happens to one pair of bits. The operators apply this rule simultaneously across all 8 (or 16, 32) bit positions.</div>
+      </div>
+
+      <!-- ANIMATION 1 -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">0.1.1 — Operators on a Real Byte</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="AND: each output bit is 1 only where both inputs are 1. Here, ANDing with 0x0F isolates the lower 4 bits — the upper nibble is zeroed out.">
+              <strong>AND &nbsp;( &amp; ) — Isolate Bits</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2.2;text-align:center;">
+                &nbsp;&nbsp;a = <span style="color:var(--accent-cool);">1011</span> <span style="color:var(--accent-warm);">1010</span><br>
+                &nbsp;&nbsp;b = <span style="color:var(--text-muted);">0000</span> <span style="color:var(--accent-success);">1111</span>&nbsp; (0x0F)<br>
+                <span style="display:block;border-top:1px solid var(--border);padding-top:6px;">
+                a&amp;b = <span style="color:var(--text-muted);">0000</span> <span style="color:var(--accent-warm);">1010</span>
+                </span>
+              </div>
+              <br>
+              <span style="font-size:13px;color:var(--text-muted);">Common use: extract a field from a register by ANDing with a mask that is 1 only in the target bit positions.</span>
+            </div>
+            <div class="anim-frame" data-cap="OR: each output bit is 1 where either input is 1. ORing with 0x01 forces bit 0 to 1 without touching any other bit.">
+              <strong>OR &nbsp;( | ) — Set Bits</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2.2;text-align:center;">
+                &nbsp;&nbsp;a = <span style="color:var(--accent-cool);">1011</span> <span style="color:var(--accent-warm);">101</span><span style="color:var(--text-muted);">0</span><br>
+                &nbsp;&nbsp;b = <span style="color:var(--text-muted);">0000</span> <span style="color:var(--text-muted);">000</span><span style="color:var(--accent-success);">1</span>&nbsp; (0x01)<br>
+                <span style="display:block;border-top:1px solid var(--border);padding-top:6px;">
+                a|b = <span style="color:var(--accent-cool);">1011</span> <span style="color:var(--accent-warm);">101</span><span style="color:var(--accent-success);">1</span>
+                </span>
+              </div>
+              <br>
+              <span style="font-size:13px;color:var(--text-muted);">Bit 0 is now 1. All other bits are unchanged. OR can only turn bits on — it can never clear a bit that is already 1.</span>
+            </div>
+            <div class="anim-frame" data-cap="XOR: output bit is 1 where inputs differ. XORing a bit with 1 flips it; XORing with 0 leaves it alone. Perfect for toggling specific bits.">
+              <strong>XOR &nbsp;( ^ ) — Toggle Bits</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2.2;text-align:center;">
+                &nbsp;&nbsp;a = <span style="color:var(--accent-cool);">1011</span> <span style="color:var(--accent-warm);">1010</span><br>
+                &nbsp;&nbsp;b = <span style="color:var(--text-muted);">0000</span> <span style="color:var(--accent-success);">1111</span>&nbsp; (0x0F)<br>
+                <span style="display:block;border-top:1px solid var(--border);padding-top:6px;">
+                a^b = <span style="color:var(--accent-cool);">1011</span> <span style="color:var(--accent-success);">0101</span>
+                </span>
+              </div>
+              <br>
+              <span style="font-size:13px;color:var(--text-muted);">Every bit in the lower nibble flipped. The upper nibble (masked with 0) was left alone. XOR with the same mask again restores the original value.</span>
+            </div>
+            <div class="anim-frame" data-cap="Left shift multiplies by 2 per step. Right shift divides by 2. Shifts are also the standard way to position a mask at a specific bit index.">
+              <strong>Shifts &nbsp;( &lt;&lt; &nbsp; &gt;&gt; ) — Move Bits</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2.2;text-align:center;">
+                &nbsp;&nbsp;&nbsp;a = 0000 0001 &nbsp;(1)<br>
+                a&lt;&lt;3 = 0000 1000 &nbsp;(8) &nbsp;<span style="color:var(--accent-success);">&#10003; bit 3 set</span><br>
+                a&lt;&lt;5 = 0010 0000 &nbsp;(32) <span style="color:var(--accent-success);">&#10003; bit 5 set</span>
+              </div>
+              <br>
+              <span style="font-size:13px;color:var(--text-muted);"><code>(1 &lt;&lt; N)</code> is the standard idiom for a mask with only bit N set. Every bit manipulation pattern in the next section uses this.</span>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">AND: each output bit is 1 only where both inputs are 1. Here, ANDing with 0x0F isolates the lower 4 bits — the upper nibble is zeroed out.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 1 -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">0.1.2 — Operator Results</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> What is the result of <code>0b10110100 &amp; 0b00001111</code>?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span><code>0b10111111</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span><code>0b00000100</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span><code>0b10110000</code></span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span><code>0b10111011</code></span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> What does the expression <code>(1 &lt;&lt; 5)</code> produce?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>An integer with only bit 4 set &nbsp;(= 16)</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>An integer with only bit 5 set &nbsp;(= 32)</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>The value 5 shifted right by 1 &nbsp;(= 2)</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="d"> <span>An integer with bits 0 through 5 set &nbsp;(= 63)</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- =================================================================
+         SECTION 2 — Bit Masking Patterns
+         ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">0.2</span> Bit Masking Patterns</h2>
+
+      <div class="block block-reading">
+        <p>A <span class="term">bit mask</span> is an integer value used as a template to manipulate specific bits in another value. The four universal patterns — set, clear, toggle, check — are the building blocks of all register-level programming.</p>
+        <p>Every pattern uses <code>(1 &lt;&lt; N)</code> as the mask for bit N:</p>
+        <ul>
+          <li><strong>Set bit N:</strong> <code>x |= (1 &lt;&lt; N)</code> — forces bit N to 1, leaves all others unchanged</li>
+          <li><strong>Clear bit N:</strong> <code>x &amp;= ~(1 &lt;&lt; N)</code> — forces bit N to 0, leaves all others unchanged</li>
+          <li><strong>Toggle bit N:</strong> <code>x ^= (1 &lt;&lt; N)</code> — flips bit N, leaves all others unchanged</li>
+          <li><strong>Check bit N:</strong> <code>(x &gt;&gt; N) &amp; 1</code> — returns 1 if bit N is set, 0 if clear</li>
+        </ul>
+        <p>To operate on <em>multiple bits at once</em>, combine masks with OR: <code>(1 &lt;&lt; 3) | (1 &lt;&lt; 5)</code> creates a mask with bits 3 and 5 set simultaneously.</p>
+        <p>The compound assignment forms (<code>|=</code>, <code>&amp;=</code>, <code>^=</code>) are essential — they read the current value, apply the change, and write back. This <span class="term">read-modify-write</span> sequence is the only safe way to update a register without corrupting the bits you did not intend to touch.</p>
+      </div>
+
+      <!-- FIGURE: four patterns reference -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 0.2 — The Four Bit Manipulation Patterns</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table">
+            <thead><tr><th>Goal</th><th>Expression</th><th>Why it works</th></tr></thead>
+            <tbody>
+              <tr><td>Set bit N</td><td><code>x |= (1 &lt;&lt; N)</code></td><td>OR with 1 always produces 1; 0 bits in mask leave x unchanged</td></tr>
+              <tr><td>Clear bit N</td><td><code>x &amp;= ~(1 &lt;&lt; N)</code></td><td>NOT flips the mask; AND with 0 forces the bit off</td></tr>
+              <tr><td>Toggle bit N</td><td><code>x ^= (1 &lt;&lt; N)</code></td><td>XOR with 1 flips the bit; XOR with 0 preserves it</td></tr>
+              <tr><td>Check bit N</td><td><code>(x &gt;&gt; N) &amp; 1</code></td><td>Shifts target bit to position 0, then isolates it</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">These four patterns cover every single-bit operation. Multi-bit operations combine masks: <code>x |= (1&lt;&lt;2)|(1&lt;&lt;5)</code> sets bits 2 and 5 simultaneously.</div>
+      </div>
+
+      <!-- ANIMATION 2 -->
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">0.2.1 — Four Patterns on a Status Register</span>
+          <span class="chevron pend" id="chev-anim-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Start: an 8-bit status register STATUS = 0b01001010. Bit 6 is a BUSY flag; bit 3 is an ERROR flag. We will manipulate these using the four patterns.">
+              <strong>Starting State</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2.4;text-align:center;">
+                STATUS = <span style="color:var(--accent-cool);">0</span><span style="color:var(--accent-warm);">1</span>00<span style="color:var(--accent-warn,#e6a817);">1</span>0<span style="color:var(--text-muted);">1</span>0<br>
+                <span style="font-size:11px;color:var(--text-muted);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7 6 5 4 3 2 1 0</span>
+              </div>
+              <br>
+              <span style="font-size:13px;">Bit 6 (BUSY) = <strong>1</strong> — device is busy.<br>Bit 3 (ERROR) = <strong>1</strong> — an error is flagged.</span>
+            </div>
+            <div class="anim-frame" data-cap="Clear the BUSY flag (bit 6) with AND NOT. The mask ~(1<<6) = 0b10111111 has a 0 only at bit 6, so AND forces bit 6 to 0 and leaves everything else alone.">
+              <strong>Clear Bit 6 &nbsp;&nbsp; STATUS &amp;= ~(1&lt;&lt;6)</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2.2;text-align:center;">
+                STATUS = 0<span style="color:var(--accent-warn,#e6a817);">1</span>001010<br>
+                &nbsp;~mask = 1<span style="color:var(--accent-cool);">0</span>111111<br>
+                <span style="display:block;border-top:1px solid var(--border);padding-top:6px;">
+                result = 0<span style="color:var(--accent-cool);">0</span>001010
+                </span>
+              </div>
+              <br>
+              <span style="font-size:13px;">Bit 6 cleared. STATUS = <code>0b00001010</code>. All other bits preserved.</span>
+            </div>
+            <div class="anim-frame" data-cap="Set bit 0 (DONE flag) with OR. The mask (1<<0) = 0b00000001 has a 1 only at bit 0. OR forces that bit on without disturbing anything else.">
+              <strong>Set Bit 0 &nbsp;&nbsp; STATUS |= (1&lt;&lt;0)</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2.2;text-align:center;">
+                STATUS = 00001010<br>
+                &nbsp;&nbsp;mask = 0000000<span style="color:var(--accent-success);">1</span><br>
+                <span style="display:block;border-top:1px solid var(--border);padding-top:6px;">
+                result = 0000101<span style="color:var(--accent-success);">1</span>
+                </span>
+              </div>
+              <br>
+              <span style="font-size:13px;">Bit 0 set. STATUS = <code>0b00001011</code>. DONE flag is now active.</span>
+            </div>
+            <div class="anim-frame" data-cap="Check bit 3 (ERROR flag): shift right by 3 then AND with 1. If the result is 1, the flag is set. This is how you poll a status bit in a loop.">
+              <strong>Check Bit 3 &nbsp;&nbsp; (STATUS &gt;&gt; 3) &amp; 1</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2.2;text-align:center;">
+                &nbsp;&nbsp;STATUS = 00001011<br>
+                STATUS&gt;&gt;3 = 00000001<br>
+                &nbsp;&nbsp;&nbsp;&amp; 0x01 = 0000000<span style="color:var(--accent-warn,#e6a817);">1</span>
+              </div>
+              <br>
+              <span style="font-size:13px;">Result = <strong>1</strong>: bit 3 is set, ERROR is active.<br>
+              <code>if ((STATUS &gt;&gt; 3) &amp; 1) { handleError(); }</code></span>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">Start: an 8-bit status register STATUS = 0b01001010. Bit 6 is a BUSY flag; bit 3 is an ERROR flag. We will manipulate these using the four patterns.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHORT ANSWER 1 -->
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">0.2.2 — Read-Modify-Write</span>
+          <span class="chevron pend" id="chev-sa-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">You want to set bit 4 of a register <code>REG</code> without disturbing any other bits. Which compound assignment operator do you use? (give the operator, e.g. <code>+=</code>)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="operator" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['|=', '|= (or-equals)', 'or-equals', 'bitwise or equals'], '<strong>Correct!</strong> <code>REG |= (1 &lt;&lt; 4);</code> reads REG, ORs in the mask, then writes back — setting only bit 4.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', '|=', 'The answer is <code>|=</code>. <code>REG |= (1 &lt;&lt; 4);</code> is the read-modify-write idiom for setting a single bit safely.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- =================================================================
+         SECTION 3 — Hardware Register Control
+         ================================================================= -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">0.3</span> Hardware Register Control</h2>
+
+      <div class="block block-reading">
+        <p>In embedded and systems programming, <span class="term">hardware registers</span> are fixed memory addresses mapped directly to control circuits inside the microcontroller or peripheral. Writing a specific bit to one of these addresses instantly changes a physical pin state, timer setting, interrupt enable, or clock source.</p>
+        <p>Two rules govern all register access in C:</p>
+        <ul>
+          <li><span class="term">Always use <code>volatile</code>.</span> Declare register pointers as <code>volatile</code> so the compiler never caches a read or eliminates a write as "redundant." Hardware can change a register's value independently of your code — the compiler must not assume the value stays constant between accesses.</li>
+          <li><span class="term">Always read-modify-write.</span> Never write a literal value directly to a control register (<code>REG = 0x08</code>) — this zeros every bit you did not mention, potentially disabling unrelated hardware. Always use <code>|=</code> to set and <code>&amp;= ~(mask)</code> to clear.</li>
+        </ul>
+        <p>Most vendor SDKs define register names and bit positions as macros, so your code reads like <code>GPIOA-&gt;ODR |= GPIO_PIN_5</code> rather than <code>*(uint32_t*)0x40020C14 |= (1&lt;&lt;5)</code> — but the underlying operation is identical.</p>
+      </div>
+
+      <!-- FIGURE: control register diagram -->
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 0.3 — Example 8-bit GPIO Control Register</span>
+        </div>
+        <div class="figure-body">
+          <div style="font-family:monospace;font-size:12px;line-height:2;overflow-x:auto;">
+            <div style="color:var(--text-muted);margin-bottom:4px;">PORT_CTRL &nbsp;(address: 0x40021000)</div>
+            <div style="display:inline-block;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+              <table style="border-collapse:collapse;text-align:center;min-width:360px;">
+                <thead>
+                  <tr style="background:var(--surface-alt);">
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 7</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 6</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 5</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 4</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 3</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 2</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 1</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);color:var(--text-muted);font-size:11px;">Bit 0</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">RESET</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">IRQ_EN</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">reserved</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">reserved</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">DIR_1</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">DIR_0</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">EN_1</td>
+                    <td style="padding:6px 8px;border:1px solid var(--border);">EN_0</td>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+          <div style="margin-top:12px;font-size:13px;line-height:1.8;">
+            <div style="font-family:monospace;background:var(--surface-alt);padding:8px 12px;border-radius:4px;font-size:12px;line-height:2;">
+              <span style="color:var(--text-muted);">// Enable channel 0, set direction 0 to output, enable IRQ</span><br>
+              PORT_CTRL |= (1&lt;&lt;0) | (1&lt;&lt;2) | (1&lt;&lt;6);<br><br>
+              <span style="color:var(--text-muted);">// Disable channel 0 without touching anything else</span><br>
+              PORT_CTRL &amp;= ~(1&lt;&lt;0);
+            </div>
+          </div>
+        </div>
+        <div class="figure-caption">Reserved bits must never be written — always use read-modify-write so the compiler touches only the bits your code names.</div>
+      </div>
+
+      <!-- MC 2 -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">0.3.1 — Register Safety Rules</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> Why must hardware register pointers be declared <code>volatile</code>?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>It makes the register read-only so the hardware cannot be changed accidentally</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>It tells the compiler the value may change outside the program's control, preventing optimized-away reads or writes</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>It reserves the memory address so no other variable can use it</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>It forces the value to be stored in a CPU register instead of RAM</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> A control register currently holds <code>0b11001010</code>. You write <code>REG = (1 &lt;&lt; 3);</code>. What does REG contain afterward?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span><code>0b11001010</code> — only bit 3 changed</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span><code>0b11001110</code> — bit 3 was added</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span><code>0b00001000</code> — all other bits were zeroed</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="d"> <span><code>0b11000010</code> — bit 3 was toggled</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CHALLENGE 1 -->
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal">Activity</span>
+          <span class="act-title">0.3.2 — Configure a Control Register</span>
+          <span class="chevron pend" id="chev-chal-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            Using the PORT_CTRL register from Figure 0.3, write the single C statement that:<br>
+            &bull; Enables channel 0 (bit 0)<br>
+            &bull; Enables channel 1 (bit 1)<br>
+            &bull; Sets direction 0 to output (bit 2)<br><br>
+            Use a single <code>|=</code> with a combined mask. Do not disturb any other bits.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>config.c</span><span>C</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">PORT_CTRL </textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const CHAPTER_ID    = 'mb-c0';
+const COURSE_PREFIX = 'mb-c';
+
+const ALL_BLOCKS = ['anim-1', 'mc-1', 'anim-2', 'sa-1', 'mc-2', 'chal-1'];
+
+const SEC_BLOCKS = {
+  1: ['anim-1', 'mc-1'],
+  2: ['anim-2', 'sa-1'],
+  3: ['mc-2', 'chal-1']
+};
+
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> AND keeps a bit only where <em>both</em> inputs are 1. The upper nibble of 0x0F is all zeros, so those four bits are forced to 0. The lower nibble of 0x0F is all ones, so those bits pass through unchanged: <code>0100</code>.',
+    bad: '<strong>Not quite.</strong> AND each bit pair: upper nibble — <code>1011 &amp; 0000 = 0000</code>; lower nibble — <code>0100 &amp; 1111 = 0100</code>. Result: <code>0b00000100</code>.'
+  },
+  'mcq-1-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Left-shifting 1 by N places produces a value with only bit N set. <code>1 &lt;&lt; 5 = 0b00100000 = 32</code>.',
+    bad: '<strong>Not quite.</strong> <code>(1 &lt;&lt; N)</code> places a single 1-bit at position N (counting from 0 on the right). <code>1 &lt;&lt; 5 = 32</code> — bit 5 only, no others.'
+  },
+  'mcq-2-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Hardware can update a register at any time — an interrupt, a peripheral, or the hardware itself. <code>volatile</code> tells the compiler to always re-read from the actual address and never skip a write, even if the value looks "unchanged" to the optimizer.',
+    bad: '<strong>Not quite.</strong> <code>volatile</code> prevents the compiler from caching reads or eliminating writes. Without it, the optimizer might read the register once, store it in a CPU register, and never re-read it — missing changes made by the hardware.'
+  },
+  'mcq-2-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> A plain assignment (<code>REG = value</code>) replaces the entire register with <code>value</code>. <code>(1&lt;&lt;3) = 0b00001000</code>, so every bit except bit 3 is written as 0 — silently destroying the previous configuration.',
+    bad: '<strong>Not quite.</strong> <code>REG = (1&lt;&lt;3)</code> is a plain assignment — it sets REG to exactly <code>0b00001000</code>, overwriting all previous bits with 0. The correct form is <code>REG |= (1&lt;&lt;3)</code> to preserve other bits.'
+  }
+};
+
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Uses |= (read-modify-write)',     fn: c => /\|=/.test(c) },
+      { name: 'Sets bit 0 (EN_0)',               fn: c => /\(\s*1\s*<<\s*0\s*\)/.test(c) || /\|\s*1\b/.test(c) },
+      { name: 'Sets bit 1 (EN_1)',               fn: c => /\(\s*1\s*<<\s*1\s*\)/.test(c) },
+      { name: 'Sets bit 2 (DIR_0)',              fn: c => /\(\s*1\s*<<\s*2\s*\)/.test(c) }
+    ],
+    defaultCode: `PORT_CTRL `
+  }
+};
+
+var prog    = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+var animIdx = {};
+var mcDone  = {};
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>
