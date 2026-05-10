@@ -310,6 +310,13 @@ function nextQuestion(){
 
 function prevQuestion(){qIndex--;renderQuestion();}
 
+function reshuffleQuiz(){
+  quizQueue=selectQuestions();
+  qIndex=0;
+  answers=new Array(quizQueue.length).fill(null);
+  renderQuestion();
+}
+
 function toggleFormulaHint(){
   const f=document.getElementById('q-formula');if(f) f.hidden=!f.hidden;
 }
