@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · Electronics Basics — Chapter 5: Operational Amplifiers</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">Electronics Basics</span>
+    <span class="header-chapter">Chapter 5 — Operational Amplifiers</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">10 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+  </div>
+</header>
+
+<nav class="cross-nav">
+  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Course:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
+    <div class="cn-drop-menu">
+      <span class="cn-drop-item cn-drop-current">Electronics Basics</span>
+      <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
+      <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+    </div>
+  </div>
+  <div class="cross-nav-divider"></div>
+  <span class="cross-nav-label">Chapter:</span>
+  <div class="cn-dropdown">
+    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter 5 &#9662;</button>
+    <div class="cn-drop-menu">
+      <span class="cn-drop-item cn-drop-current">Chapter 5</span>
+      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
+      <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="chapter_03.html">Chapter 3</a>
+      <a class="cn-drop-item" href="chapter_04.html">Chapter 4</a>
+      <a class="cn-drop-item" href="quiz.html">Practice Quiz</a>
+    </div>
+  </div>
+</nav>
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  Chapter complete! <a href="quiz.html">Take the Practice Quiz &rarr;</a>
+</div>
+<div class="tour-overlay" id="tour-overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">5.1 The Ideal Op-Amp <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">5.2 Amp Configurations <span class="s-count" id="sc-2">0/3</span></a>
+    <a href="#sec-3" class="sidebar-link" data-sec="3">5.3 Common Circuits <span class="s-count" id="sc-3">0/2</span></a>
+    <a href="#sec-4" class="sidebar-link" data-sec="4">5.4 Practical Limits <span class="s-count" id="sc-4">0/3</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">&#8635; Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">&#8635; Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_04.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 1: The Ideal Op-Amp                                        -->
+    <!-- ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">5.1</span> The Ideal Op-Amp</h2>
+
+      <div class="block block-reading">
+        <p>An <span class="term">operational amplifier (op-amp)</span> is a high-gain DC-coupled differential amplifier packaged as a single integrated circuit. It has three signal pins: a <span class="term">non-inverting input</span> (V+), an <span class="term">inverting input</span> (V&minus;), and an output (Vout), plus dual power rails (+Vcc and &minus;Vee) that define its output voltage range.</p>
+        <p style="margin-top:10px;">In circuit analysis we begin with the <span class="term">ideal op-amp model</span>, which makes three assumptions:</p>
+        <ul>
+          <li>Open-loop voltage gain A<sub>OL</sub> is <strong>infinite</strong>.</li>
+          <li>Input impedance is <strong>infinite</strong> — no current flows into either input pin.</li>
+          <li>Output impedance is <strong>zero</strong> — the output behaves as a perfect voltage source.</li>
+        </ul>
+        <p style="margin-top:10px;">These assumptions unlock a powerful shortcut. When <span class="term">negative feedback</span> is applied (connecting output back to V&minus;), the op-amp adjusts its output until V+ = V&minus;. This equality is called the <span class="term">virtual short</span> — the inputs are not physically shorted, but feedback forces them to the same potential.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 5.1 — Op-Amp Symbol &amp; Ideal Properties</span>
+        </div>
+        <div class="figure-body" style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+          <svg viewBox="0 0 220 140" width="220" height="140" style="flex-shrink:0;overflow:visible;">
+            <polygon points="50,15 50,125 185,70" fill="none" stroke="var(--text)" stroke-width="2.5"/>
+            <line x1="0"   y1="42"  x2="50"  y2="42"  stroke="var(--text)" stroke-width="2"/>
+            <line x1="0"   y1="98"  x2="50"  y2="98"  stroke="var(--text)" stroke-width="2"/>
+            <line x1="185" y1="70"  x2="220" y2="70"  stroke="var(--text)" stroke-width="2"/>
+            <line x1="118" y1="0"   x2="118" y2="34"  stroke="var(--text)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="118" y1="106" x2="118" y2="140" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="3"   y="38"  font-size="12" fill="var(--text)" font-family="monospace">V+</text>
+            <text x="3"   y="94"  font-size="12" fill="var(--text)" font-family="monospace">V&minus;</text>
+            <text x="190" y="66"  font-size="12" fill="var(--text)" font-family="monospace">Vout</text>
+            <text x="123" y="20"  font-size="11" fill="var(--text-muted)" font-family="monospace">+Vcc</text>
+            <text x="123" y="136" font-size="11" fill="var(--text-muted)" font-family="monospace">&minus;Vee</text>
+            <text x="60"  y="50"  font-size="16" fill="var(--accent-success)">+</text>
+            <text x="60"  y="106" font-size="16" fill="var(--accent-warm)">&minus;</text>
+          </svg>
+          <table class="comp-table" style="flex:1;min-width:200px;">
+            <thead><tr><th>Ideal Property</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Open-loop gain A<sub>OL</sub></td><td>&infin;</td></tr>
+              <tr><td>Input impedance Z<sub>in</sub></td><td>&infin; (draws no current)</td></tr>
+              <tr><td>Output impedance Z<sub>out</sub></td><td>0 &Omega;</td></tr>
+              <tr><td>Bandwidth</td><td>&infin;</td></tr>
+              <tr><td>Input offset voltage</td><td>0 V</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">Left: standard op-amp triangle symbol with labeled pins. Right: ideal model properties. Real devices deviate from all five rows — covered in Section 5.4.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.1.1 — Inside the Ideal Op-Amp</span>
+          <span class="chevron pend" id="chev-anim-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The five pins of an op-amp. Every op-amp circuit uses the same five connections.">
+              <p style="font-weight:600;margin-bottom:14px;">The Five Pins</p>
+              <table class="comp-table">
+                <thead><tr><th>Pin</th><th>Symbol</th><th>Role</th></tr></thead>
+                <tbody>
+                  <tr><td>Non-inverting input</td><td>V+</td><td>Positive reference; output follows this pin</td></tr>
+                  <tr><td>Inverting input</td><td>V&minus;</td><td>Negative reference; feedback returns here</td></tr>
+                  <tr><td>Output</td><td>Vout</td><td>Amplified differential result</td></tr>
+                  <tr><td>Positive supply</td><td>+Vcc</td><td>Sets upper output rail</td></tr>
+                  <tr><td>Negative supply</td><td>&minus;Vee</td><td>Sets lower output rail</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="anim-frame" data-cap="Open-loop equation: Vout = A_OL × (V+ − V−). With A_OL = ∞, even a 1 µV difference saturates the output against the rail.">
+              <p style="font-weight:600;margin-bottom:14px;">Open-Loop Behaviour</p>
+              <div class="formula-box">
+                <strong>Open-Loop Output:</strong>
+                <div class="formula-row">
+                  <span class="formula-item">Vout = A<sub>OL</sub> &times; (V+ &minus; V&minus;)</span>
+                  <span class="formula-item">A<sub>OL</sub> (ideal) = &infin;</span>
+                </div>
+              </div>
+              <p style="margin-top:14px;font-size:14px;">A real LM741 has A<sub>OL</sub> &asymp; 200,000. Even at that finite value, 1 mV of differential input produces 200 V at the output — instantly clipped to the supply rail. Open-loop op-amps are only useful as <strong>comparators</strong>, not linear amplifiers.</p>
+            </div>
+            <div class="anim-frame" data-cap="Negative feedback: output is connected back to V−. The op-amp continuously corrects Vout until V+ = V−. This is the virtual short.">
+              <p style="font-weight:600;margin-bottom:14px;">The Virtual Short</p>
+              <p style="margin-bottom:12px;font-size:14px;">When Vout is fed back to V&minus;, any error (V+ &minus; V&minus;) is amplified and fed back to cancel itself. The circuit reaches equilibrium only when V+ = V&minus;.</p>
+              <div class="formula-box">
+                <strong>Two Golden Rules (with negative feedback):</strong>
+                <div class="formula-row">
+                  <span class="formula-item">Rule 1: V+ = V&minus;</span>
+                  <span class="formula-item">Rule 2: I<sub>in</sub> = 0 A</span>
+                </div>
+              </div>
+              <p style="margin-top:12px;font-size:13px;color:var(--text-muted);">/!\ The inputs are NOT physically wired together. The equality is maintained by the feedback loop, not a short circuit.</p>
+            </div>
+            <div class="anim-frame" data-cap="These two rules are the only tools needed to analyse any ideal op-amp circuit — inverting, non-inverting, summing, or difference amplifier.">
+              <p style="font-weight:600;margin-bottom:14px;">Applying the Golden Rules</p>
+              <table class="comp-table">
+                <thead><tr><th>Rule</th><th>What it means</th><th>How you use it</th></tr></thead>
+                <tbody>
+                  <tr><td>V+ = V&minus;</td><td>Virtual short between inputs</td><td>Write a KVL/KCL equation substituting this equality</td></tr>
+                  <tr><td>I<sub>in</sub> = 0</td><td>No current into either input pin</td><td>All current through R<sub>in</sub> must flow through R<sub>f</sub>, not the op-amp</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-top:14px;font-size:14px;">Every gain formula in this chapter follows from applying just these two rules to the specific circuit topology.</p>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">The five pins of an op-amp. Every op-amp circuit uses the same five connections.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.1.2 — Ideal Op-Amp Check</span>
+          <span class="chevron pend" id="chev-mc-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> What does the "virtual short" tell us about an op-amp with negative feedback?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>The V&minus; pin is physically wired to ground.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Feedback forces V+ &asymp; V&minus;, even though no wire connects them.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>The output voltage is always zero.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span>The op-amp draws infinite current to equalise its inputs.</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> Why is an op-amp almost never used open-loop as a linear amplifier?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>Its gain is too low to be useful.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>Open-loop op-amps require a separate power supply.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>Infinite (or very high) open-loop gain causes any nonzero input difference to saturate the output.</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="d"> <span>The output cannot swing below 0 V without feedback.</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- ================================================================= -->
+    <!-- SECTION 2: Inverting & Non-Inverting Configurations                -->
+    <!-- ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">5.2</span> Inverting &amp; Non-Inverting Configurations</h2>
+
+      <div class="block block-reading">
+        <p>Adding two resistors around an op-amp creates the two fundamental closed-loop amplifier configurations. Both are derived using the golden rules from 5.1.</p>
+        <ul>
+          <li>The <span class="term">inverting amplifier</span> routes the input through a resistor to V&minus;. The output is phase-reversed (180° flip) relative to the input, and the gain magnitude is set by the resistor ratio.</li>
+          <li>The <span class="term">non-inverting amplifier</span> applies the input directly to V+. The output is in-phase with the input and always has gain &ge; 1.</li>
+        </ul>
+        <p style="margin-top:10px;">In both cases, <span class="term">closed-loop gain</span> A<sub>CL</sub> depends only on the external resistors, not on the op-amp's internal gain. This makes it stable and predictable even as op-amps age or vary between batches.</p>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 5.2 — Closed-Loop Gain Formulas</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:24px;flex-wrap:wrap;">
+            <div class="formula-box" style="flex:1;min-width:200px;">
+              <strong>Inverting Amplifier:</strong>
+              <div class="formula-row">
+                <span class="formula-item">A<sub>CL</sub> = &minus;R<sub>f</sub> / R<sub>in</sub></span>
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--text-muted);">Input at V&minus; through R<sub>in</sub>; feedback via R<sub>f</sub>; V+ = GND.</div>
+            </div>
+            <div class="formula-box" style="flex:1;min-width:200px;">
+              <strong>Non-Inverting Amplifier:</strong>
+              <div class="formula-row">
+                <span class="formula-item">A<sub>CL</sub> = 1 + R<sub>f</sub> / R<sub>1</sub></span>
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--text-muted);">Input at V+; R<sub>1</sub> to GND and R<sub>f</sub> to output form the feedback divider.</div>
+            </div>
+          </div>
+          <table class="comp-table" style="margin-top:16px;">
+            <thead><tr><th>Property</th><th>Inverting</th><th>Non-Inverting</th></tr></thead>
+            <tbody>
+              <tr><td>Phase shift</td><td>180&deg; (inverted)</td><td>0&deg; (in-phase)</td></tr>
+              <tr><td>Gain formula</td><td>&minus;R<sub>f</sub>/R<sub>in</sub></td><td>1 + R<sub>f</sub>/R<sub>1</sub></td></tr>
+              <tr><td>Minimum |gain|</td><td>0 (R<sub>f</sub> = 0)</td><td>1</td></tr>
+              <tr><td>Input impedance</td><td>= R<sub>in</sub></td><td>&asymp; &infin; (op-amp Z<sub>in</sub>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">The inverting formula gives a negative result (phase inversion). Non-inverting gain is always at least 1 because V+ connects directly to the input.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.2.1 — Deriving Both Gain Formulas</span>
+          <span class="chevron pend" id="chev-anim-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Inverting amplifier topology: Rin connects Vin to V−, Rf feeds Vout back to V−, and V+ is grounded.">
+              <p style="font-weight:600;margin-bottom:12px;">Inverting Amplifier — Circuit</p>
+              <div style="font-family:monospace;font-size:13px;line-height:2;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">Vin &mdash;&mdash;[Rin]&mdash;&mdash;&bull;&mdash;&mdash; V&minus;
+                      |
+                    [Rf]         [Op-Amp] &mdash;&mdash; Vout
+                      |              |
+                    Vout &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&bull; (feedback)
+
+V+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; GND</div>
+              <p style="margin-top:12px;font-size:14px;">The node at V&minus; is the <strong>summing junction</strong>. Because I<sub>in</sub> = 0, all current through R<sub>in</sub> must flow through R<sub>f</sub>.</p>
+            </div>
+            <div class="anim-frame" data-cap="Applying the two golden rules step-by-step: virtual short sets V− = 0 V, then current through Rin flows through Rf to produce the output.">
+              <p style="font-weight:600;margin-bottom:12px;">Inverting Amplifier — Derivation</p>
+              <table class="comp-table">
+                <thead><tr><th>Step</th><th>Rule Applied</th><th>Result</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>V+ = GND, so Rule 1: V&minus; = V+ = 0 V</td><td>V&minus; = 0 V (virtual ground)</td></tr>
+                  <tr><td>2</td><td>Current through R<sub>in</sub></td><td>i = Vin / R<sub>in</sub></td></tr>
+                  <tr><td>3</td><td>Rule 2: all i flows through R<sub>f</sub></td><td>i<sub>Rf</sub> = Vin / R<sub>in</sub></td></tr>
+                  <tr><td>4</td><td>Vout = 0 &minus; i &times; R<sub>f</sub></td><td>A<sub>CL</sub> = &minus;R<sub>f</sub> / R<sub>in</sub></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="anim-frame" data-cap="Non-inverting topology: Vin goes to V+. A voltage divider (R1 to GND, Rf to Vout) samples a fraction of the output and returns it to V−.">
+              <p style="font-weight:600;margin-bottom:12px;">Non-Inverting Amplifier — Circuit</p>
+              <div style="font-family:monospace;font-size:13px;line-height:2;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">Vin &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; V+
+
+Vout &mdash;&mdash;[Rf]&mdash;&mdash;&bull;&mdash;&mdash; V&minus;   [Op-Amp] &mdash;&mdash; Vout
+                      |
+                    [R1]
+                      |
+                     GND</div>
+              <p style="margin-top:12px;font-size:14px;">The feedback divider sets V&minus; = Vout &times; R<sub>1</sub>/(R<sub>1</sub>+R<sub>f</sub>). The op-amp adjusts Vout until this equals Vin.</p>
+            </div>
+            <div class="anim-frame" data-cap="Virtual short equates V− to Vin. Setting the divider output equal to Vin and solving gives gain = 1 + Rf/R1.">
+              <p style="font-weight:600;margin-bottom:12px;">Non-Inverting Amplifier — Derivation</p>
+              <table class="comp-table">
+                <thead><tr><th>Step</th><th>Rule Applied</th><th>Result</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Rule 1: V&minus; = V+ = Vin</td><td>V&minus; = Vin</td></tr>
+                  <tr><td>2</td><td>Divider: V&minus; = Vout &times; R<sub>1</sub>/(R<sub>1</sub>+R<sub>f</sub>)</td><td>Vin = Vout &times; R<sub>1</sub>/(R<sub>1</sub>+R<sub>f</sub>)</td></tr>
+                  <tr><td>3</td><td>Solve for Vout/Vin</td><td>A<sub>CL</sub> = 1 + R<sub>f</sub>/R<sub>1</sub></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-2">Inverting amplifier topology: Rin connects Vin to V−, Rf feeds Vout back to V−, and V+ is grounded.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-1">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.2.2 — Gain Calculation</span>
+          <span class="chevron pend" id="chev-sa-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">An inverting amplifier has R<sub>in</sub> = 10 k&Omega; and R<sub>f</sub> = 47 k&Omega;. What is the closed-loop gain? (Enter the numeric value, e.g. <strong>-4.7</strong>)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-1" placeholder="-4.7" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-1', ['-4.7', '-47/10'], '<strong>Correct!</strong> A<sub>CL</sub> = &minus;R<sub>f</sub>/R<sub>in</sub> = &minus;47k/10k = &minus;4.7. The negative sign means Vout is phase-inverted relative to Vin.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-1', '-4.7', 'A<sub>CL</sub> = &minus;R<sub>f</sub>/R<sub>in</sub> = &minus;47,000/10,000 = <strong>&minus;4.7</strong>. A 1 V input produces a 4.7 V inverted output.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-1"></div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.2.3 — Configurations Review</span>
+          <span class="chevron pend" id="chev-mc-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> A non-inverting amplifier has R<sub>f</sub> = 100 k&Omega; and R<sub>1</sub> = 10 k&Omega;. What is the closed-loop gain?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>10</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>11</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>&minus;10</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>&minus;11</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> You need a gain of exactly +1 with the highest possible input impedance. Which configuration is correct?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>Inverting amplifier with R<sub>f</sub> = R<sub>in</sub></span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>Non-inverting amplifier with R<sub>f</sub> = R<sub>1</sub></span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>Voltage follower (Vout connected directly to V&minus;)</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="d"> <span>Open-loop op-amp</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- ================================================================= -->
+    <!-- SECTION 3: Common Op-Amp Circuits                                  -->
+    <!-- ================================================================= -->
+    <section class="section" id="sec-3">
+      <h2 class="section-heading"><span class="section-num">5.3</span> Common Op-Amp Circuits</h2>
+
+      <div class="block block-reading">
+        <p>Four standard circuits appear in nearly every analogue design. Each is a direct application of the golden rules.</p>
+        <ul>
+          <li><span class="term">Voltage follower</span> — unity-gain buffer. Isolates a high-impedance source from a low-impedance load without changing the signal.</li>
+          <li><span class="term">Summing amplifier</span> — adds multiple input voltages, each scaled by its own resistor ratio. Foundation of audio mixers and DACs.</li>
+          <li><span class="term">Comparator</span> — open-loop op-amp. Output saturates fully high or low depending on which input is larger. Used as a 1-bit decision element.</li>
+          <li><span class="term">Difference amplifier</span> — amplifies V2 &minus; V1 while rejecting any voltage common to both inputs (common-mode noise). Essential for sensor interfaces in noisy environments.</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 5.3 — Four Essential Circuits at a Glance</span>
+        </div>
+        <div class="figure-body">
+          <table class="comp-table">
+            <thead><tr><th>Circuit</th><th>Feedback?</th><th>Output</th><th>Primary Use</th></tr></thead>
+            <tbody>
+              <tr><td>Voltage Follower</td><td>Yes (direct)</td><td>A<sub>CL</sub> = +1</td><td>Impedance isolation / buffering</td></tr>
+              <tr><td>Summing Amplifier</td><td>Yes (R<sub>f</sub>)</td><td>Vout = &minus;(R<sub>f</sub>/R)(V1+V2+&hellip;)</td><td>Mixing, weighted addition</td></tr>
+              <tr><td>Comparator</td><td>None (open-loop)</td><td>&plusmn;Vsat</td><td>Threshold detection</td></tr>
+              <tr><td>Difference Amplifier</td><td>Yes (resistor net)</td><td>Vout = A(V2&minus;V1)</td><td>Sensor interfaces, noise rejection</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">All four use the same op-amp IC — external components determine the function.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-3">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.3.1 — How Each Circuit Works</span>
+          <span class="chevron pend" id="chev-anim-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Voltage follower: Vout connects directly to V−. Virtual short forces Vout = Vin with near-infinite input impedance and near-zero output impedance.">
+              <p style="font-weight:600;margin-bottom:12px;">Voltage Follower (Unity-Gain Buffer)</p>
+              <div style="font-family:monospace;font-size:13px;line-height:2;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">Vin &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; V+
+                      [Op-Amp] &mdash;&mdash; Vout &mdash;&mdash; Load
+V&minus; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&bull; (direct wire)</div>
+              <p style="margin-top:12px;font-size:14px;">Virtual short: V&minus; = V+ = Vin &rarr; Vout = Vin. Gain = 1. The value is <em>impedance transformation</em>: the source sees a near-infinite load; the driven circuit sees a near-zero source impedance. No voltage is gained but current drive is massively increased.</p>
+            </div>
+            <div class="anim-frame" data-cap="Summing amplifier: V− is a virtual ground. Each input injects current independently, and the op-amp sums them through Rf.">
+              <p style="font-weight:600;margin-bottom:12px;">Summing Amplifier</p>
+              <div style="font-family:monospace;font-size:13px;line-height:2;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">V1 &mdash;&mdash;[R]&mdash;&mdash;&bull;
+V2 &mdash;&mdash;[R]&mdash;&mdash;&bull;&mdash;&mdash; V&minus;  &mdash;[Rf]&mdash;&mdash; Vout (feeds back)
+V3 &mdash;&mdash;[R]&mdash;&mdash;&bull;
+
+V+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; GND</div>
+              <p style="margin-top:10px;font-size:14px;">V&minus; = 0 V (virtual ground). Currents sum independently: I<sub>total</sub> = V1/R + V2/R + V3/R. Vout = &minus;R<sub>f</sub>/R &times; (V1+V2+V3). Each input is isolated from the others — the basis of audio mixing boards.</p>
+            </div>
+            <div class="anim-frame" data-cap="Comparator: no feedback, so open-loop gain applies. Any tiny V+ > V− difference drives the output to +Vsat; any V+ < V− drives it to −Vsat.">
+              <p style="font-weight:600;margin-bottom:12px;">Comparator</p>
+              <table class="comp-table">
+                <thead><tr><th>Condition</th><th>Vout</th><th>State</th></tr></thead>
+                <tbody>
+                  <tr><td>V+ &gt; V&minus;</td><td>+Vsat (&asymp; +Vcc)</td><td>HIGH</td></tr>
+                  <tr><td>V+ &lt; V&minus;</td><td>&minus;Vsat (&asymp; &minus;Vee)</td><td>LOW</td></tr>
+                  <tr><td>V+ = V&minus;</td><td>Undefined</td><td>Transition</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-top:12px;font-size:14px;">Common use: set V&minus; to a fixed reference (e.g. 2.5 V). When the sensor on V+ crosses that threshold the output flips. The output can drive a microcontroller logic input directly.</p>
+            </div>
+            <div class="anim-frame" data-cap="Difference amplifier: equal-ratio resistors make the circuit respond only to the difference between two inputs, cancelling any noise they share.">
+              <p style="font-weight:600;margin-bottom:12px;">Difference Amplifier</p>
+              <div class="formula-box">
+                <strong>Output (equal resistors R and R<sub>f</sub>):</strong>
+                <div class="formula-row">
+                  <span class="formula-item">Vout = (R<sub>f</sub>/R) &times; (V2 &minus; V1)</span>
+                </div>
+              </div>
+              <p style="margin-top:12px;font-size:14px;"><span class="term">Common-mode rejection</span>: if 60 Hz mains noise couples equally onto both V1 and V2 wires, the subtraction cancels it completely — only the true signal difference V2&minus;V1 appears at the output. Essential for temperature sensors, load cells, and ECG circuits where signal cables run through noisy environments.</p>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-3">Voltage follower: Vout connects directly to V−. Virtual short forces Vout = Vin with near-infinite input impedance and near-zero output impedance.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-3')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-3')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-3">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-mc" id="mc-3">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.3.2 — Circuit Applications</span>
+          <span class="chevron pend" id="chev-mc-3">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-3-1">
+            <div class="q-text"><span class="q-num">1)</span> A voltage follower sits between a sensor with 1 M&Omega; output impedance and a 100 &Omega; load. What is the primary benefit?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-1" value="a"> <span>It amplifies the sensor signal by a large factor.</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="b"> <span>It presents near-infinite impedance to the sensor and drives the 100 &Omega; load from a low-impedance output.</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="c"> <span>It inverts the signal polarity for compatibility with the load.</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-1" value="d"> <span>It filters high-frequency noise from the sensor.</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-3-2">
+            <div class="q-text"><span class="q-num">2)</span> A comparator has V+ connected to a sensor and V&minus; tied to a 2.5 V reference. When the sensor reads 3.1 V, what is the output?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-3-2" value="a"> <span>&minus;Vsat (fully low)</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="b"> <span>0.6 V (the difference between inputs)</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="c"> <span>+Vsat (fully high)</span></label>
+              <label class="choice"><input type="radio" name="mcq-3-2" value="d"> <span>Undefined — the inputs are too close together</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-3-2"></div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /sec-3 -->
+
+    <!-- ================================================================= -->
+    <!-- SECTION 4: Practical Limitations                                   -->
+    <!-- ================================================================= -->
+    <section class="section" id="sec-4">
+      <h2 class="section-heading"><span class="section-num">5.4</span> Practical Limitations</h2>
+
+      <div class="block block-reading">
+        <p>Real op-amps deviate from the ideal model in four important ways that must be accounted for in any practical design.</p>
+        <ul>
+          <li><span class="term">Output saturation</span>: Vout is bounded by the supply rails. When the required swing exceeds the supply, the output clips, creating severe distortion.</li>
+          <li><span class="term">Slew rate (SR)</span>: the maximum rate at which Vout can change, in V/&micro;s. Fast, large swings are distorted into ramps rather than the intended waveform.</li>
+          <li><span class="term">Gain-Bandwidth Product (GBW)</span>: A<sub>CL</sub> &times; bandwidth = constant. Doubling the gain halves the available bandwidth. This is a fixed property of each op-amp model.</li>
+          <li><span class="term">Input offset voltage (V<sub>OS</sub>)</span>: a small internal mismatch — typically 1&ndash;10 mV — acts as a DC error at the input. Multiplied by A<sub>CL</sub>, it can corrupt the output in precision circuits.</li>
+        </ul>
+      </div>
+
+      <div class="block block-figure">
+        <div class="block-header">
+          <span class="block-label">Figure</span>
+          <span class="block-title-text">Figure 5.4 — Key Practical Parameters</span>
+        </div>
+        <div class="figure-body">
+          <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;">
+            <div class="formula-box" style="flex:1;min-width:180px;">
+              <strong>Gain-Bandwidth Product:</strong>
+              <div class="formula-row">
+                <span class="formula-item">GBW = A<sub>CL</sub> &times; BW</span>
+                <span class="formula-item">BW = GBW / A<sub>CL</sub></span>
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--text-muted);">LM741: GBW &asymp; 1 MHz. At A<sub>CL</sub>=10 &rarr; BW = 100 kHz.</div>
+            </div>
+            <div class="formula-box" style="flex:1;min-width:180px;">
+              <strong>Slew Rate:</strong>
+              <div class="formula-row">
+                <span class="formula-item">SR = &Delta;Vout / &Delta;t &nbsp;(V/&micro;s)</span>
+                <span class="formula-item">f<sub>max</sub> = SR / (2&pi;V<sub>pk</sub>)</span>
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--text-muted);">LM741: SR &asymp; 0.5 V/&micro;s. Full 20 V swing takes &ge; 40 &micro;s.</div>
+            </div>
+          </div>
+          <table class="comp-table">
+            <thead><tr><th>Limitation</th><th>Ideal</th><th>Typical Real Value</th><th>Effect if Ignored</th></tr></thead>
+            <tbody>
+              <tr><td>Output swing</td><td>&plusmn;&infin;</td><td>&asymp; &plusmn;(Vcc &minus; 1.5 V)</td><td>Waveform clipping</td></tr>
+              <tr><td>Slew rate</td><td>&infin; V/&micro;s</td><td>0.5&ndash;100 V/&micro;s</td><td>High-freq. distortion</td></tr>
+              <tr><td>GBW</td><td>&infin; Hz</td><td>1 MHz&ndash;1 GHz</td><td>Gain drops at high freq.</td></tr>
+              <tr><td>V<sub>OS</sub></td><td>0 V</td><td>1&ndash;10 mV</td><td>DC offset = V<sub>OS</sub> &times; A<sub>CL</sub></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="figure-caption">These four parameters appear on every op-amp datasheet. Always verify them against your signal requirements before selecting a part.</div>
+      </div>
+
+      <div class="block block-anim" id="anim-4">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.4.1 — When the Ideal Breaks Down</span>
+          <span class="chevron pend" id="chev-anim-4">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="Output saturation: the op-amp clips when required Vout exceeds the supply rail, flattening the waveform top or bottom.">
+              <p style="font-weight:600;margin-bottom:12px;">Output Saturation</p>
+              <div style="font-family:monospace;font-size:12px;line-height:1.8;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">Vout
+  |         _______       &larr; +Vsat (clips here)
+  |        /       \
+  |&mdash;&mdash;&mdash;&mdash;&mdash;/         \&mdash;&mdash;&mdash;&mdash;&mdash;  &larr; expected sine
+  |                  \       /
+  |                   \_____/       &larr; &minus;Vsat (clips here)</div>
+              <p style="margin-top:12px;font-size:14px;">With Vcc = &plusmn;12 V, standard op-amp Vsat &asymp; &plusmn;10.5 V. If gain &times; Vin requires &plusmn;15 V, the output clips. Fix: reduce gain, reduce input amplitude, or choose a rail-to-rail op-amp.</p>
+            </div>
+            <div class="anim-frame" data-cap="Slew rate: the output cannot change faster than SR (V/µs). A fast step input becomes a ramp; a sine wave at high frequency becomes a triangle.">
+              <p style="font-weight:600;margin-bottom:12px;">Slew Rate Limiting</p>
+              <div style="font-family:monospace;font-size:12px;line-height:1.8;background:var(--surface-alt);padding:14px 18px;border-radius:6px;white-space:pre;">Ideal step:    Vin  _____
+                        |    |____
+
+Slew limited: Vout   /&macr;&macr;&macr;&macr;&macr;\
+                    /         \____</div>
+              <p style="margin-top:12px;font-size:14px;">Max undistorted frequency: f<sub>max</sub> = SR / (2&pi; &times; V<sub>peak</sub>). LM741 (SR = 0.5 V/&micro;s), V<sub>pk</sub> = 5 V: f<sub>max</sub> &asymp; 16 kHz. Fine for audio — unusable for video or RF.</p>
+            </div>
+            <div class="anim-frame" data-cap="GBW = constant: doubling the gain halves the bandwidth. A 1 MHz GBW op-amp at gain 100 has only 10 kHz of usable bandwidth.">
+              <p style="font-weight:600;margin-bottom:12px;">Gain-Bandwidth Product</p>
+              <table class="comp-table">
+                <thead><tr><th>A<sub>CL</sub></th><th>Bandwidth (GBW = 1 MHz)</th><th>Trade-off</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>1,000 kHz</td><td>Maximum bandwidth</td></tr>
+                  <tr><td>10</td><td>100 kHz</td><td>Good for audio</td></tr>
+                  <tr><td>100</td><td>10 kHz</td><td>Limited use</td></tr>
+                  <tr><td>1,000</td><td>1 kHz</td><td>Very narrow</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-top:12px;font-size:14px;">Solution: cascade two stages at lower gain. Two &times;10 stages gives &times;100 total with 10&times; more bandwidth than a single &times;100 stage (see the challenge).</p>
+            </div>
+            <div class="anim-frame" data-cap="Input offset voltage: a tiny internal mismatch acts as a DC error at the input. Amplified by A_CL, it can corrupt precision measurements.">
+              <p style="font-weight:600;margin-bottom:12px;">Input Offset Voltage</p>
+              <div class="formula-box">
+                <strong>Output DC Error:</strong>
+                <div class="formula-row">
+                  <span class="formula-item">V<sub>error</sub> = V<sub>OS</sub> &times; A<sub>CL</sub></span>
+                </div>
+              </div>
+              <p style="margin-top:12px;font-size:14px;">Example: V<sub>OS</sub> = 5 mV, A<sub>CL</sub> = 100 &rarr; V<sub>error</sub> = 500 mV. A precision temperature sensor reading would be completely corrupted. Mitigation: select a low-V<sub>OS</sub> op-amp (e.g. OP07, V<sub>OS</sub> &lt; 75 &micro;V), add an offset trim, or use an auto-zero amplifier.</p>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-4">Output saturation: the op-amp clips when required Vout exceeds the supply rail, flattening the waveform top or bottom.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-4')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-4')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-4">1 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-sa" id="sa-2">
+        <div class="act-header">
+          <span class="act-badge badge-part"></span>
+          <span class="act-title">5.4.2 — Bandwidth Calculation</span>
+          <span class="chevron pend" id="chev-sa-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="q-text">An op-amp has a Gain-Bandwidth Product of 1 MHz. The closed-loop gain is set to 10. What is the maximum usable signal bandwidth? (Enter the value in kHz, e.g. <strong>100</strong>)</div>
+          <div class="sa-row">
+            <input type="text" class="sa-input" id="sa-input-2" placeholder="100" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="checkSA('sa-2', ['100', '100khz', '100 khz'], '<strong>Correct!</strong> BW = GBW / A<sub>CL</sub> = 1,000,000 / 10 = 100,000 Hz = <strong>100 kHz</strong>.')">Check</button>
+            <button class="btn btn-ghost"   onclick="showSA('sa-2', '100', 'BW = GBW / A<sub>CL</sub> = 1 MHz / 10 = <strong>100 kHz</strong>. Signals above 100 kHz will be attenuated by the op-amp.')">Show Answer</button>
+          </div>
+          <div class="explanation" id="exp-sa-2"></div>
+        </div>
+      </div>
+
+      <div class="block block-chal" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-chal"></span>
+          <span class="act-title">5.4.3 — Two-Stage Amplifier Design</span>
+          <span class="chevron pend" id="chev-chal-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="chal-instructions">
+            <p>Design a two-stage inverting amplifier system with a <strong>total gain magnitude of 100 V/V</strong>. Each stage uses R<sub>in</sub> = 10 k&Omega;.</p>
+            <p style="margin-top:8px;">Split the gain evenly: each stage contributes &times;10 (since &minus;10 &times; &minus;10 = +100 overall). This also gives each stage 10&times; more bandwidth than a single &times;100 stage would have.</p>
+            <p style="margin-top:8px;">Enter the R<sub>f</sub> value in k&Omega; for each stage on its own line.</p>
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>amplifier-design.txt</span><span>k&Omega;</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">Stage 1 Rf (kΩ):
+Stage 2 Rf (kΩ): </textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+          </div>
+          <div class="chal-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-4 -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_04.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const CHAPTER_ID    = 'mb-eb5';
+const COURSE_PREFIX = 'mb-eb';
+
+const ALL_BLOCKS = ['anim-1','mc-1','anim-2','sa-1','mc-2','anim-3','mc-3','anim-4','sa-2','chal-1'];
+
+const SEC_BLOCKS = {
+  1: ['anim-1','mc-1'],
+  2: ['anim-2','sa-1','mc-2'],
+  3: ['anim-3','mc-3'],
+  4: ['anim-4','sa-2','chal-1']
+};
+
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The virtual short is maintained by the feedback loop, not a physical wire. Negative feedback drives Vout until V+ = V&minus; is satisfied.',
+    bad: '<strong>Not quite.</strong> The virtual short is not a real wire connection. Feedback forces V+ = V&minus; by adjusting Vout — the pins are not physically shorted.'
+  },
+  'mcq-1-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> With A<sub>OL</sub> of 100,000 or more, any nonzero differential input instantly saturates the output against the supply rail. Linear operation requires feedback to set a stable, lower closed-loop gain.',
+    bad: '<strong>Not quite.</strong> The problem is that open-loop gain is far too <em>high</em>, not too low. Even 1 &micro;V between the inputs produces a fully railed output.'
+  },
+  'mcq-2-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> A<sub>CL</sub> = 1 + R<sub>f</sub>/R<sub>1</sub> = 1 + 100k/10k = 1 + 10 = <strong>11</strong>. The non-inverting formula always adds 1.',
+    bad: '<strong>Not quite.</strong> Use A<sub>CL</sub> = 1 + R<sub>f</sub>/R<sub>1</sub> = 1 + 100/10 = 11, not 10. The +1 comes from the direct path between input and output inherent in the non-inverting topology.'
+  },
+  'mcq-2-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> A voltage follower (output directly to V&minus;) gives gain = +1 and the maximum possible input impedance — the input sees only the op-amp\'s own Z<sub>in</sub>, which is near-infinite.',
+    bad: '<strong>Not quite.</strong> An inverting amp with equal resistors gives &minus;1, not +1. A non-inverting with R<sub>f</sub> = R<sub>1</sub> gives +2. The voltage follower is the only +1 circuit with maximum input impedance.'
+  },
+  'mcq-3-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> The follower presents near-infinite impedance to the 1 M&Omega; sensor (drawing almost no current) and a near-zero output impedance to drive the 100 &Omega; load without voltage drop.',
+    bad: '<strong>Not quite.</strong> Voltage follower gain is exactly 1 — no amplification. Its purpose is impedance transformation, protecting the sensor from being loaded by the 100 &Omega; circuit.'
+  },
+  'mcq-3-2': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> V+ (3.1 V) &gt; V&minus; (2.5 V), so the comparator output goes to +Vsat. The output is binary — it never outputs the arithmetic difference between inputs.',
+    bad: '<strong>Not quite.</strong> A comparator outputs +Vsat when V+ &gt; V&minus;. Here 3.1 V &gt; 2.5 V, so output = +Vsat. The 0.6 V difference is irrelevant — the output is always fully high or fully low.'
+  }
+};
+
+const CHALLENGES = {
+  'chal-1': {
+    tests: [
+      { name: 'Stage 1 Rf = 100 kΩ  (×10 per stage)', fn: c => /Stage\s*1\s*Rf[^:\n]*:\s*100\b/.test(c) },
+      { name: 'Stage 2 Rf = 100 kΩ  (×10 per stage)', fn: c => /Stage\s*2\s*Rf[^:\n]*:\s*100\b/.test(c) },
+      { name: 'Total gain = (−10)×(−10) = +100 V/V', fn: c => /Stage\s*1\s*Rf[^:\n]*:\s*100\b/.test(c) && /Stage\s*2\s*Rf[^:\n]*:\s*100\b/.test(c) }
+    ],
+    defaultCode: 'Stage 1 Rf (kΩ): \nStage 2 Rf (kΩ): '
+  }
+};
+
+var prog    = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+var animIdx = {};
+var mcDone  = {};
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

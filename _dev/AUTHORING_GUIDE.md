@@ -337,6 +337,52 @@ For a new course — add a `.cn-drop-item` to the course dropdown in every chapt
 
 ---
 
+## Adding a New Chapter (Checklist)
+
+The quiz and index are separate files — they are **not** updated automatically when a chapter file is created. Every new chapter requires all of the following:
+
+**The chapter file itself**
+1. Copy `_template.html` to the course folder and rename it (e.g., `chapter_02.html`)
+2. Replace all `[PLACEHOLDER]` values
+3. Set `CHAPTER_ID`, `COURSE_PREFIX`, `ALL_BLOCKS`, `SEC_BLOCKS`, `MC_DATA`, `CHALLENGES`
+4. Set `remaining-pill` count = `ALL_BLOCKS.length`
+
+**Navigation — within the course**
+5. Set the new chapter's "Previous Chapter" nav to the chapter before it
+6. Set the new chapter's "Next Chapter" nav to the chapter after it (or `<span class="nav-btn disabled">` if it is the last)
+7. Update the **previous** chapter's "Next Chapter" nav to point to the new chapter
+8. Update the **next** chapter's "Previous Chapter" nav to point to the new chapter (if one exists)
+9. Update the completion banner of the chapter that now leads into the new one
+
+**Cross-nav dropdowns — in every chapter of this course**
+10. Add a `<a class="cn-drop-item">` for the new chapter in every other chapter's chapter dropdown
+
+**`index.html`**
+11. Add a `<a class="chapter-row">` entry for the new chapter with the correct `data-key` and `data-total`
+12. Place it in the correct position (matching the intended chapter order)
+
+**`quiz.html`**
+13. Add quiz questions for the new chapter (`chapter: N` field)
+14. Add the chapter to `CHAPTER_NAMES` (`N: 'Ch N: Title'`)
+15. Update the quiz question-count badge in `index.html` to reflect the new total
+
+> **Why the quiz step is easy to miss:** `quiz.html` is a completely separate file. Creating a chapter file has no effect on the quiz. Treat quiz questions as part of the chapter deliverable — write them in the same session the chapter is built.
+
+---
+
+## Placeholder Chapter Numbers
+
+When a chapter's final position in the course is not yet known (e.g., a capstone chapter being written before the middle chapters exist), use `chapter_00.html` as a placeholder filename. The file still needs a valid `CHAPTER_ID` (e.g., `mb-c0`).
+
+Nav setup for a placeholder last chapter:
+- Its own nav: Previous → the chapter currently before it; Next = `<span class="nav-btn disabled">`
+- The chapter before it: its Next nav points to this placeholder
+- When new chapters are inserted between them, update both nav links accordingly
+
+The chapter dropdown and `index.html` card should list the placeholder in its intended position (last), not by filename sort order.
+
+---
+
 ## Adding a New Course
 
 1. Create folder: `Courses/[CourseName]/`

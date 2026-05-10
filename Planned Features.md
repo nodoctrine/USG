@@ -23,4 +23,12 @@ Add DONE to entries here when user confirms they are satisfied.
 5. Complete Electronics Course
    Add the remainder of the electronics course one chapter at a time.
 
-6. 
+6. Professional SVG circuit diagrams
+   Build proper vector schematic diagrams for every figure block that shows a circuit.
+   Use standard electrical engineering symbols (IEC/IEEE): resistor zig-zag or rectangle,
+   capacitor plates, inductor loops, op-amp triangle, transistor, ground, voltage source, etc.
+   All SVGs must be inline and theme-aware (stroke="var(--text)", fill="var(--surface)")
+   so they adapt to light/dark/retro automatically. Wire routing should follow schematic
+   conventions (orthogonal lines, nodes shown as dots, no overlapping labels).
+   Priority targets: op-amp configurations (Ch 5), RC/RL circuits (Ch 4), BJT (Ch 3),
+   and register/port diagrams (C Programming Ch 0). 

@@ -270,6 +270,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && tourActive
 button.cn-drop-item{background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:inherit;}
 .cross-nav-home{font-size:12px;color:var(--text-muted);text-decoration:none;white-space:nowrap;flex-shrink:0;padding:0 4px;}
 .cross-nav-home:hover{color:var(--accent-cool);text-decoration:none;}
+span.cn-drop-current{display:block;padding:8px 14px;font-size:13px;color:var(--accent-cool);font-weight:600;cursor:default;pointer-events:none;border-bottom:1px solid var(--border);margin-bottom:2px;}
   `;
   document.head.appendChild(s);
 })();

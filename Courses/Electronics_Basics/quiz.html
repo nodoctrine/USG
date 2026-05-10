@@ -30,6 +30,7 @@
   <div class="cn-dropdown">
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Electronics Basics &#9662;</button>
     <div class="cn-drop-menu">
+      <span class="cn-drop-item cn-drop-current">Electronics Basics</span>
       <a class="cn-drop-item" href="../C_Programming/chapter_01.html">C Programming</a>
       <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
     </div>
@@ -39,8 +40,12 @@
   <div class="cn-dropdown">
     <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Practice Quiz &#9662;</button>
     <div class="cn-drop-menu">
+      <span class="cn-drop-item cn-drop-current">Practice Quiz</span>
       <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
       <a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+      <a class="cn-drop-item" href="chapter_03.html">Chapter 3</a>
+      <a class="cn-drop-item" href="chapter_04.html">Chapter 4</a>
+      <a class="cn-drop-item" href="chapter_05.html">Chapter 5</a>
     </div>
   </div>
 </nav>
@@ -313,10 +318,119 @@ const QUESTIONS = [
     choices:{a:'5.07 V',b:'7.89 V',c:'14.20 V',d:'9.13 V'}, correct:'c',
     mistakes:{a:'5.07 V is the series voltage divider result: R₁/(R₁+R₂) × Vs = 5/14 × 14.2. The voltage divider formula only applies to series circuits. In a parallel circuit every branch connects directly across the source.',
               b:'7.89 V applies a ratio of R₁/R₂ × Vs to a parallel circuit. The voltage divider formula only works in series circuits — in parallel, every branch sees the full source voltage regardless of resistance values.'},
-    explanation:'In a parallel circuit every branch connects directly across the source, so <strong>V_R1 = V_source = 14.20 V</strong>. The voltage divider formula (V = R/R_total × Vs) only applies in series circuits.' }
+    explanation:'In a parallel circuit every branch connects directly across the source, so <strong>V_R1 = V_source = 14.20 V</strong>. The voltage divider formula (V = R/R_total × Vs) only applies in series circuits.' },
+
+  { id:'q27', topic:'Diodes', chapter:3,
+    text:'What is the approximate forward voltage drop across a forward-biased silicon diode?',
+    choices:{a:'0.3 V',b:'0.7 V',c:'1.4 V',d:'5.0 V'}, correct:'b',
+    mistakes:{a:'0.3 V is the forward voltage of a germanium diode, not silicon. Silicon diodes require more energy to overcome the potential barrier of their P-N junction.'},
+    explanation:'Silicon diodes drop approximately <strong>0.7 V</strong> when forward biased. Germanium diodes drop ~0.3 V. LEDs vary from 1.5–3.5 V depending on color.' },
+
+  { id:'q28', topic:'Diodes', chapter:3,
+    text:'A diode is <strong>reverse biased</strong>. What happens to current flow?',
+    choices:{a:'Current flows freely in both directions',b:'Current flows only from anode to cathode',c:'Current is blocked (only tiny leakage flows)',d:'The diode is destroyed'}, correct:'c',
+    mistakes:{b:'Anode-to-cathode current flow describes forward bias, not reverse bias. In reverse bias the cathode is more positive than the anode, which widens the depletion region and blocks normal current flow.'},
+    explanation:'In reverse bias the depletion region widens and blocks current — only a negligible leakage current flows. The diode acts like an open circuit until the reverse breakdown voltage is exceeded.' },
+
+  { id:'q29', topic:'BJTs', chapter:3,
+    text:'A BJT has a current gain of β = 120. If the base current IB = 0.5 mA, what is the collector current IC?',
+    choices:{a:'0.5 mA',b:'12 mA',c:'60 mA',d:'240 mA'}, correct:'c',
+    mistakes:{d:'240 mA would come from multiplying 0.5 mA × β twice (or using β = 480). The relationship is simply IC = β × IB = 120 × 0.5 mA.'},
+    explanation:'<strong>IC = β × IB</strong>. Here IC = 120 × 0.5 mA = <strong>60 mA</strong>. Beta (β) is the ratio of collector current to base current — a small base current controls a much larger collector current.' },
+
+  { id:'q30', topic:'BJTs', chapter:3,
+    text:'An NPN BJT is in <strong>saturation</strong>. Which best describes its behavior?',
+    choices:{a:'No current flows; the transistor is fully off',b:'The transistor acts like a closed switch with VCE ≈ 0.1–0.2 V',c:'The transistor amplifies the input signal linearly',d:'The base-emitter junction is reverse biased'}, correct:'b',
+    mistakes:{a:'That describes cutoff mode, where IB = 0 and the transistor is off. In saturation, enough base current is supplied that the transistor is fully on.',
+              d:'In saturation both junctions are forward biased. Reverse bias of the base-emitter junction keeps the transistor in cutoff.'},
+    explanation:'In <strong>saturation</strong> the BJT is fully ON. VCE drops to ~0.1–0.2 V and the device behaves like a closed switch, allowing maximum collector current to flow.' },
+
+  { id:'q31', topic:'H-Bridge', chapter:3,
+    text:'In an H-bridge, which switch pair must be closed to drive the motor in the <strong>forward</strong> direction (left-to-right current)?',
+    choices:{a:'S1 and S2 (both on the left side)',b:'S3 and S4 (both on the right side)',c:'S1 and S4 (top-left and bottom-right)',d:'S2 and S3 (bottom-left and top-right)'}, correct:'c',
+    mistakes:{a:'Closing both switches on the same side (S1 and S2, or S3 and S4) creates a direct short across the power supply — a shoot-through fault that can destroy the components.',
+              b:'S3 and S4 on the same side would also create a short circuit. Always close diagonal pairs.'},
+    explanation:'<strong>S1 + S4</strong> (diagonal pair) drives current left-to-right through the motor = forward. <strong>S2 + S3</strong> reverses the direction. Closing both switches on the same side shorts the supply.' },
+
+  { id:'q32', topic:'Diodes', chapter:3,
+    text:'Why is a flyback (freewheeling) diode placed in parallel with an inductive load like a motor?',
+    choices:{a:'To increase the current through the motor',b:'To regulate the supply voltage to a fixed level',c:'To provide a safe path for the back-EMF spike when the switch opens',d:'To prevent current from flowing when the switch is closed'}, correct:'c',
+    mistakes:{a:'The flyback diode does not increase motor current — it is reverse biased during normal operation and only conducts when the switch opens.',
+              b:'Voltage regulation is done by Zener diodes. A flyback diode is specifically for transient spike suppression in inductive circuits.'},
+    explanation:'When power to an inductor is cut, stored energy causes a large <strong>back-EMF spike</strong>. The flyback diode is reverse biased during normal operation, then forward biased by the spike, safely rerouting the energy back to the supply instead of into the switch.' },
+
+  { id:'q33', topic:'AC Waveforms', chapter:4,
+    text:'A sinusoidal signal has a period T = 20 ms. What is its frequency?',
+    choices:{a:'20 Hz',b:'50 Hz',c:'200 Hz',d:'0.02 Hz'}, correct:'b',
+    mistakes:{d:'0.02 Hz would result from f = T instead of f = 1/T. Frequency and period are reciprocals of each other.'},
+    explanation:'<strong>f = 1 / T = 1 / 0.020 s = 50 Hz</strong>. This is the frequency of the European mains supply. The US mains supply is 60 Hz (T ≈ 16.7 ms).' },
+
+  { id:'q34', topic:'RMS', chapter:4,
+    text:'A sinusoidal voltage has a peak amplitude Vm = 170 V. What is its RMS value?',
+    choices:{a:'85 V',b:'120 V',c:'170 V',d:'240 V'}, correct:'b',
+    mistakes:{a:'85 V would be Vm / 2 — but the RMS of a sine wave is Vm / √2 ≈ Vm × 0.707, not Vm / 2. The RMS value is always higher than half the peak.',
+              c:'170 V is the peak value Vm itself, not the RMS. Vrms is always smaller than Vm for a sine wave.'},
+    explanation:'<strong>Vrms = Vm / √2 = 170 / 1.414 ≈ 120 V</strong>. This is why US wall outlets are labeled 120 V — that is the RMS (effective) value; the actual peak is ~170 V.' },
+
+  { id:'q35', topic:'Reactance', chapter:4,
+    text:'What happens to the inductive reactance XL of an inductor if the frequency of the AC signal is doubled?',
+    choices:{a:'XL is halved',b:'XL stays the same',c:'XL doubles',d:'XL quadruples'}, correct:'c',
+    mistakes:{a:'Halving applies to capacitive reactance, which is inversely proportional to frequency. Inductive reactance is directly proportional: XL = 2πfL.'},
+    explanation:'<strong>XL = 2πfL</strong>. Since XL is directly proportional to frequency, doubling f doubles XL. An inductor opposes AC more at higher frequencies and acts like a short at DC (f = 0).' },
+
+  { id:'q36', topic:'AC Components', chapter:4,
+    text:'In a purely resistive AC circuit, what is the phase relationship between voltage and current?',
+    choices:{a:'Voltage leads current by 90°',b:'Current leads voltage by 90°',c:'Voltage and current are in phase (0°)',d:'They are 180° out of phase'}, correct:'c',
+    mistakes:{a:'Voltage leading current by 90° describes a purely inductive circuit. A resistor has no energy storage and therefore no phase shift.'},
+    explanation:'A resistor causes <strong>no phase shift</strong> — voltage and current are perfectly in phase (0°). Unlike inductors and capacitors, resistors do not store energy, so they produce no time delay between V and I.' },
+
+  { id:'q37', topic:'Reactance', chapter:4,
+    text:'In a purely inductive AC circuit, how does the inductor voltage relate to the current?',
+    choices:{a:'Voltage lags current by 90°',b:'Voltage and current are in phase',c:'Voltage leads current by 90°',d:'Voltage leads current by 45°'}, correct:'c',
+    mistakes:{a:'Lagging voltage describes a capacitor\'s phase behavior ("ICE" in the ELI the ICE man mnemonic), not an inductor. For inductors it is the opposite — voltage leads.'},
+    explanation:'In an inductor, <strong>voltage leads current by 90°</strong> ("ELI" — E leads I in an inductor). This is because inductor voltage is proportional to the rate of change of current: v = L × di/dt.' },
+
+  { id:'q38', topic:'RL Circuits', chapter:4,
+    text:'A series RL circuit has R = 30 Ω and XL = 40 Ω. What is the magnitude of the total impedance |Z|?',
+    choices:{a:'70 Ω',b:'10 Ω',c:'50 Ω',d:'35 Ω'}, correct:'c',
+    mistakes:{a:'70 Ω is the arithmetic sum R + XL. Impedance combines as vectors at right angles — use the Pythagorean theorem, not simple addition.',
+              b:'10 Ω is the difference XL − R. Resistance and reactance are perpendicular vectors; they must be combined using √(R² + XL²).'},
+    explanation:'<strong>|Z| = √(R² + XL²) = √(900 + 1600) = √2500 = 50 Ω</strong>. R and XL are 90° apart, so they add as the legs of a right triangle — a 3-4-5 triple scaled by 10.' },
+
+  { id:'q39', topic:'Op-Amp Basics', chapter:5,
+    text:'Which two rules govern all ideal op-amp analysis?',
+    choices:{a:'Infinite gain and zero output impedance',b:'V+ = V− and no current flows into either input pin',c:'Slew rate and Gain-Bandwidth Product',d:'V+ = 0 V and Vout = Vcc'}, correct:'b',
+    explanation:'The virtual short (V+ = V−) and zero input current (I<sub>in</sub> = 0) are the two golden rules. Every ideal op-amp gain formula follows from applying just these two to the circuit topology.' },
+
+  { id:'q40', topic:'Inverting Amplifier', chapter:5,
+    text:'An inverting amplifier has Rin = 5 kΩ and Rf = 50 kΩ. What is the closed-loop gain?',
+    choices:{a:'+10',b:'−10',c:'+11',d:'−50'}, correct:'b',
+    explanation:'A<sub>CL</sub> = −R<sub>f</sub>/R<sub>in</sub> = −50k/5k = <strong>−10</strong>. The negative sign indicates the output is 180° out of phase with the input.' },
+
+  { id:'q41', topic:'Non-Inverting Amplifier', chapter:5,
+    text:'A non-inverting amplifier has Rf = 39 kΩ and R1 = 3.9 kΩ. What is the closed-loop gain?',
+    choices:{a:'10',b:'−10',c:'11',d:'−11'}, correct:'c',
+    mistakes:{a:'10 is the ratio Rf/R1. The non-inverting formula adds 1: A_CL = 1 + Rf/R1 = 1 + 10 = 11.'},
+    explanation:'A<sub>CL</sub> = 1 + R<sub>f</sub>/R<sub>1</sub> = 1 + 39k/3.9k = 1 + 10 = <strong>11</strong>. Non-inverting gain always includes the +1 term from the direct input-to-output path.' },
+
+  { id:'q42', topic:'Common Circuits', chapter:5,
+    text:'What is the primary purpose of a voltage follower (unity-gain buffer)?',
+    choices:{a:'To amplify the signal by a factor of 2',b:'To invert the signal phase by 180°',c:'To provide impedance transformation without changing the voltage',d:'To filter high-frequency noise from the signal'}, correct:'c',
+    explanation:'A voltage follower presents near-infinite input impedance and near-zero output impedance. Voltage gain = 1, but the circuit isolates a high-impedance source from a low-impedance load without loading the source.' },
+
+  { id:'q43', topic:'Practical Limits', chapter:5,
+    text:'An op-amp has a Gain-Bandwidth Product (GBW) of 4 MHz. At a closed-loop gain of 40, what is the maximum signal bandwidth?',
+    choices:{a:'40 kHz',b:'100 kHz',c:'160 MHz',d:'4 MHz'}, correct:'b',
+    mistakes:{a:'40 kHz would come from GBW/100, not GBW/40. BW = GBW / A_CL = 4,000,000 / 40 = 100,000 Hz.'},
+    explanation:'BW = GBW / A<sub>CL</sub> = 4,000,000 / 40 = <strong>100,000 Hz = 100 kHz</strong>. GBW is constant for a given op-amp — higher gain always reduces bandwidth.' },
+
+  { id:'q44', topic:'Practical Limits', chapter:5,
+    text:'A comparator has V+ connected to a 1.8 V sensor and V− tied to a 2.5 V reference. What does the output do?',
+    choices:{a:'Outputs +Vsat (fully high)',b:'Outputs −Vsat (fully low)',c:'Outputs 0.7 V (the arithmetic difference)',d:'Oscillates between high and low'}, correct:'b',
+    explanation:'V+ (1.8 V) &lt; V− (2.5 V), so the comparator output goes to <strong>−Vsat</strong> (fully low). The output is binary — it never outputs the arithmetic difference between inputs.' }
 ];
 
-const CHAPTER_NAMES = {1:'Ch 1: Fundamentals', 2:'Ch 2: Power & Laws'};
+const CHAPTER_NAMES = {1:'Ch 1: Fundamentals', 2:'Ch 2: Power & Laws', 3:'Ch 3: Diodes & BJTs', 4:'Ch 4: AC Circuits', 5:'Ch 5: Op-Amps'};
 
 const QUIZ_KEY='mb-eb-quiz';
 
