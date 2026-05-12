@@ -261,7 +261,21 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && tourActive
   const s = document.createElement('style');
   s.textContent = `
 .cn-dropdown{display:inline-flex;}
-.cn-drop-btn{background:var(--accent-cool);color:#fff;border:none;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;line-height:1.4;font-family:inherit;}
+.cn-drop-btn{
+      background:var(--accent-cool);
+      color:#fff;
+      border:none;
+      padding:3px 10px;
+      border-radius:4px;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;line-height:1.4;
+      font-family:inherit;
+      }
 .cn-drop-btn:hover{opacity:.88;}
 .cn-drop-menu{display:none;position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:400;min-width:150px;overflow:hidden;}
 .cn-drop-menu.open{display:block;}

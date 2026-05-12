@@ -1,0 +1,5 @@
+User testing all week, compile bug list:
+
+1) Cannot reset entire course
+2) Lets add a backup system in case of errors in updates or accidental resets
+3) Add Unit systems before evaluating architecture

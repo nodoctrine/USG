@@ -45,9 +45,6 @@ Ask user thorough questions before implementing from this list if this document 
 
 10. Add "Units" as a way to bundle chapters. Include appropriate dropdown section and all other relevant menus
 
-11. New Course - Quality Systems (implement new Unit System)
-
-12. New Course - Control Systems
 
 13. Idea - Making courses from wikipedia
 	I am going to detail the content below at a high level, and i want you to use the content of the Wikipedia articles to create each section of the chapter. 
@@ -55,3 +52,5 @@ Ask user thorough questions before implementing from this list if this document 
 	Then create the map of how these articles are linked (obsidian might be good for that). 
 	In fact obsidian might be a good way to do that even without this interactive textbook feature, just a web of subjects flowing from a high level topic using links already in the Wikipedia articles.
 	Maybe convert Wikipedia to markdown first.
+
+

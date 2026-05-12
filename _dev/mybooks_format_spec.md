@@ -330,17 +330,22 @@ For each section, include:
 | Cross-course dropdown navigation                                                 | [x] Complete    |
 | Practice quiz engine with chapter filter + weakness mode + history               | [x] Complete    |
 | C Programming — Chapter 1                                                        | [x] Complete    |
-| C Programming — Practice Quiz (25 questions)                                     | [x] Complete    |
+| C Programming — Practice Quiz (30 questions)                                     | [x] Complete    |
 | Electronics Basics — Chapter 1                                                   | [x] Complete    |
 | Electronics Basics — Chapter 2                                                   | [x] Complete    |
-| Electronics Basics — Practice Quiz (26 questions)                                | [x] Complete    |
+| Electronics Basics — Practice Quiz (44 questions)                                | [x] Complete    |
 | Architecture + Authoring docs (`_dev/`)                                          | [x] Complete    |
 | GitHub repo structure (`Universal Study Guide/` root, `Courses/` subfolder)      | [x] Complete    |
-| C Programming — Chapter 0                                                        | [x] Complete    |
+| C Programming — Chapter 0 (Bit Manipulation & Register Control)                  | [x] Complete    |
 | C Programming — Chapters 2+                                                      | [ ] Not started |
 | Electronics Basics — Chapter 3                                                   | [x] Complete    |
 | Electronics Basics — Chapter 4                                                   | [x] Complete    |
-| Electronics Basics — Chapters 5+                                                 | [ ] Not started |
+| Electronics Basics — Chapter 5 (Operational Amplifiers)                          | [x] Complete    |
+| Electronics Basics — Chapters 6+                                                 | [ ] Not started |
+| Cross-nav current-page indicator (non-selectable label in each dropdown)         | [x] Complete    |
+| Reshuffle button in active quiz session                                          | [x] Complete    |
+| Heavier chapter format: 4 sections / ~10 tracked blocks (raised from 3/~6)       | [x] Complete    |
+| Professional SVG circuit diagrams using standard EE symbols                      | [ ] Not started |
 | Mistake hint system (common wrong answers with explanations)                     | [~] In progress |
 | Text-input question type                                                         | [~] In progress |
 | How-It-Do Guide (developer docs as a course)                                     | [~] In progress |
