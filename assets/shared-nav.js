@@ -15,7 +15,7 @@ const CONFIG = {
     'block-anim': 'Lecture',
     'block-mc':   'Lecture Review',
     'block-sa':   'Lecture Review',
-    'block-chal': 'Activity',
+    'block-act': 'Activity',
   },
 
   // ── Chevron symbols ───────────────────────────────────────────────────────
@@ -41,8 +41,8 @@ const CONFIG = {
   // saWrong is shown when a short-answer check fails and the answer was not revealed.
   feedback: {
     saWrong:  'Not quite — try again or click <em>Show Answer</em>.',
-    chalPass: '✓',   // symbol on a passing test row in the challenge output panel
-    chalFail: '✗',   // symbol on a failing test row in the challenge output panel
+    actPass: '✓',   // symbol on a passing test row in the activity output panel
+    actFail: '✗',   // symbol on a failing test row in the activity output panel
   },
 
   // ── Reset confirmation prompts ────────────────────────────────────────────
@@ -61,7 +61,7 @@ const CONFIG = {
   // themeKey is the localStorage key shared across all courses and pages.
   themes:       ['default', 'dark', 'retro'],
   defaultTheme: 'dark',
-  themeKey:     'mb-theme',
+  themeKey:     'usg-theme',
 
 };
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -98,162 +98,6 @@ function setTheme(t) {
   updatePie(t);
 })();
 
-
-// ── TOUR ───────────────────────────────────────────────────────────────────────
-(function injectTourStyles() {
-  const s = document.createElement('style');
-  s.textContent = `
-.tour-btn {
-  background: rgba(255,255,255,0.09);
-  border: 1.5px solid rgba(255,255,255,0.25);
-  color: var(--header-text);
-  width: 28px; height: 28px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  font-size: 15px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; line-height: 1;
-  transition: background 0.15s;
-  font-family: Georgia, serif;
-}
-.tour-btn:hover  { background: rgba(255,255,255,0.2); }
-.tour-btn.active { background: var(--accent-cool); border-color: transparent; }
-.tour-overlay { display: none; position: fixed; inset: 0; z-index: 500; }
-.tour-overlay.on { display: block; }
-.tour-bd { position: absolute; inset: 0; background: rgba(0,0,0,0.28); cursor: default; }
-.tour-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-.tour-ann {
-  position: absolute;
-  background: var(--surface);
-  border: 1.5px solid var(--accent-cool);
-  border-radius: var(--radius);
-  padding: 8px 12px;
-  max-width: 180px; min-width: 110px;
-  font-size: 12px; line-height: 1.45;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.5);
-  pointer-events: none; z-index: 502;
-  color: var(--text);
-}
-.tour-ann strong {
-  display: block;
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--accent-cool);
-  margin-bottom: 3px;
-}
-  `;
-  document.head.appendChild(s);
-})();
-
-const TOUR_ITEMS = [
-  { sel: '#progress-pill',      side: 'below', label: 'Progress',      text: 'Overall % complete. Updates each time you finish an activity.' },
-  { sel: '#remaining-pill',     side: 'below', label: 'Remaining',     text: 'Activities left to complete in this chapter.' },
-  { sel: '#theme-pie',          side: 'below', label: 'Theme',         text: 'Click a slice: Light, Dark, or Night Shift.' },
-  { sel: '.progress-bar-track', side: 'below', label: 'Progress Bar',  text: 'Fills as activities complete. Full green = chapter done.' },
-  { sel: '.sidebar-link',       side: 'right', label: 'Sections',      text: 'Jump to a section. Green when all activities complete.' },
-  { sel: '.s-count',            side: 'right', label: 'Section Count', text: 'Done / total activities for this section.' },
-  { sel: '.reset-btn',          side: 'right', label: 'Reset',         text: 'Clears saved progress. Confirms before erasing.' },
-];
-
-let tourActive = false;
-
-function stopTour() {
-  tourActive = false;
-  const ov = document.getElementById('tour-overlay');
-  if (ov) { ov.classList.remove('on'); ov.innerHTML = ''; }
-  const btn = document.getElementById('tour-btn');
-  if (btn) btn.classList.remove('active');
-}
-
-function startTour() {
-  tourActive = true;
-  document.documentElement.scrollTop = 0;
-  const btn = document.getElementById('tour-btn');
-  if (btn) btn.classList.add('active');
-  const ov = document.getElementById('tour-overlay');
-  if (!ov) return;
-  ov.innerHTML = '';
-  ov.classList.add('on');
-  const bd = document.createElement('div');
-  bd.className = 'tour-bd';
-  bd.addEventListener('click', stopTour);
-  ov.appendChild(bd);
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('class', 'tour-svg');
-  svg.innerHTML = `<defs><marker id="tarr" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0.5 L0,6.5 L7,3.5 z" fill="var(--accent-cool)"/></marker></defs>`;
-  ov.appendChild(svg);
-  const W = window.innerWidth, H = window.innerHeight;
-  const items = [];
-  TOUR_ITEMS.forEach(item => {
-    const target = document.querySelector(item.sel);
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    if (!rect.width && !rect.height) return;
-    if (rect.bottom < 0 || rect.top > H || rect.right < 0 || rect.left > W) return;
-    const ann = document.createElement('div');
-    ann.className = 'tour-ann';
-    ann.innerHTML = `<strong>${item.label}</strong>${item.text}`;
-    ov.appendChild(ann);
-    items.push({ ann, rect, side: item.side });
-  });
-  requestAnimationFrame(() => {
-    const GAP = 14, PAD = 8;
-    const placed = items.map(({ ann, rect, side }) => {
-      const AW = ann.offsetWidth, AH = ann.offsetHeight;
-      const tx = rect.left + rect.width  / 2;
-      const ty = rect.top  + rect.height / 2;
-      let ax, ay;
-      if (side === 'below') {
-        ax = Math.max(PAD, Math.min(tx - AW / 2, W - AW - PAD));
-        ay = rect.bottom + GAP;
-      } else if (side === 'right') {
-        ax = Math.min(rect.right + GAP, W - AW - PAD);
-        ay = Math.max(PAD, Math.min(ty - AH / 2, H - AH - PAD));
-      } else {
-        ax = Math.max(PAD, rect.left - AW - GAP);
-        ay = Math.max(PAD, Math.min(ty - AH / 2, H - AH - PAD));
-      }
-      return { ann, rect, side, ax, ay, AW, AH, tx, ty };
-    });
-    placed.sort((a, b) => a.ay !== b.ay ? a.ay - b.ay : a.ax - b.ax);
-    for (let i = 1; i < placed.length; i++) {
-      for (let j = 0; j < i; j++) {
-        const A = placed[j], B = placed[i];
-        const xOvr = B.ax < A.ax + A.AW + 6 && B.ax + B.AW > A.ax - 6;
-        const yOvr = B.ay < A.ay + A.AH + 6 && B.ay + B.AH > A.ay - 6;
-        if (xOvr && yOvr) B.ay = A.ay + A.AH + 8;
-      }
-    }
-    placed.forEach(({ ann, rect, side, ax, ay, AW, AH, tx, ty }) => {
-      if (ay + AH > H + 10 || ay < -10 || ax < -10 || ax + AW > W + 10) return;
-      ann.style.left = ax + 'px';
-      ann.style.top  = ay + 'px';
-      let lx1, ly1, lx2, ly2;
-      if (side === 'below') {
-        lx1 = Math.max(ax + 8, Math.min(tx, ax + AW - 8));
-        ly1 = ay; lx2 = lx1; ly2 = rect.bottom;
-      } else if (side === 'right') {
-        lx1 = ax;         ly1 = ay + AH / 2;
-        lx2 = rect.right; ly2 = ty;
-      } else {
-        lx1 = ax + AW;   ly1 = ay + AH / 2;
-        lx2 = rect.left; ly2 = ty;
-      }
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', lx1); line.setAttribute('y1', ly1);
-      line.setAttribute('x2', lx2); line.setAttribute('y2', ly2);
-      line.setAttribute('stroke', 'var(--accent-cool)');
-      line.setAttribute('stroke-width', '1.5');
-      line.setAttribute('stroke-dasharray', '5,3');
-      line.setAttribute('marker-end', 'url(#tarr)');
-      svg.appendChild(line);
-    });
-  });
-}
-
-function toggleTour() { if (tourActive) stopTour(); else startTour(); }
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && tourActive) stopTour(); });
 
 
 // ── DROPDOWN NAV ───────────────────────────────────────────────────────────────
@@ -334,12 +178,12 @@ document.querySelectorAll('.help-btn').forEach(btn => {
 // These functions expect the following globals defined by the chapter's inline
 // script (the data-only block at the bottom of each chapter HTML file):
 //
-//   const CHAPTER_ID    — localStorage key for this chapter (e.g. 'mb-eb3')
-//   const COURSE_PREFIX — localStorage prefix for the course (e.g. 'mb-eb')
+//   const CHAPTER_ID    — localStorage key for this chapter (e.g. 'usg-eb3')
+//   const COURSE_PREFIX — localStorage prefix for the course (e.g. 'usg-eb')
 //   const ALL_BLOCKS    — array of every tracked block ID, in document order
 //   const SEC_BLOCKS    — object mapping section number → array of block IDs
 //   const MC_DATA       — object mapping question ID → { correct, ok, bad }
-//   const CHALLENGES    — object mapping block ID → { tests[], defaultCode }
+//   const ACTIVITIES    — object mapping block ID → { tests[], defaultCode }
 //   var   prog          — object loaded from localStorage; tracks which blocks are done
 //   var   animIdx       — object tracking the current frame index per animation block
 //   var   mcDone        — object tracking which MC questions have been answered
@@ -452,8 +296,8 @@ function handleMC(name, value) {
 // Attach radio listeners. Guard prevents double-binding on legacy chapters
 // that also wire these in their inline script — calling handleMC twice is
 // safe but the guard avoids it for cleanliness.
-document.querySelectorAll('.block-mc input[type="radio"]:not([data-mb-bound])').forEach(inp => {
-  inp.dataset.mbBound = '1';
+document.querySelectorAll('.block-mc input[type="radio"]:not([data-usg-bound])').forEach(inp => {
+  inp.dataset.usgBound = '1';
   inp.addEventListener('change', () => handleMC(inp.name, inp.value));
 });
 
@@ -480,25 +324,25 @@ function showSA(blockId, answer, msg) {
 }
 
 
-// ── CHALLENGE ──────────────────────────────────────────────────────────────────
-function checkChallenge(blockId) {
-  const ch  = CHALLENGES[blockId];
+// ── ACTIVITY ───────────────────────────────────────────────────────────────────
+function checkActivity(blockId) {
+  const ch  = ACTIVITIES[blockId];
   const ed  = document.getElementById('ed-' + blockId);
   const out = document.getElementById('out-' + blockId);
   if (!ch || !ed || !out) return;
   const results = ch.tests.map(t => ({ ...t, pass: t.fn(ed.value) }));
   out.innerHTML = results.map(r =>
-    `<div class="t-row ${r.pass ? 't-pass' : 't-fail'}">${r.pass ? CONFIG.feedback.chalPass : CONFIG.feedback.chalFail}  ${r.name}</div>`
+    `<div class="t-row ${r.pass ? 't-pass' : 't-fail'}">${r.pass ? CONFIG.feedback.actPass : CONFIG.feedback.actFail}  ${r.name}</div>`
   ).join('');
-  out.className = 'chal-output visible';
+  out.className = 'act-output visible';
   if (results.every(r => r.pass)) markDone(blockId);
 }
-function resetChallenge(blockId) {
-  const ch  = CHALLENGES[blockId];
+function resetActivity(blockId) {
+  const ch  = ACTIVITIES[blockId];
   const ed  = document.getElementById('ed-' + blockId);
   const out = document.getElementById('out-' + blockId);
   if (ed)  ed.value     = ch?.defaultCode || '';
-  if (out) out.className = 'chal-output';
+  if (out) out.className = 'act-output';
 }
 
 
@@ -514,11 +358,11 @@ function resetChapter() {
   });
   document.querySelectorAll('.explanation').forEach(el => el.className = 'explanation');
   document.querySelectorAll('.sa-input').forEach(el => { el.value = ''; el.className = 'sa-input'; });
-  document.querySelectorAll('.chal-output').forEach(el => el.className = 'chal-output');
-  if (typeof CHALLENGES !== 'undefined') {
-    Object.keys(CHALLENGES).forEach(id => {
+  document.querySelectorAll('.act-output').forEach(el => el.className = 'act-output');
+  if (typeof ACTIVITIES !== 'undefined') {
+    Object.keys(ACTIVITIES).forEach(id => {
       const ed = document.getElementById('ed-' + id);
-      if (ed) ed.value = CHALLENGES[id].defaultCode;
+      if (ed) ed.value = ACTIVITIES[id].defaultCode;
     });
   }
   if (typeof animIdx !== 'undefined') {
@@ -529,7 +373,7 @@ function resetChapter() {
 
 function resetCourse() {
   if (!confirm(CONFIG.reset.course)) return;
-  // COURSE_PREFIX is defined in the chapter's inline script (e.g. 'mb-eb').
+  // COURSE_PREFIX is defined in the chapter's inline script (e.g. 'usg-eb').
   // Clears all localStorage keys that start with that prefix, covering every
   // chapter in the course regardless of how many exist.
   if (typeof COURSE_PREFIX !== 'undefined') {

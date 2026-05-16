@@ -60,7 +60,7 @@ This directly reduces token cost when an AI assistant reads files during develop
 <script>
 'use strict';
 // ── CUSTOMIZE: chapter identity ────────────────────────────────────
-const CHAPTER_ID = 'mb-XX-N';          // unique localStorage key
+const CHAPTER_ID = 'usg-XX-N';          // unique localStorage key
 const ALL_BLOCKS  = ['anim-1','mc-1']; // every tracked block id
 const SEC_BLOCKS  = { 1:['anim-1'], 2:['mc-1'] }; // section → blocks
 
@@ -110,7 +110,7 @@ const QUESTIONS = [
   // { id, topic, chapter, text, formula?, choices:{a,b,c,d?}, correct, explanation }
 ];
 const CHAPTER_NAMES = { 1: 'Ch 1: Title' }; // chapter number → display name
-const QUIZ_KEY = 'mb-XX-quiz';               // unique localStorage key
+const QUIZ_KEY = 'usg-XX-quiz';               // unique localStorage key
 </script>
 <script src="../../assets/shared-nav.js"></script>
 <script src="../../assets/quiz-engine.js"></script>
@@ -196,9 +196,9 @@ Current conventions in use:
 
 | Page | Key pattern | Example |
 |------|-------------|---------|
-| Chapter | `mb-{course}{N}` | `mb-eb1`, `mb-c1` |
-| Quiz perf/log | `mb-{course}-quiz` | `mb-eb-quiz`, `mb-c-quiz` |
-| Theme | `mb-theme` | shared across all pages |
+| Chapter | `usg-{course}{N}` | `usg-eb1`, `usg-c1` |
+| Quiz perf/log | `usg-{course}-quiz` | `usg-eb-quiz`, `usg-c-quiz` |
+| Theme | `usg-theme` | shared across all pages |
 
 **Course prefix registry** (add when creating new courses):
 

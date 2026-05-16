@@ -23,7 +23,12 @@
       <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
       <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
     </svg>
-    <button class="tour-btn" id="tour-btn" onclick="toggleTour()" aria-label="UI tour" title="UI Tour">?</button>
+    <div class="cn-dropdown">
+      <button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
   </div>
 </header>
 <!-- CUSTOMIZE: button text = current course/chapter; add one .cn-drop-item per other course/chapter.
@@ -51,7 +56,6 @@
 <div class="completion-banner" id="completion-banner">
   Chapter complete! <a href="chapter_[NEXT].html">Continue to Chapter [NEXT] &rarr;</a>
 </div>
-<div class="tour-overlay" id="tour-overlay"></div>
 
 <div class="layout">
 
@@ -194,24 +198,24 @@
         </div>
       </div>
 
-      <!-- CHALLENGE BLOCK — id="chal-[N]" -->
-      <div class="block block-chal" id="chal-1">
+      <!-- ACTIVITY BLOCK — id="chal-[N]" -->
+      <div class="block block-act" id="chal-1">
         <div class="act-header">
           <span class="act-badge badge-chal">Activity</span>
-          <span class="act-title">[N.1.4] — Challenge Title</span>
+          <span class="act-title">[N.1.4] — Activity Title</span>
           <span class="chevron pend" id="chev-chal-1">○</span>
         </div>
         <div class="act-body">
-          <div class="chal-instructions">Instructions describing what to do.</div>
+          <div class="act-instructions">Instructions describing what to do.</div>
           <div class="editor-wrap">
             <div class="editor-topbar"><span>file.ext</span><span>LANG</span></div>
             <textarea class="editor" id="ed-chal-1" spellcheck="false">// starter code here</textarea>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
-            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+            <button class="btn btn-primary" onclick="checkActivity('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetActivity('chal-1')">Reset</button>
           </div>
-          <div class="chal-output" id="out-chal-1"></div>
+          <div class="act-output" id="out-chal-1"></div>
         </div>
       </div>
 
@@ -235,15 +239,15 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // localStorage key for this chapter's progress.
-// Format: 'mb-' + course code + chapter number
+// Format: 'usg-' + course code + chapter number
 // Known codes: c = C Programming, eb = Electronics Basics
-// Example: Electronics Basics Chapter 3 → 'mb-eb3'
-const CHAPTER_ID = 'mb-[PREFIX][N]';
+// Example: Electronics Basics Chapter 3 → 'usg-eb3'
+const CHAPTER_ID = 'usg-[PREFIX][N]';
 
 // localStorage prefix for the entire course.
 // resetCourse() in shared-nav.js removes every key that starts with this.
-// Example: 'mb-eb' clears mb-eb1, mb-eb2, mb-eb3, ...
-const COURSE_PREFIX = 'mb-[PREFIX]';
+// Example: 'usg-eb' clears usg-eb1, usg-eb2, usg-eb3, ...
+const COURSE_PREFIX = 'usg-[PREFIX]';
 
 // Every tracked block in the chapter, in document order.
 // Tracked types: anim-N, mc-N, sa-N, chal-N.
@@ -269,11 +273,11 @@ const MC_DATA = {
   }
 };
 
-// One entry per challenge block.
+// One entry per activity block.
 // tests[].name — label shown in the output panel next to pass/fail
 // tests[].fn   — function(editorText) → boolean; use \b for numeric boundaries
 // defaultCode  — pre-filled textarea text; restored on Reset
-const CHALLENGES = {
+const ACTIVITIES = {
   'chal-1': {
     tests: [
       { name: 'Test description shown to reader', fn: c => /pattern/.test(c) }

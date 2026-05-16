@@ -23,9 +23,8 @@
       <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
     </svg>
     <div class="cn-dropdown">
-      <button class="tour-btn help-btn" id="tour-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
       <div class="cn-drop-menu" data-align="right">
-        <button class="cn-drop-item" onclick="toggleTour()">UI Tour</button>
         <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
       </div>
     </div>
@@ -63,7 +62,6 @@
 <div class="completion-banner" id="completion-banner">
   Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
 </div>
-<div class="tour-overlay" id="tour-overlay"></div>
 
 <div class="layout">
 
@@ -520,15 +518,15 @@
         </div>
       </div>
 
-      <!-- CHALLENGE 1 -->
-      <div class="block block-chal" id="chal-1">
+      <!-- ACTIVITY 1 -->
+      <div class="block block-act" id="chal-1">
         <div class="act-header">
           <span class="act-badge badge-chal">Activity</span>
           <span class="act-title">1.4.3 — Ohm's Law Practice</span>
           <span class="chevron pend" id="chev-chal-1">○</span>
         </div>
         <div class="act-body">
-          <div class="chal-instructions">
+          <div class="act-instructions">
             Solve the two Ohm's Law problems below. Show your work and write the final answer clearly on its own line. Click <strong>Check Answer</strong> when done.
           </div>
           <div class="editor-wrap">
@@ -540,10 +538,10 @@ Problem 2: I = 2 A, R = 6 Ω → Find V
 V = I × R = ___ × ___ = ___ V</textarea>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="checkChallenge('chal-1')">&#9654; Check Answer</button>
-            <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+            <button class="btn btn-primary" onclick="checkActivity('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetActivity('chal-1')">Reset</button>
           </div>
-          <div class="chal-output" id="out-chal-1"></div>
+          <div class="act-output" id="out-chal-1"></div>
         </div>
       </div>
     </section>
@@ -621,15 +619,15 @@ V = I × R = ___ × ___ = ___ V</textarea>
         </div>
       </div>
 
-      <!-- CHALLENGE 2 -->
-      <div class="block block-chal" id="chal-2">
+      <!-- ACTIVITY 2 -->
+      <div class="block block-act" id="chal-2">
         <div class="act-header">
           <span class="act-badge badge-chal">Activity</span>
           <span class="act-title">1.5.2 — Resistance Calculations</span>
           <span class="chevron pend" id="chev-chal-2">○</span>
         </div>
         <div class="act-body">
-          <div class="chal-instructions">
+          <div class="act-instructions">
             Solve both resistance problems. Show your work and write the final numerical answer clearly.
           </div>
           <div class="editor-wrap">
@@ -641,10 +639,10 @@ Problem 2 (Parallel): R1=5Ω, R2=10Ω, R3=20Ω
 1/Rt = 1/5 + 1/10 + 1/20 = ___ → Rt = ___ Ω</textarea>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="checkChallenge('chal-2')">&#9654; Check Answer</button>
-            <button class="btn btn-ghost"   onclick="resetChallenge('chal-2')">Reset</button>
+            <button class="btn btn-primary" onclick="checkActivity('chal-2')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetActivity('chal-2')">Reset</button>
           </div>
-          <div class="chal-output" id="out-chal-2"></div>
+          <div class="act-output" id="out-chal-2"></div>
         </div>
       </div>
     </section>
@@ -661,29 +659,12 @@ Problem 2 (Parallel): R1=5Ω, R2=10Ω, R3=20Ω
 'use strict';
 
 // PROGRESS
-const CHAPTER_ID = 'mb-eb1';
+const CHAPTER_ID    = 'usg-eb1';
+const COURSE_PREFIX = 'usg-eb';
 const ALL_BLOCKS  = ['anim-1','mc-1','anim-2','mc-2','sa-1','sa-2','anim-3','mc-3','sa-3','chal-1','mc-4','chal-2'];
 const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['anim-2','mc-2','sa-1'], 3:['sa-2','anim-3'], 4:['mc-3','sa-3','chal-1'], 5:['mc-4','chal-2'] };
 
 let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-function markDone(id){ prog[id]=true; localStorage.setItem(CHAPTER_ID,JSON.stringify(prog)); renderProgress(); }
-
-function renderProgress(){
-  const total=ALL_BLOCKS.length, done=ALL_BLOCKS.filter(id=>prog[id]).length, pct=Math.round((done/total)*100);
-  ALL_BLOCKS.forEach(id=>{ const el=document.getElementById('chev-'+id); if(!el) return; if(prog[id]){el.textContent='✓';el.className='chevron done';}else{el.textContent='○';el.className='chevron pend';} });
-  Object.entries(SEC_BLOCKS).forEach(([sec,ids])=>{
-    const sd=ids.filter(id=>prog[id]).length, st=ids.length, all=sd===st;
-    const sc=document.getElementById('sc-'+sec), lk=document.querySelector(`[data-sec="${sec}"]`);
-    if(sc){sc.textContent=all?'✓':`${sd}/${st}`;sc.className='s-count'+(all?' all-done':'');}
-    if(lk) lk.classList.toggle('section-done',all);
-  });
-  const pill=document.getElementById('progress-pill'); if(pill) pill.textContent=pct+'% complete';
-  const rem=total-done, rp=document.getElementById('remaining-pill');
-  if(rp){rp.textContent=rem>0?`${rem} remaining`:'all done!'; rp.style.display=rem===0?'none':'';}
-  const bar=document.getElementById('progress-bar'); if(bar) bar.style.width=pct+'%';
-  const bn=document.getElementById('completion-banner'); if(bn) bn.classList.toggle('visible',done===total);
-}
 
 // SIDEBAR ACTIVE
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
@@ -691,20 +672,6 @@ document.querySelectorAll('.section').forEach(s=>io.observe(s));
 
 // ANIMATION
 const animIdx={};
-function animGo(id,delta){
-  const frames=document.querySelectorAll(`#${id} .anim-frame`), n=frames.length;
-  if(!n) return;
-  if(animIdx[id]===undefined) animIdx[id]=0;
-  animIdx[id]=Math.max(0,Math.min(animIdx[id]+delta,n-1));
-  const i=animIdx[id];
-  frames.forEach((f,fi)=>f.classList.toggle('active',fi===i));
-  const num=id.replace('anim-',''), cap=document.getElementById('anim-cap-'+num), prg=document.getElementById('anim-prog-'+num);
-  if(cap) cap.textContent=frames[i].dataset.cap||'';
-  if(prg) prg.textContent=(i+1)+' / '+n;
-  if(i===n-1) markDone(id);
-}
-function animNext(id){ animGo(id,1); }
-function animPrev(id){ animGo(id,-1); }
 
 // MULTIPLE CHOICE
 const MC_DATA = {
@@ -719,36 +686,10 @@ const MC_DATA = {
 };
 
 const mcDone={};
-function handleMC(name,value){
-  const data=MC_DATA[name]; if(!data) return;
-  document.querySelectorAll(`input[name="${name}"]`).forEach(inp=>{ inp.disabled=true; const lbl=inp.closest('.choice'); if(inp.value===data.correct) lbl.classList.add('correct'); else if(inp.value===value) lbl.classList.add('incorrect'); });
-  const exp=document.getElementById('exp-'+name);
-  if(exp){ const ok=value===data.correct; exp.innerHTML=ok?data.ok:data.bad; exp.className='explanation visible'+(ok?'':' wrong'); }
-  mcDone[name]=true;
-  const blockNum=name.match(/^mcq-(\d+)/)[1], blockId='mc-'+blockNum;
-  if(Object.keys(MC_DATA).filter(k=>k.startsWith('mcq-'+blockNum)).every(k=>mcDone[k])) markDone(blockId);
-}
-document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>inp.addEventListener('change',()=>handleMC(inp.name,inp.value)));
 
-// SHORT ANSWER
-function checkSA(blockId,accepted,okMsg){
-  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
-  if(!input||!exp) return;
-  const ok=accepted.map(a=>a.toLowerCase()).includes(input.value.trim().toLowerCase());
-  input.className='sa-input '+(ok?'correct':'incorrect');
-  exp.innerHTML=ok?okMsg:'Not quite — try again or click <em>Show Answer</em>.';
-  exp.className='explanation visible'+(ok?'':' wrong');
-  if(ok) markDone(blockId);
-}
-function showSA(blockId,answer,msg){
-  const num=blockId.replace('sa-',''), input=document.getElementById('sa-input-'+num), exp=document.getElementById('exp-'+blockId);
-  if(input){input.value=answer; input.className='sa-input correct';}
-  if(exp){exp.innerHTML=msg; exp.className='explanation visible';}
-  markDone(blockId);
-}
 
-// CHALLENGE
-const CHALLENGES = {
+// ACTIVITY
+const ACTIVITIES = {
   'chal-1':{
     tests:[
       { name:'Problem 1: I = 3 A  (24 V ÷ 8 Ω)', fn: c => /\b3\b/.test(c) },
@@ -765,37 +706,6 @@ const CHALLENGES = {
   }
 };
 
-function checkChallenge(blockId){
-  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
-  if(!ch||!ed||!out) return;
-  const results=ch.tests.map(t=>({...t,pass:t.fn(ed.value)}));
-  out.innerHTML=results.map(r=>`<div class="t-row ${r.pass?'t-pass':'t-fail'}">${r.pass?'✓':'✗'}  ${r.name}</div>`).join('');
-  out.className='chal-output visible';
-  if(results.every(r=>r.pass)) markDone(blockId);
-}
-function resetChallenge(blockId){
-  const ch=CHALLENGES[blockId], ed=document.getElementById('ed-'+blockId), out=document.getElementById('out-'+blockId);
-  if(ed) ed.value=ch?.defaultCode||'';
-  if(out) out.className='chal-output';
-}
-
-// RESET
-function resetChapter(){
-  if(!confirm('Reset all progress for this chapter? This cannot be undone.')) return;
-  prog={}; localStorage.removeItem(CHAPTER_ID);
-  document.querySelectorAll('.block-mc input[type="radio"]').forEach(inp=>{inp.checked=false;inp.disabled=false;inp.closest('.choice').className='choice';});
-  document.querySelectorAll('.explanation').forEach(el=>el.className='explanation');
-  document.querySelectorAll('.sa-input').forEach(el=>{el.value='';el.className='sa-input';});
-  document.querySelectorAll('.chal-output').forEach(el=>el.className='chal-output');
-  Object.keys(CHALLENGES).forEach(id=>{const ed=document.getElementById('ed-'+id);if(ed) ed.value=CHALLENGES[id].defaultCode;});
-  Object.keys(animIdx).forEach(id=>{animIdx[id]=0;animGo(id,0);});
-  renderProgress();
-}
-function resetCourse(){
-  if(!confirm('Reset ALL progress for the entire Electronics Basics course? This cannot be undone.')) return;
-  Object.keys(localStorage).filter(k=>k.startsWith('mb-eb')).forEach(k=>localStorage.removeItem(k));
-  resetChapter();
-}
 
 renderProgress();
 </script>

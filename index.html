@@ -108,20 +108,7 @@ a { color: var(--accent-cool); text-decoration: none; }
 }
 .help-hint { margin-top: 32px; text-align: center; font-size: 12px; color: var(--text-muted); }
 
-/* HELP BUTTON & DROPDOWN */
-.tour-btn {
-  background: rgba(255,255,255,0.09);
-  border: 1.5px solid rgba(255,255,255,0.25);
-  color: var(--header-text);
-  width: 28px; height: 28px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  font-size: 15px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; line-height: 1;
-  font-family: Georgia, serif;
-}
-.tour-btn:hover { background: rgba(255,255,255,0.2); }
+
 .cn-dropdown { display: inline-flex; }
 .cn-drop-menu { display: none; position: fixed; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 4px 20px rgba(0,0,0,.3); z-index: 400; min-width: 150px; overflow: hidden; }
 .cn-drop-menu.open { display: block; }
@@ -130,7 +117,7 @@ a { color: var(--accent-cool); text-decoration: none; }
 </style>
 </head>
 <body data-theme="dark">
-<script>!function(){var t=localStorage.getItem('mb-theme');if(/^(default|dark|retro)$/.test(t))document.body.setAttribute('data-theme',t);}();</script>
+<script>!function(){var t=localStorage.getItem('usg-theme');if(/^(default|dark|retro)$/.test(t))document.body.setAttribute('data-theme',t);}();</script>
 
 <header class="page-header">
   <div class="header-left">
@@ -145,7 +132,7 @@ a { color: var(--accent-cool); text-decoration: none; }
       <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
     </svg>
     <div class="cn-dropdown">
-      <button class="tour-btn help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
       <div class="cn-drop-menu" data-align="right">
         <a class="cn-drop-item" href="Courses/How_To_Guide/chapter_01.html">How-To Guide</a>
       </div>
@@ -157,7 +144,7 @@ a { color: var(--accent-cool); text-decoration: none; }
 
   <div class="hero">
     <h1>Your Study Guides</h1>
-    <p>Interactive chapters with animations, quizzes, and hands-on challenges.<br>Progress saves automatically in your browser.</p>
+    <p>Interactive chapters with animations, quizzes, and hands-on activities.<br>Progress saves automatically in your browser.</p>
   </div>
 
   <div class="courses">
@@ -169,39 +156,39 @@ a { color: var(--accent-cool); text-decoration: none; }
         <div class="course-desc">Circuits, components, and the fundamental laws of electronics.</div>
       </div>
       <div class="chapter-list">
-        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_01.html" data-key="mb-eb1" data-total="12">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_01.html" data-key="usg-eb1" data-total="12">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 1</span>
             <span class="ch-title">Electronic Systems Fundamentals</span>
-            <span class="ch-badge badge-new" id="badge-mb-eb1">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-eb1">0%</span>
           </div>
         </a>
-        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_02.html" data-key="mb-eb2" data-total="12">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_02.html" data-key="usg-eb2" data-total="12">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 2</span>
             <span class="ch-title">Power, KCL, KVL &amp; Capacitors</span>
-            <span class="ch-badge badge-new" id="badge-mb-eb2">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-eb2">0%</span>
           </div>
         </a>
-        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_03.html" data-key="mb-eb3" data-total="12">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_03.html" data-key="usg-eb3" data-total="12">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 3</span>
             <span class="ch-title">Diodes &amp; Bipolar Junction Transistors</span>
-            <span class="ch-badge badge-new" id="badge-mb-eb3">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-eb3">0%</span>
           </div>
         </a>
-        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_04.html" data-key="mb-eb4" data-total="12">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_04.html" data-key="usg-eb4" data-total="12">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 4</span>
             <span class="ch-title">AC Circuits</span>
-            <span class="ch-badge badge-new" id="badge-mb-eb4">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-eb4">0%</span>
           </div>
         </a>
-        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_05.html" data-key="mb-eb5" data-total="10">
+        <a class="chapter-row" href="Courses/Electronics_Basics/chapter_05.html" data-key="usg-eb5" data-total="10">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 5</span>
             <span class="ch-title">Operational Amplifiers</span>
-            <span class="ch-badge badge-new" id="badge-mb-eb5">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-eb5">0%</span>
           </div>
         </a>
         <a class="chapter-row" href="Courses/Electronics_Basics/quiz.html">
@@ -221,18 +208,18 @@ a { color: var(--accent-cool); text-decoration: none; }
         <div class="course-desc">Procedural programming fundamentals in C.</div>
       </div>
       <div class="chapter-list">
-        <a class="chapter-row" href="Courses/C_Programming/chapter_01.html" data-key="mb-c1" data-total="4">
+        <a class="chapter-row" href="Courses/C_Programming/chapter_01.html" data-key="usg-c1" data-total="4">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 1</span>
             <span class="ch-title">Introduction to C</span>
-            <span class="ch-badge badge-new" id="badge-mb-c1">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-c1">0%</span>
           </div>
         </a>
-        <a class="chapter-row" href="Courses/C_Programming/chapter_00.html" data-key="mb-c0" data-total="6">
+        <a class="chapter-row" href="Courses/C_Programming/chapter_00.html" data-key="usg-c0" data-total="6">
           <div class="chapter-row-top">
             <span class="ch-num">Ch 0</span>
             <span class="ch-title">Bit Manipulation &amp; Register Control</span>
-            <span class="ch-badge badge-new" id="badge-mb-c0">0%</span>
+            <span class="ch-badge badge-new" id="badge-usg-c0">0%</span>
           </div>
         </a>
         <a class="chapter-row" href="Courses/C_Programming/quiz.html">
@@ -255,8 +242,8 @@ a { color: var(--accent-cool); text-decoration: none; }
 'use strict';
 
 const COURSES = [
-  { id: 'eb', chapters: [{ key: 'mb-eb1', total: 12 }, { key: 'mb-eb2', total: 12 }, { key: 'mb-eb3', total: 12 }, { key: 'mb-eb4', total: 12 }, { key: 'mb-eb5', total: 10 }] },
-  { id: 'c',  chapters: [{ key: 'mb-c1',  total: 4  }] }
+  { id: 'eb', chapters: [{ key: 'usg-eb1', total: 12 }, { key: 'usg-eb2', total: 12 }, { key: 'usg-eb3', total: 12 }, { key: 'usg-eb4', total: 12 }, { key: 'usg-eb5', total: 10 }] },
+  { id: 'c',  chapters: [{ key: 'usg-c1',  total: 4  }] }
 ];
 
 function renderProgress() {

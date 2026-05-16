@@ -31,11 +31,11 @@ How to create a new chapter from scratch using the template.
 These are the only things that **must** change per chapter. All logic is in `shared-nav.js`.
 
 ### `CHAPTER_ID`
-The localStorage key for this chapter's progress. Format: `mb-{courseCode}{chapterNumber}`
+The localStorage key for this chapter's progress. Format: `usg-{courseCode}{chapterNumber}`
 
 ```js
-const CHAPTER_ID = 'mb-c2';   // C Programming, Chapter 2
-const CHAPTER_ID = 'mb-eb1';  // Electronics Basics, Chapter 1
+const CHAPTER_ID = 'usg-c2';   // C Programming, Chapter 2
+const CHAPTER_ID = 'usg-eb1';  // Electronics Basics, Chapter 1
 ```
 
 Course codes defined so far: `c` (C Programming), `eb` (Electronics Basics).
@@ -44,8 +44,8 @@ Course codes defined so far: `c` (C Programming), `eb` (Electronics Basics).
 The localStorage prefix for the entire course. `resetCourse()` in `shared-nav.js` removes every key that starts with this string, clearing all chapters at once.
 
 ```js
-const COURSE_PREFIX = 'mb-eb';  // clears mb-eb1, mb-eb2, mb-eb3, ...
-const COURSE_PREFIX = 'mb-c';   // clears mb-c1, mb-c2, ...
+const COURSE_PREFIX = 'usg-eb';  // clears usg-eb1, usg-eb2, usg-eb3, ...
+const COURSE_PREFIX = 'usg-c';   // clears usg-c1, usg-c2, ...
 ```
 
 Must match the course-code portion of `CHAPTER_ID`.
@@ -372,7 +372,7 @@ The quiz and index are separate files — they are **not** updated automatically
 
 ## Placeholder Chapter Numbers
 
-When a chapter's final position in the course is not yet known (e.g., a capstone chapter being written before the middle chapters exist), use `chapter_00.html` as a placeholder filename. The file still needs a valid `CHAPTER_ID` (e.g., `mb-c0`).
+When a chapter's final position in the course is not yet known (e.g., a capstone chapter being written before the middle chapters exist), use `chapter_00.html` as a placeholder filename. The file still needs a valid `CHAPTER_ID` (e.g., `usg-c0`).
 
 Nav setup for a placeholder last chapter:
 - Its own nav: Previous → the chapter currently before it; Next = `<span class="nav-btn disabled">`
@@ -388,7 +388,7 @@ The chapter dropdown and `index.html` card should list the placeholder in its in
 1. Create folder: `Courses/[CourseName]/`
 2. Copy `_template.html` → `Courses/[CourseName]/chapter_01.html`
 3. Choose a two-letter course code (check existing codes: `c`, `eb`)
-4. Set `CHAPTER_ID = 'mb-{code}1'`
+4. Set `CHAPTER_ID = 'usg-{code}1'`
 5. Update cross-nav in **every existing chapter** to include a link to the new course's Chapter 1
 6. Add the course card to `index.html` with `href="Courses/[CourseName]/chapter_01.html"`
 7. Add the new course to the Implementation Status table in the format spec
@@ -416,4 +416,4 @@ The chapter dropdown and `index.html` card should list the placeholder in its in
 | Challenge output | `out-chal-N` | `out-chal-2` |
 | Chevron | `chev-{blockId}` | `chev-anim-1`, `chev-mc-2` |
 | Sidebar count | `sc-N` | `sc-4` |
-| localStorage key | `mb-{courseCode}{chapterN}` | `mb-eb2` |
+| localStorage key | `usg-{courseCode}{chapterN}` | `usg-eb2` |

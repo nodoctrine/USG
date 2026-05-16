@@ -168,15 +168,15 @@ Each section in the sidebar shows a `done/total` pill (e.g. `1/2`). When all blo
 
 ### localStorage Key Convention
 
-All keys follow the pattern: `mb-{courseCode}{chapterNumber}`
+All keys follow the pattern: `usg-{courseCode}{chapterNumber}`
 
 | Course | Code | Example key |
 |---|---|---|
-| C Programming | `c` | `mb-c1`, `mb-c2` |
-| Electronics Basics | `eb` | `mb-eb1`, `mb-eb2` |
-| Theme preference | — | `mb-theme` |
+| C Programming | `c` | `usg-c1`, `usg-c2` |
+| Electronics Basics | `eb` | `usg-eb1`, `usg-eb2` |
+| Theme preference | — | `usg-theme` |
 
-`resetCourse()` clears all keys starting with the course prefix (e.g., `mb-c` clears all C Programming chapters). New courses must use a unique two-letter code to avoid key collisions.
+`resetCourse()` clears all keys starting with the course prefix (e.g., `usg-c` clears all C Programming chapters). New courses must use a unique two-letter code to avoid key collisions.
 
 ### Reset Controls
 Two reset buttons sit at the bottom of the sidebar:
@@ -240,7 +240,7 @@ Path rules from inside `Courses/[Name]/`:
 
 ## Visual Design Principles
 
-MyBooks uses an original visual style with three built-in themes. Guidelines that apply to all themes:
+Universal Study Guide uses an original visual style with three built-in themes. Guidelines that apply to all themes:
 
 - Clean, minimal, readable
 - **No emojis anywhere in the codebase** — not in HTML, JS strings, or button labels. ASCII symbols and plain Unicode characters are both fine as substitutes. Emojis render as large colored glyphs on modern OSes and conflict with the clean visual style.
@@ -266,7 +266,7 @@ Built-in themes:
 - `dark` — dark background, high contrast (default on page load)
 - `retro` — warm amber tones, Night Shift-inspired
 
-Theme selection is saved to `localStorage` under key `mb-theme` and applies across all courses.
+Theme selection is saved to `localStorage` under key `usg-theme` and applies across all courses.
 
 ---
 
@@ -284,7 +284,7 @@ Theme selection is saved to `localStorage` under key `mb-theme` and applies acro
 6. Sidebar links — one `<a>` per section with correct `data-sec` and `s-count` initial values
 7. Chapter nav top/footer — set correct prev/next `href` values (use `<span class="nav-btn disabled">` for first chapter)
 8. Completion banner — update next chapter link
-9. `CHAPTER_ID` — `'mb-{courseCode}{chapterN}'`
+9. `CHAPTER_ID` — `'usg-{courseCode}{chapterN}'`
 10. `ALL_BLOCKS` — array of every tracked block ID in document order
 11. `SEC_BLOCKS` — object mapping section number → array of block IDs in that section
 12. `MC_DATA` — one entry per question in every MC block
