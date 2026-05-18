@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
-</div>
 
 <div class="layout">
 
@@ -355,12 +351,6 @@ const COURSE_PREFIX = 'usg-htg';
 const ALL_BLOCKS  = ['anim-1','mc-1','anim-2','mc-2','mc-3','sa-1'];
 const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['anim-2','mc-2'], 3:['mc-3','sa-1'] };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
-document.querySelectorAll('.section').forEach(s=>io.observe(s));
-
-const animIdx={};
 
 const MC_DATA = {
   'mcq-1-1':{ correct:'b', ok:'<strong>Correct!</strong> All progress — chapter completions, quiz scores, weakness data, and theme — is saved in <code>localStorage</code>. No server or account is involved.', bad:'<strong>Not quite.</strong> Progress is stored in your browser\'s <code>localStorage</code>. No internet, server, or account is required.' },
@@ -369,11 +359,6 @@ const MC_DATA = {
   'mcq-3-1':{ correct:'c', ok:'<strong>Correct!</strong> You must advance through every frame using the Next → button. Reaching the final frame triggers the completion checkmark.', bad:'<strong>Not quite.</strong> Animations require you to step through ALL frames. Only reaching the last frame marks the block complete.' }
 };
 
-const mcDone={};
-
-
-
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

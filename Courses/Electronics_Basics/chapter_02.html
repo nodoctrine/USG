@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! <a href="chapter_03.html">Continue to Chapter 3 &rarr;</a>
-</div>
 
 <div class="layout">
 
@@ -668,14 +664,6 @@ const SEC_BLOCKS  = {
   4: ['anim-4','mc-4','chal-2']
 };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-// SIDEBAR ACTIVE
-const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
-document.querySelectorAll('.section').forEach(s=>io.observe(s));
-
-// ANIMATION
-const animIdx={};
 
 // MULTIPLE CHOICE
 const MC_DATA = {
@@ -721,8 +709,6 @@ const MC_DATA = {
   }
 };
 
-const mcDone={};
-
 
 // ACTIVITY
 const ACTIVITIES = {
@@ -743,9 +729,6 @@ const ACTIVITIES = {
     defaultCode: `Capacitor: C = 50 µF, V = 10 V\n\nCharge stored:\nQ = C × V\nQ = 50 × 10⁻⁶ × ___ = ___ C  (= ___ µC)\n\nEnergy stored:\nE = ½ × C × V²\nE = 0.5 × 50 × 10⁻⁶ × ___² = ___ J  (= ___ mJ)`
   }
 };
-
-
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

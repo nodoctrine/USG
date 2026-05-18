@@ -36,10 +36,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
-</div>
 
 <!-- ================================================================
      TOUR OVERLAY — populated dynamically by JS
@@ -328,27 +324,6 @@ const COURSE_PREFIX = 'usg-c';
 const ALL_BLOCKS  = ['anim-1', 'mc-1', 'sa-1', 'chal-1'];
 const SEC_BLOCKS  = { 1: ['anim-1'], 2: ['mc-1', 'sa-1'], 3: ['chal-1'] };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
-
-// -------------------------------------------------------------------
-// SIDEBAR ACTIVE HIGHLIGHT
-// -------------------------------------------------------------------
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const sec = e.target.id.replace('sec-', '');
-      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`[data-sec="${sec}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { threshold: 0.25 });
-document.querySelectorAll('.section').forEach(s => io.observe(s));
-
-// -------------------------------------------------------------------
-// ANIMATION
-// -------------------------------------------------------------------
-const animIdx = {};
 
 
 // -------------------------------------------------------------------
@@ -367,8 +342,6 @@ const MC_DATA = {
   }
 };
 
-const mcDone = {};
-
 
 
 // -------------------------------------------------------------------
@@ -384,12 +357,6 @@ const ACTIVITIES = {
     defaultCode: `#include <stdio.h>\n\nint main() {\n    // your code here\n\n    return 0;\n}`
   }
 };
-
-
-// -------------------------------------------------------------------
-// INIT
-// -------------------------------------------------------------------
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

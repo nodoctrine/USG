@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! Great work &mdash; more chapters coming soon.
-</div>
 
 <div class="layout">
 
@@ -208,9 +204,6 @@ const MC_DATA = {
   'mcq-2-1': { correct: 'b', ok: '<strong>Correct!</strong> i runs 0, 1, 2, 3, 4 — that is <strong>5</strong> iterations. The loop stops when i reaches 5 (condition <code>i &lt; 5</code> becomes false).', bad: '<strong>Not quite.</strong> Count the values: i = 0, 1, 2, 3, 4 → the body runs <strong>5</strong> times. The condition <code>i &lt; 5</code> fails when i = 5.' }
 };
 
-var prog    = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
-var animIdx = {};
-var mcDone  = {};
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! <a href="chapter_04.html">Continue to Chapter 4 &rarr;</a>
-</div>
 
 <div class="layout">
 
@@ -729,14 +725,6 @@ const SEC_BLOCKS  = {
   4: ['anim-4','mc-4','chal-1']
 };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-// SIDEBAR ACTIVE
-const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
-document.querySelectorAll('.section').forEach(s=>io.observe(s));
-
-// ANIMATION
-const animIdx={};
 
 // MULTIPLE CHOICE
 const MC_DATA = {
@@ -782,8 +770,6 @@ const MC_DATA = {
   }
 };
 
-const mcDone={};
-
 
 // ACTIVITY
 const ACTIVITIES = {
@@ -795,9 +781,6 @@ const ACTIVITIES = {
     defaultCode: 'BJT Low-Side Switch Design\n\nGiven:\n  V_GPIO  = 3.3 V  (microcontroller output)\n  V_BE    = 0.6 V\n  β (h_FE) = 100   (minimum guaranteed)\n  Target collector current i_C(sat) = 20 mA\n\nStep 1 — Required base current:\n  i_B = i_C(sat) ÷ β\n  i_B = 20 mA ÷ 100 = ___ mA\n\nStep 2 — Base resistor R_B:\n  R_B = (V_GPIO − V_BE) ÷ i_B\n  R_B = (3.3 − 0.6) ÷ ___ A = ___ Ω'
   }
 };
-
-
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! <a href="chapter_02.html">Continue to Chapter 2 &rarr;</a>
-</div>
 
 <div class="layout">
 
@@ -639,14 +635,6 @@ const COURSE_PREFIX = 'usg-eb';
 const ALL_BLOCKS  = ['anim-1','mc-1','anim-2','mc-2','sa-1','sa-2','anim-3','mc-3','sa-3','chal-1','mc-4','chal-2'];
 const SEC_BLOCKS  = { 1:['anim-1','mc-1'], 2:['anim-2','mc-2','sa-1'], 3:['sa-2','anim-3'], 4:['mc-3','sa-3','chal-1'], 5:['mc-4','chal-2'] };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-// SIDEBAR ACTIVE
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.replace('sec-','');document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`[data-sec="${s}"]`);if(a)a.classList.add('active');}}),{threshold:0.25});
-document.querySelectorAll('.section').forEach(s=>io.observe(s));
-
-// ANIMATION
-const animIdx={};
 
 // MULTIPLE CHOICE
 const MC_DATA = {
@@ -659,8 +647,6 @@ const MC_DATA = {
   'mcq-4-1':{ correct:'b', ok:'<strong>Correct!</strong> A series circuit has only one path — the same current flows through every component in that path.', bad:'<strong>Not quite.</strong> In a series circuit there is one path, so the same current flows through every component. Voltage is what divides.' },
   'mcq-4-2':{ correct:'c', ok:'<strong>Correct!</strong> Series total: R<sub>t</sub> = 10 + 20 + 30 = <strong>60 Ω</strong>.', bad:'<strong>Not quite.</strong> In series, resistances add directly: R<sub>t</sub> = 10 + 20 + 30 = 60 Ω.' }
 };
-
-const mcDone={};
 
 
 // ACTIVITY
@@ -680,9 +666,6 @@ const ACTIVITIES = {
     defaultCode:`Problem 1 (Series): R1=100Ω, R2=150Ω, R3=250Ω\nRt = R1 + R2 + R3 = ___ + ___ + ___ = ___ Ω\n\nProblem 2 (Parallel): R1=5Ω, R2=10Ω, R3=20Ω\n1/Rt = 1/5 + 1/10 + 1/20 = ___ → Rt = ___ Ω`
   }
 };
-
-
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

@@ -30,7 +30,8 @@ Shared assets: `assets/shared.css` (all styles), `assets/shared-nav.js` (CONFIG 
 
 ```
 Universal Study Guide/          ← GitHub repo root
-  _template.html                ← Canonical starter for any new chapter
+  _template.html                ← Comprehensive block-type reference (all block variants)
+  _structured_template.html     ← Canonical starter for new chapters (Overview + Intro/Lecture/Review/Activity)
   _quiz_template.html           ← Canonical starter for any new quiz
   index.html                    ← Course catalog (self-contained)
   assets/
@@ -48,6 +49,7 @@ Universal Study Guide/          ← GitHub repo root
   _dev/
     ARCHITECTURE.md             ← Technical architecture and file format reference
     AUTHORING_GUIDE.md          ← Step-by-step guide to create new chapters
+    CHAPTER_STRUCTURE.md        ← Per-section content structure (Overview, Intro, Lecture, Review, Activity)
 ```
 
 Raw source material (PDFs, zyBooks exports) lives OUTSIDE the repo in `_Drop Source Content Here/`.
@@ -333,6 +335,7 @@ For each section, include:
 | Cross-nav current-page indicator (non-selectable label in each dropdown)         | [x] Complete    |
 | Reshuffle button in active quiz session                                          | [x] Complete    |
 | Heavier chapter format: 4 sections / ~10 tracked blocks (raised from 3/~6)       | [x] Complete    |
+| Structured chapter format (Overview + Intro/Lecture/Review/Activity per section) | [x] Complete    |
 | Professional SVG circuit diagrams using standard EE symbols                      | [ ] Not started |
 | Mistake hint system (common wrong answers with explanations)                     | [~] In progress |
 | Text-input question type                                                         | [~] In progress |

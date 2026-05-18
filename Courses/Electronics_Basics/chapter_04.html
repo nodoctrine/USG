@@ -33,10 +33,6 @@
 
 <nav class="cross-nav"></nav>
 
-<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
-<div class="completion-banner" id="completion-banner">
-  Chapter complete! Great work — you have finished Chapter 4.
-</div>
 
 <div class="layout">
 
@@ -712,14 +708,6 @@ const SEC_BLOCKS  = {
   4: ['anim-4','mc-4','chal-1']
 };
 
-let prog = JSON.parse(localStorage.getItem(CHAPTER_ID)||'{}');
-
-// SIDEBAR ACTIVE
-const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const s=e.target.id.replace('sec-',''); document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active')); const a=document.querySelector(`[data-sec="${s}"]`); if(a) a.classList.add('active'); } }),{threshold:0.25});
-document.querySelectorAll('.section').forEach(s=>io.observe(s));
-
-// ANIMATION
-const animIdx={};
 
 // MULTIPLE CHOICE
 const MC_DATA = {
@@ -765,8 +753,6 @@ const MC_DATA = {
   }
 };
 
-const mcDone={};
-
 
 // ACTIVITY
 const ACTIVITIES = {
@@ -779,9 +765,6 @@ const ACTIVITIES = {
     defaultCode: 'Series RL Circuit Analysis\n\nGiven:\n  V_s = 200 V  (source voltage, peak)\n  ω   = 500 rad/s\n  R   = 60 Ω\n  L   = 0.16 H\n\nStep 1 — Inductive reactance:\n  X_L = ω × L = 500 × 0.16 = ___ Ω\n\nStep 2 — Impedance magnitude:\n  |Z| = √(R² + X_L²) = √(60² + ___²) = √___ = ___ Ω\n\nStep 3 — Current:\n  I = V_s ÷ |Z| = 200 ÷ ___ = ___ A'
   }
 };
-
-
-renderProgress();
 </script>
 <script src="../../assets/shared-nav.js"></script>
 </body>

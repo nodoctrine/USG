@@ -66,6 +66,13 @@ const CONFIG = {
 };
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Runtime state — declared here so all engine functions share the same
+// references. The if(ALL_BLOCKS) block at the bottom assigns real values
+// from localStorage once the chapter's constants are confirmed present.
+let prog    = {};
+let animIdx = {};
+let mcDone  = {};
+
 
 // ── LABELS — read each block's CSS class and inject the badge text ─────────────
 // Runs once on load. Badge spans can be left empty in new chapters.
@@ -157,6 +164,7 @@ const COURSES = [
     folder: 'C_Programming',
     entry:  'chapter_01.html',
     pages: [
+      { file: 'chapter_00.html', label: 'Chapter 0' },
       { file: 'chapter_01.html', label: 'Chapter 1' },
       { file: 'chapter_02.html', label: 'Chapter 2' },
       { file: 'quiz.html',       label: 'Practice Quiz' },
@@ -202,6 +210,28 @@ const COURSES = [
     `<span class="cross-nav-label">Chapter:</span>` +
     `<div class="cn-dropdown"><button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">${pageLabel} &#9662;</button>` +
     `<div class="cn-drop-menu">${chapterItems}</div></div>`;
+
+  // Inject progress bar and completion banner immediately after the cross-nav.
+  // ALL_BLOCKS is defined by the chapter inline script, which runs before
+  // shared-nav.js loads, so this typeof check is reliable at execution time.
+  // Quiz pages do not define ALL_BLOCKS and are skipped.
+  if (typeof ALL_BLOCKS !== 'undefined') {
+    const track = document.createElement('div');
+    track.className = 'progress-bar-track';
+    track.innerHTML = '<div class="progress-bar-fill" id="progress-bar"></div>';
+    nav.after(track);
+
+    const pageIdx  = course.pages.findIndex(p => p.file === currentFile);
+    const nextPage = (pageIdx >= 0 && pageIdx < course.pages.length - 1)
+      ? course.pages[pageIdx + 1] : null;
+    const banner = document.createElement('div');
+    banner.className = 'completion-banner';
+    banner.id        = 'completion-banner';
+    banner.innerHTML = nextPage
+      ? `Chapter complete! <a href="${nextPage.file}">Continue to ${nextPage.label} &rarr;</a>`
+      : 'Chapter complete!';
+    track.after(banner);
+  }
 })();
 
 
@@ -256,9 +286,6 @@ document.querySelectorAll('.help-btn').forEach(btn => {
 //   const SEC_BLOCKS    — object mapping section number → array of block IDs
 //   const MC_DATA       — object mapping question ID → { correct, ok, bad }
 //   const ACTIVITIES    — object mapping block ID → { tests[], defaultCode }
-//   var   prog          — object loaded from localStorage; tracks which blocks are done
-//   var   animIdx       — object tracking the current frame index per animation block
-//   var   mcDone        — object tracking which MC questions have been answered
 //
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -455,6 +482,8 @@ function resetCourse() {
 // ── SIDEBAR ACTIVE SECTION ────────────────────────────────────────────────────
 // Only runs on chapter pages (where ALL_BLOCKS is defined).
 if (typeof ALL_BLOCKS !== 'undefined') {
+  prog = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+
   const _io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;

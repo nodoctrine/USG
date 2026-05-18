@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · [SUBJECT] — Chapter [N]: [TITLE]</title>
+<link rel="stylesheet" href="assets/shared.css">
+</head>
+<!-- data-theme default is always "dark" -->
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">[SUBJECT NAME]</span>
+    <span class="header-chapter">Chapter [N] — [CHAPTER TITLE]</span>
+  </div>
+  <div class="header-right">
+    <!-- remaining-pill initial count = ALL_BLOCKS.length (3 tracked blocks per section) -->
+    <div class="remaining-pill" id="remaining-pill">[X] remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+<nav class="cross-nav"></nav>
+<!-- progress bar and completion banner are injected here by shared-nav.js -->
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <!-- one sidebar-link per numbered section; the Chapter Overview is not listed here -->
+    <a href="#sec-1" class="sidebar-link" data-sec="1">[N.1] Section Title <span class="s-count" id="sc-1">0/3</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">[N.2] Section Title <span class="s-count" id="sc-2">0/3</span></a>
+    <!-- add one line per additional section; initial count is always 0/3 -->
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">&#8635; Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">&#8635; Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <!-- First chapter: replace the <a> below with <span class="nav-btn disabled"> Previous Chapter </span> -->
+      <a class="nav-btn" href="chapter_[PREV].html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="chapter_[NEXT].html">Next Chapter &#8594;</a>
+    </div>
+
+    <!-- =================================================================
+         CHAPTER OVERVIEW
+         Not tracked. Not inside any <section>. Appears once per chapter.
+         One short paragraph: what this chapter covers and why it matters.
+         ================================================================= -->
+    <div class="block block-reading">
+      <p><strong>Chapter [N] — [CHAPTER TITLE]</strong></p>
+      <p>
+        Write a brief paragraph here introducing the chapter. Mention what topics
+        will be covered across all sections and explain why they matter in context
+        of the broader subject. Keep it to 3–5 sentences — just enough for the
+        reader to orient themselves before diving into Section 1.
+      </p>
+    </div>
+
+    <!-- =================================================================
+         SECTION 1
+         Structure: Intro → Lecture → Lecture Review → Activity
+         ================================================================= -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">[N.1]</span> Section Title</h2>
+
+      <!-- INTRO — reading block, not tracked.
+           One or more paragraphs describing what this section is about.
+           Introduce the concept in plain language before the lecture begins.
+           Key terms can be highlighted with <span class="term">term</span>. -->
+      <div class="block block-reading">
+        <p>
+          Write 2–4 paragraphs here introducing the section topic. Explain the
+          core idea in plain English. Use <span class="term">key term</span> on
+          the first use of important vocabulary. This text is read before the
+          Lecture, so keep it conceptual — leave the step-by-step detail for
+          the slides.
+        </p>
+        <ul>
+          <li>Optional bullet list for key properties or rules.</li>
+          <li>Keep bullets short — one idea each.</li>
+        </ul>
+      </div>
+
+      <!-- LECTURE — tracked as anim-N.
+           Step-through slides covering the section concept in detail.
+           Completion triggers when the reader reaches the last frame.
+           Frame count shown in anim-progress must match actual frame count. -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">[N.1.1] — Lecture Title</span>
+          <span class="chevron pend" id="chev-anim-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+
+            <div class="anim-frame active" data-cap="Caption for frame 1. Shown below the slide.">
+              <strong>Step 1 — Opening concept</strong><br><br>
+              Introduce the topic of this lecture. One focused idea per frame.
+              Use <code>inline code</code> for technical terms where appropriate.
+            </div>
+
+            <div class="anim-frame" data-cap="Caption for frame 2.">
+              <strong>Step 2 — Core detail</strong><br><br>
+              Expand on the concept. Add a figure, formula, or code example if it
+              helps. Each frame should advance the reader's understanding by one step.
+            </div>
+
+            <div class="anim-frame" data-cap="Caption for frame 3. Last frame completes the block.">
+              <strong>Step 3 — Wrap-up</strong><br><br>
+              Summarize or show the complete picture. The reader marks this block
+              done by reaching this frame.
+            </div>
+
+          </div>
+          <div class="anim-caption" id="anim-cap-1">Caption for frame 1. Shown below the slide.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LECTURE REVIEW — tracked as mc-N.
+           Multiple choice questions about the Lecture just completed.
+           2–4 questions per block. Block is done when all questions are answered.
+           Add more mc-question divs for additional questions; update MC_DATA to match. -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">[N.1.2] — Review: Section Title</span>
+          <span class="chevron pend" id="chev-mc-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> Question about content from the Lecture above?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>Incorrect choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>Correct choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>Incorrect choice</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> A second question testing a different point from the Lecture?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>Correct choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>Incorrect choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>Incorrect choice</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ACTIVITY — tracked as chal-N.
+           Two variants — use whichever fits the section topic:
+
+           VARIANT A — Formula / math:
+             The reader computes a value and types the numeric answer.
+             Use regex tests with \b word boundaries to check the exact number.
+
+           VARIANT B — Free response:
+             The reader writes out an explanation or short answer in their own words.
+             Use a loose regex (e.g., one or two required key terms) or a single
+             test that marks done as long as a minimum number of characters is typed.
+             defaultCode should be an empty string or a short prompt. -->
+      <div class="block block-act" id="chal-1">
+        <div class="act-header">
+          <span class="act-badge badge-act">Activity</span>
+          <span class="act-title">[N.1.3] — Activity Title</span>
+          <span class="chevron pend" id="chev-chal-1">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="act-instructions">
+            Write the question or task here. For a formula activity, provide all
+            known values and ask for the unknown. For a free-response activity,
+            ask the reader to explain a concept, list steps, or describe a scenario.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>answer.txt</span><span>TEXT</span></div>
+            <textarea class="editor" id="ed-chal-1" spellcheck="false">Write your answer here.</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkActivity('chal-1')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetActivity('chal-1')">Reset</button>
+          </div>
+          <div class="act-output" id="out-chal-1"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-1 -->
+
+    <!-- =================================================================
+         SECTION 2  (copy this block for each additional section)
+         Same structure: Intro -> Lecture -> Lecture Review -> Activity
+         Block IDs increment globally across the chapter (anim-2, mc-2, chal-2).
+         ================================================================= -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">[N.2]</span> Section Title</h2>
+
+      <!-- INTRO -->
+      <div class="block block-reading">
+        <p>
+          Intro paragraph for section 2. Same rules as section 1's intro — conceptual
+          overview in plain language, key terms highlighted, no step-by-step detail yet.
+        </p>
+      </div>
+
+      <!-- LECTURE -->
+      <div class="block block-anim" id="anim-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">[N.2.1] — Lecture Title</span>
+          <span class="chevron pend" id="chev-anim-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+
+            <div class="anim-frame active" data-cap="Caption for frame 1.">
+              <strong>Step 1</strong><br><br>
+              First frame of section 2's lecture.
+            </div>
+
+            <div class="anim-frame" data-cap="Caption for frame 2.">
+              <strong>Step 2</strong><br><br>
+              Second frame.
+            </div>
+
+            <div class="anim-frame" data-cap="Caption for frame 3.">
+              <strong>Step 3</strong><br><br>
+              Final frame — reaching this marks the block done.
+            </div>
+
+          </div>
+          <div class="anim-caption" id="anim-cap-2">Caption for frame 1.</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-2')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-2')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-2">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LECTURE REVIEW -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">[N.2.2] — Review: Section Title</span>
+          <span class="chevron pend" id="chev-mc-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> Question about section 2's lecture content?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>Incorrect choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>Incorrect choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>Correct choice</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+
+          <div class="mc-question" id="mcq-2-2">
+            <div class="q-text"><span class="q-num">2)</span> A second question for section 2?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-2" value="a"> <span>Incorrect choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="b"> <span>Correct choice</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-2" value="c"> <span>Incorrect choice</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ACTIVITY -->
+      <div class="block block-act" id="chal-2">
+        <div class="act-header">
+          <span class="act-badge badge-act">Activity</span>
+          <span class="act-title">[N.2.3] — Activity Title</span>
+          <span class="chevron pend" id="chev-chal-2">&#9675;</span>
+        </div>
+        <div class="act-body">
+          <div class="act-instructions">
+            Activity instructions for section 2.
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-topbar"><span>answer.txt</span><span>TEXT</span></div>
+            <textarea class="editor" id="ed-chal-2" spellcheck="false">Write your answer here.</textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="checkActivity('chal-2')">&#9654; Check Answer</button>
+            <button class="btn btn-ghost"   onclick="resetActivity('chal-2')">Reset</button>
+          </div>
+          <div class="act-output" id="out-chal-2"></div>
+        </div>
+      </div>
+
+    </section><!-- /sec-2 -->
+
+    <!-- Add more sections here by copying the sec-2 block above.
+         Each new section: increment all block IDs (anim-N, mc-N, chal-N),
+         add a sidebar-link entry, and add the section to SEC_BLOCKS. -->
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_[PREV].html">&#8592; Previous Chapter</a>
+      <a class="nav-btn" href="chapter_[NEXT].html">Next Chapter &#8594;</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CHAPTER DATA — Edit this block for each new chapter.
+// All display logic, activity behavior, and progress tracking live in shared-nav.js.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const CHAPTER_ID    = 'usg-[PREFIX][N]';
+const COURSE_PREFIX = 'usg-[PREFIX]';
+
+// 3 tracked blocks per section: anim-N, mc-N, chal-N.
+// Reading blocks (Intro, Chapter Overview) are not tracked.
+const ALL_BLOCKS = [
+  'anim-1', 'mc-1', 'chal-1',   // section 1
+  'anim-2', 'mc-2', 'chal-2'    // section 2
+  // add 'anim-3', 'mc-3', 'chal-3' for each additional section
+];
+
+const SEC_BLOCKS = {
+  1: ['anim-1', 'mc-1', 'chal-1'],
+  2: ['anim-2', 'mc-2', 'chal-2']
+  // 3: ['anim-3', 'mc-3', 'chal-3']
+};
+
+// One entry per MC question (not per block).
+// Key format: 'mcq-{blockN}-{questionN}'
+const MC_DATA = {
+  'mcq-1-1': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Explanation of why this answer is right.',
+    bad: '<strong>Not quite.</strong> Explanation pointing to the right answer.'
+  },
+  'mcq-1-2': {
+    correct: 'a',
+    ok:  '<strong>Correct!</strong> Explanation.',
+    bad: '<strong>Not quite.</strong> Explanation.'
+  },
+  'mcq-2-1': {
+    correct: 'c',
+    ok:  '<strong>Correct!</strong> Explanation.',
+    bad: '<strong>Not quite.</strong> Explanation.'
+  },
+  'mcq-2-2': {
+    correct: 'b',
+    ok:  '<strong>Correct!</strong> Explanation.',
+    bad: '<strong>Not quite.</strong> Explanation.'
+  }
+};
+
+// One entry per activity block.
+// FORMULA variant: tests check for a specific numeric answer using \b boundaries.
+// FREE RESPONSE variant: tests check for one or two required key terms, or just
+//   that the reader typed a minimum amount (c.trim().length > 20).
+const ACTIVITIES = {
+  'chal-1': {
+    tests: [
+      // Formula example:
+      // { name: 'Correct value', fn: c => /\b42\b/.test(c) }
+      // Free response example:
+      // { name: 'Mentions key term', fn: c => /\bterm\b/i.test(c) }
+      { name: 'Answer submitted', fn: c => c.trim().length > 0 }
+    ],
+    defaultCode: 'Write your answer here.'
+  },
+  'chal-2': {
+    tests: [
+      { name: 'Answer submitted', fn: c => c.trim().length > 0 }
+    ],
+    defaultCode: 'Write your answer here.'
+  }
+};
+</script>
+<script src="assets/shared-nav.js"></script>
+</body>
+</html>
