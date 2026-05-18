@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Study Guide · C Programming — Chapter 2: Control Flow</title>
+<link rel="stylesheet" href="../../assets/shared.css">
+</head>
+<body data-theme="dark">
+
+<header class="page-header">
+  <div class="header-left">
+    <span class="header-subject">C Programming</span>
+    <span class="header-chapter">Chapter 2 — Control Flow</span>
+  </div>
+  <div class="header-right">
+    <div class="remaining-pill" id="remaining-pill">3 remaining</div>
+    <div class="progress-pill"  id="progress-pill">0% complete</div>
+    <svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">
+      <path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z"  onclick="setTheme('default')"><title>Light</title></path>
+      <path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>
+      <path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z"   onclick="setTheme('retro')"><title>Night Shift</title></path>
+      <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/>
+    </svg>
+    <div class="cn-dropdown">
+      <button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>
+      <div class="cn-drop-menu" data-align="right">
+        <a class="cn-drop-item" href="../How_To_Guide/chapter_01.html">How-To Guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cross-nav"></nav>
+
+<div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+<div class="completion-banner" id="completion-banner">
+  Chapter complete! Great work &mdash; more chapters coming soon.
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-label">Sections</div>
+    <a href="#sec-1" class="sidebar-link" data-sec="1">2.1 Conditionals <span class="s-count" id="sc-1">0/2</span></a>
+    <a href="#sec-2" class="sidebar-link" data-sec="2">2.2 Loops <span class="s-count" id="sc-2">0/1</span></a>
+    <hr class="sidebar-divider">
+    <button class="reset-btn" onclick="resetChapter()">↺ Reset this chapter</button>
+    <button class="reset-btn" onclick="resetCourse()">↺ Reset entire course</button>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="chapter-nav-top">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+    <!-- ================================================================
+         SECTION 1 — Conditionals
+         ================================================================ -->
+    <section class="section" id="sec-1">
+      <h2 class="section-heading"><span class="section-num">2.1</span> Conditionals</h2>
+
+      <div class="block block-reading">
+        <p>An <span class="term">if statement</span> lets a program choose what to do based on a condition. If the condition is true, the block runs; otherwise it is skipped.</p>
+        <pre><code>if (x &gt; 0) {
+    printf("positive\n");
+} else {
+    printf("non-positive\n");
+}</code></pre>
+        <p>The <span class="term">else if</span> clause chains multiple conditions. Only the first true branch executes; if none match, the optional <span class="term">else</span> branch runs.</p>
+      </div>
+
+      <!-- ANIMATION 1 -->
+      <div class="block block-anim" id="anim-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture</span>
+          <span class="act-title">2.1.1 — How an if Statement Executes</span>
+          <span class="chevron pend" id="chev-anim-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="anim-stage">
+            <div class="anim-frame active" data-cap="The program evaluates the condition inside the parentheses. The result is either true (non-zero) or false (zero).">
+              <strong>Step 1: Evaluate the Condition</strong><br><br>
+              <div style="font-family:monospace;font-size:14px;line-height:2;">
+                <span style="color:var(--accent-cool)">if</span> (<span style="color:var(--accent-warm)">x &gt; 0</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                }<br><br>
+                <span style="color:var(--text-muted)">↑ Is x greater than 0?</span>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="If the condition is true, the code inside the braces runs. If false, the entire block is skipped.">
+              <strong>Step 2: Branch</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:1.9;">
+                <div style="color:var(--accent-success)">x = 5 → condition true → runs the block</div>
+                <div style="color:var(--accent-error);margin-top:8px">x = -3 → condition false → block skipped</div>
+              </div>
+            </div>
+            <div class="anim-frame" data-cap="An else clause provides an alternative path. Exactly one of the two branches always executes.">
+              <strong>Step 3: else Provides the Alternative</strong><br><br>
+              <div style="font-family:monospace;font-size:13px;line-height:2;">
+                <span style="color:var(--accent-cool)">if</span> (x &gt; 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent-success)">printf("positive");</span><br>
+                } <span style="color:var(--accent-cool)">else</span> {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent-error)">printf("non-positive");</span><br>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="anim-caption" id="anim-cap-1">The program evaluates the condition inside the parentheses. The result is either true (non-zero) or false (zero).</div>
+          <div class="anim-controls">
+            <button class="btn btn-ghost"   onclick="animPrev('anim-1')">&#8592; Prev</button>
+            <button class="btn btn-primary" onclick="animNext('anim-1')">Next &#8594;</button>
+            <span class="anim-progress" id="anim-prog-1">1 / 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC 1 -->
+      <div class="block block-mc" id="mc-1">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">2.1.2 — Conditionals Check</span>
+          <span class="chevron pend" id="chev-mc-1">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-1-1">
+            <div class="q-text"><span class="q-num">1)</span> In C, what value does a false condition evaluate to?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-1" value="a"> <span>-1</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="b"> <span>0</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="c"> <span>false</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-1" value="d"> <span>NULL</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-1"></div>
+          </div>
+          <div class="mc-question" id="mcq-1-2">
+            <div class="q-text"><span class="q-num">2)</span> If an <code>if</code> condition is false and there is no <code>else</code>, what happens?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-1-2" value="a"> <span>The program exits with an error</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="b"> <span>The if block runs anyway</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="c"> <span>The block is skipped and execution continues after it</span></label>
+              <label class="choice"><input type="radio" name="mcq-1-2" value="d"> <span>The condition is re-evaluated until it is true</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-1-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — Loops
+         ================================================================ -->
+    <section class="section" id="sec-2">
+      <h2 class="section-heading"><span class="section-num">2.2</span> Loops</h2>
+
+      <div class="block block-reading">
+        <p>A <span class="term">for loop</span> repeats a block a fixed number of times. It has three parts: an initializer, a condition, and an increment.</p>
+        <pre><code>for (int i = 0; i &lt; 5; i++) {
+    printf("%d\n", i);
+}</code></pre>
+        <p>A <span class="term">while loop</span> repeats as long as its condition is true. Use it when the number of iterations is not known in advance.</p>
+        <p>A <span class="term">do-while loop</span> always executes its body at least once before checking the condition.</p>
+      </div>
+
+      <!-- MC 2 -->
+      <div class="block block-mc" id="mc-2">
+        <div class="act-header">
+          <span class="act-badge badge-part">Lecture Review</span>
+          <span class="act-title">2.2.1 — Loops Check</span>
+          <span class="chevron pend" id="chev-mc-2">○</span>
+        </div>
+        <div class="act-body">
+          <div class="mc-question" id="mcq-2-1">
+            <div class="q-text"><span class="q-num">1)</span> How many times does <code>for (int i = 0; i &lt; 5; i++)</code> execute its body?</div>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="mcq-2-1" value="a"> <span>4</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="b"> <span>5</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="c"> <span>6</span></label>
+              <label class="choice"><input type="radio" name="mcq-2-1" value="d"> <span>Infinite — it never stops</span></label>
+            </div>
+            <div class="explanation" id="exp-mcq-2-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chapter-nav-footer">
+      <a class="nav-btn" href="chapter_01.html">&#8592; Previous Chapter</a>
+      <span class="nav-btn disabled">Next Chapter &#8594;</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const CHAPTER_ID    = 'usg-c2';
+const COURSE_PREFIX = 'usg-c';
+const ALL_BLOCKS  = ['anim-1', 'mc-1', 'mc-2'];
+const SEC_BLOCKS  = { 1: ['anim-1', 'mc-1'], 2: ['mc-2'] };
+
+const MC_DATA = {
+  'mcq-1-1': { correct: 'b', ok: '<strong>Correct!</strong> In C, false is represented as <strong>0</strong>; any non-zero value is true.', bad: '<strong>Not quite.</strong> C uses <strong>0</strong> for false and any non-zero integer for true — there is no built-in boolean keyword in C89/C90.' },
+  'mcq-1-2': { correct: 'c', ok: '<strong>Correct!</strong> With no <code>else</code>, a false condition simply skips the block and execution resumes on the next line after the closing brace.', bad: '<strong>Not quite.</strong> If the condition is false and there is no <code>else</code>, the <code>if</code> block is skipped silently — no error, no retry.' },
+  'mcq-2-1': { correct: 'b', ok: '<strong>Correct!</strong> i runs 0, 1, 2, 3, 4 — that is <strong>5</strong> iterations. The loop stops when i reaches 5 (condition <code>i &lt; 5</code> becomes false).', bad: '<strong>Not quite.</strong> Count the values: i = 0, 1, 2, 3, 4 → the body runs <strong>5</strong> times. The condition <code>i &lt; 5</code> fails when i = 5.' }
+};
+
+var prog    = JSON.parse(localStorage.getItem(CHAPTER_ID) || '{}');
+var animIdx = {};
+var mcDone  = {};
+</script>
+<script src="../../assets/shared-nav.js"></script>
+</body>
+</html>

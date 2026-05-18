@@ -131,7 +131,7 @@ code{font-family:'Cascadia Code','Fira Code','Courier New',monospace;background:
 .act-header{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface-alt);}
 .act-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:3px;color:#fff;flex-shrink:0;}
 .badge-part{background:var(--accent-warm);}
-.badge-chal{background:var(--accent-cool);}
+.badge-act{background:var(--accent-cool);}
 .act-title{font-size:14px;font-weight:600;flex:1;}
 .chevron{font-size:19px;line-height:1;flex-shrink:0;}
 .chevron.pend{color:var(--accent-gray);}

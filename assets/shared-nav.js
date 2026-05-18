@@ -133,6 +133,78 @@ span.cn-drop-current{display:block;padding:8px 14px;font-size:13px;color:var(--a
   document.head.appendChild(s);
 })();
 
+
+// ── COURSE REGISTRY ────────────────────────────────────────────────────────────
+// Single source of truth for all cross-nav links.
+// To add a chapter: append to the course's pages array.
+// To add a course:  add a new object here. No chapter HTML edits needed.
+const COURSES = [
+  {
+    name:   'Electronics Basics',
+    folder: 'Electronics_Basics',
+    entry:  'chapter_01.html',
+    pages: [
+      { file: 'chapter_01.html', label: 'Chapter 1' },
+      { file: 'chapter_02.html', label: 'Chapter 2' },
+      { file: 'chapter_03.html', label: 'Chapter 3' },
+      { file: 'chapter_04.html', label: 'Chapter 4' },
+      { file: 'chapter_05.html', label: 'Chapter 5' },
+      { file: 'quiz.html',       label: 'Practice Quiz' },
+    ],
+  },
+  {
+    name:   'C Programming',
+    folder: 'C_Programming',
+    entry:  'chapter_01.html',
+    pages: [
+      { file: 'chapter_01.html', label: 'Chapter 1' },
+      { file: 'chapter_02.html', label: 'Chapter 2' },
+      { file: 'quiz.html',       label: 'Practice Quiz' },
+    ],
+  },
+  {
+    name:   'How-To Guide',
+    folder: 'How_To_Guide',
+    entry:  'chapter_01.html',
+    pages: [
+      { file: 'chapter_01.html', label: 'Chapter 1' },
+      { file: 'chapter_02.html', label: 'Chapter 2' },
+      { file: 'quiz.html',       label: 'Practice Quiz' },
+    ],
+  },
+];
+
+(function buildCrossNav() {
+  const nav = document.querySelector('nav.cross-nav');
+  if (!nav) return;
+  const parts         = window.location.pathname.split('/');
+  const currentFile   = decodeURIComponent(parts[parts.length - 1]);
+  const currentFolder = decodeURIComponent(parts[parts.length - 2]);
+  const course = COURSES.find(c => c.folder === currentFolder);
+  if (!course) return;
+  const page      = course.pages.find(p => p.file === currentFile);
+  const pageLabel = page ? page.label : currentFile;
+  const courseItems  = COURSES.map(c => c.folder === currentFolder
+    ? `<span class="cn-drop-item cn-drop-current">${c.name}</span>`
+    : `<a class="cn-drop-item" href="../${c.folder}/${c.entry}">${c.name}</a>`
+  ).join('');
+  const chapterItems = course.pages.map(p => p.file === currentFile
+    ? `<span class="cn-drop-item cn-drop-current">${p.label}</span>`
+    : `<a class="cn-drop-item" href="${p.file}">${p.label}</a>`
+  ).join('');
+  nav.innerHTML =
+    `<a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>` +
+    `<div class="cross-nav-divider"></div>` +
+    `<span class="cross-nav-label">Course:</span>` +
+    `<div class="cn-dropdown"><button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">${course.name} &#9662;</button>` +
+    `<div class="cn-drop-menu">${courseItems}</div></div>` +
+    `<div class="cross-nav-divider"></div>` +
+    `<span class="cross-nav-label">Chapter:</span>` +
+    `<div class="cn-dropdown"><button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">${pageLabel} &#9662;</button>` +
+    `<div class="cn-drop-menu">${chapterItems}</div></div>`;
+})();
+
+
 document.querySelectorAll('.cn-drop-btn').forEach(btn => {
   btn.addEventListener('click', e => {
     e.stopPropagation();
@@ -188,9 +260,6 @@ document.querySelectorAll('.help-btn').forEach(btn => {
 //   var   animIdx       — object tracking the current frame index per animation block
 //   var   mcDone        — object tracking which MC questions have been answered
 //
-// Functions defined here as `function` declarations override any same-named
-// functions from legacy chapter inline scripts, so existing chapters continue
-// to work unchanged while getting all CONFIG-driven behavior.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function markDone(id) {

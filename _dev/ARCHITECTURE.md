@@ -27,7 +27,9 @@ Universal Study Guide/          ← GitHub repo root
 ```
 
 Raw source material (PDFs, zyBooks exports) lives OUTSIDE the repo in:
-`_Drop Source Content Here/Raw_[CourseName]/` — used for authoring, not a runtime dependency.
+`_Drop Source Content Here/Raw_[CourseName]/` — **must be read before writing any chapter content**; not a runtime dependency.
+
+All chapter content must be derived from these source files. Do not generate content from general knowledge. See `AUTHORING_GUIDE.md` for details.
 
 ## Why Shared Assets
 

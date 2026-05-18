@@ -31,27 +31,9 @@
     </div>
   </div>
 </header>
-<!-- CUSTOMIZE: button text = current course/chapter; add one .cn-drop-item per other course/chapter.
-     Dropdown CSS + JS is injected automatically by shared-nav.js — no per-chapter code needed. -->
-<nav class="cross-nav">
-  <a href="../../index.html" class="cross-nav-home">&#8592; All Courses</a>
-  <div class="cross-nav-divider"></div>
-  <span class="cross-nav-label">Course:</span>
-  <div class="cn-dropdown">
-    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">[COURSE NAME] &#9662;</button>
-    <div class="cn-drop-menu">
-      <a class="cn-drop-item" href="../[OtherCourse]/chapter_01.html">[Other Course Name]</a>
-    </div>
-  </div>
-  <div class="cross-nav-divider"></div>
-  <span class="cross-nav-label">Chapter:</span>
-  <div class="cn-dropdown">
-    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter [N] &#9662;</button>
-    <div class="cn-drop-menu">
-      <!-- <a class="cn-drop-item" href="chapter_NN.html">Chapter NN</a> -->
-    </div>
-  </div>
-</nav>
+<!-- Cross-nav is built automatically by shared-nav.js from the COURSES table.
+     No HTML needed here — just keep this empty element. -->
+<nav class="cross-nav"></nav>
 <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
 <div class="completion-banner" id="completion-banner">
   Chapter complete! <a href="chapter_[NEXT].html">Continue to Chapter [NEXT] &rarr;</a>
@@ -201,7 +183,7 @@
       <!-- ACTIVITY BLOCK — id="chal-[N]" -->
       <div class="block block-act" id="chal-1">
         <div class="act-header">
-          <span class="act-badge badge-chal">Activity</span>
+          <span class="act-badge badge-act">Activity</span>
           <span class="act-title">[N.1.4] — Activity Title</span>
           <span class="chevron pend" id="chev-chal-1">○</span>
         </div>

@@ -4,12 +4,25 @@ How to create a new chapter from scratch using the template.
 
 ---
 
+## Before You Start: Read the Source Material
+
+Every chapter must be built from the source files in `_Drop Source Content Here/Raw_[CourseName]/`. Do not write content from general knowledge.
+
+1. Find the source files for the chapter (zyBooks HTML exports for C Programming, PDF slide decks for Electronics Basics)
+2. Read them to identify the key concepts, examples, formulas, and sequence of topics
+3. Use the source as the authority on what belongs in the chapter
+
+If source material does not exist for a chapter, ask the user before writing any content.
+
+---
+
 ## Quick Start
 
-1. Copy `_template.html` to your course folder and rename it (e.g., `Courses/C_Programming/chapter_02.html`)
-2. Open the file and replace all `[PLACEHOLDER]` values
-4. Build your sections following the block patterns below
-5. Update `ALL_BLOCKS`, `SEC_BLOCKS`, `MC_DATA`, `CHALLENGES` in the JS section
+1. Read the source material (see above)
+2. Copy `_template.html` to your course folder and rename it (e.g., `Courses/C_Programming/chapter_02.html`)
+3. Open the file and replace all `[PLACEHOLDER]` values
+4. Build your sections following the block patterns below, drawing content from the source
+5. Update `ALL_BLOCKS`, `SEC_BLOCKS`, `MC_DATA`, `ACTIVITIES` in the JS section
 6. Open in a browser — progress should track immediately
 
 ---
@@ -18,7 +31,7 @@ How to create a new chapter from scratch using the template.
 
 **`assets/shared-nav.js`** owns all behavior. It contains:
 - `CONFIG` — single source of truth for badge labels, chevron symbols, progress strings, feedback text, reset prompts, and theme settings. Edit one value; every chapter updates.
-- All engine functions: `markDone`, `renderProgress`, `animNext/Prev`, `handleMC`, `checkSA`, `showSA`, `checkChallenge`, `resetChallenge`, `resetChapter`, `resetCourse`, IntersectionObserver for sidebar.
+- All engine functions: `markDone`, `renderProgress`, `animNext/Prev`, `handleMC`, `checkSA`, `showSA`, `checkActivity`, `resetActivity`, `resetChapter`, `resetCourse`, IntersectionObserver for sidebar.
 
 **The chapter's inline `<script>`** is data-only — no functions, no hardcoded strings. It defines six constants and three mutable state variables that `shared-nav.js` reads after it loads.
 
@@ -88,11 +101,11 @@ const MC_DATA = {
 
 The `handleMC()` function extracts the block number from the key (`mcq-1-*` → `mc-1`) and marks the block done when all its questions are answered.
 
-### `CHALLENGES`
-One entry per challenge block.
+### `ACTIVITIES`
+One entry per activity block.
 
 ```js
-const CHALLENGES = {
+const ACTIVITIES = {
   'chal-1': {
     tests: [
       { name: 'Description shown to user', fn: c => /pattern/.test(c) }
@@ -235,14 +248,14 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
 ### Activity Block (tracked, ID = `chal-N`)
 
 ```html
-<div class="block block-chal" id="chal-1">
+<div class="block block-act" id="chal-1">
   <div class="act-header">
-    <span class="act-badge badge-chal">Activity</span>
-    <span class="act-title">N.S.N — Challenge Title</span>
+    <span class="act-badge badge-act">Activity</span>
+    <span class="act-title">N.S.N — Activity Title</span>
     <span class="chevron pend" id="chev-chal-1">○</span>
   </div>
   <div class="act-body">
-    <div class="chal-instructions">
+    <div class="act-instructions">
       What the user needs to do.
     </div>
     <div class="editor-wrap">
@@ -250,10 +263,10 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
       <textarea class="editor" id="ed-chal-1" spellcheck="false">starter scaffold text</textarea>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="checkChallenge('chal-1')">▶ Check Answer</button>
-      <button class="btn btn-ghost"   onclick="resetChallenge('chal-1')">Reset</button>
+      <button class="btn btn-primary" onclick="checkActivity('chal-1')">&#9654; Check Answer</button>
+      <button class="btn btn-ghost"   onclick="resetActivity('chal-1')">Reset</button>
     </div>
-    <div class="chal-output" id="out-chal-1"></div>
+    <div class="act-output" id="out-chal-1"></div>
   </div>
 </div>
 ```
@@ -277,40 +290,33 @@ For code figures, use the `.code-view` / `.ln` / `.cc` structure with span-based
 
 ## Cross-Nav: Keeping It Current
 
-The cross-nav uses **dropdown menus** (`.cn-dropdown`). The CSS and JS for the dropdowns are injected by `shared.js` — no per-chapter code needed. The HTML structure is:
+The cross-nav is built **automatically** by `shared-nav.js` from the `COURSES` table at the top of that file. Chapter HTML files contain only an empty placeholder:
 
 ```html
-<nav class="cross-nav">
-  <span class="cross-nav-label">Course:</span>
-  <div class="cn-dropdown">
-    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Current Course &#9662;</button>
-    <div class="cn-drop-menu">
-      <a class="cn-drop-item" href="../OtherCourse/chapter_01.html">Other Course</a>  <!-- sibling inside Courses/ -->
-    </div>
-  </div>
-  <div class="cross-nav-divider"></div>
-  <span class="cross-nav-label">Chapter:</span>
-  <div class="cn-dropdown">
-    <button class="cn-drop-btn" aria-haspopup="true" aria-expanded="false">Chapter N &#9662;</button>
-    <div class="cn-drop-menu">
-      <a class="cn-drop-item" href="chapter_01.html">Chapter 1</a>
-      <!-- add more as chapters are created -->
-    </div>
-  </div>
-</nav>
+<nav class="cross-nav"></nav>
 ```
 
-Every time a new course or chapter is added, **update the cross-nav in every existing chapter file**.
+`buildCrossNav()` reads `window.location.pathname` to identify the current folder and filename, then injects all the dropdown HTML at runtime.
 
-For a new chapter within the same course — add a `.cn-drop-item` to the chapter dropdown in every chapter of that course:
-```html
-<a class="cn-drop-item" href="chapter_02.html">Chapter 2</a>
+**To add a chapter to an existing course** — add one entry to the course's `pages` array in `COURSES`:
+```js
+{ file: 'chapter_06.html', label: 'Chapter 6' },
 ```
 
-For a new course — add a `.cn-drop-item` to the course dropdown in every chapter of every other course:
-```html
-<a class="cn-drop-item" href="../NewCourse/chapter_01.html">New Course Name</a>
+**To add a new course** — add a new object to `COURSES`:
+```js
+{
+  name:   'Physics',
+  folder: 'Physics',
+  entry:  'chapter_01.html',
+  pages: [
+    { file: 'chapter_01.html', label: 'Chapter 1' },
+    { file: 'quiz.html',       label: 'Practice Quiz' },
+  ],
+},
 ```
+
+No HTML edits in chapter files are needed for either operation.
 
 > **Why `position: fixed` on the menu?** The `.cross-nav` has `overflow-x: auto`, which clips `position: absolute` descendants. The dropdown JS uses `getBoundingClientRect()` to place the menu at the correct viewport coordinates.
 
@@ -344,7 +350,7 @@ The quiz and index are separate files — they are **not** updated automatically
 **The chapter file itself**
 1. Copy `_template.html` to the course folder and rename it (e.g., `chapter_02.html`)
 2. Replace all `[PLACEHOLDER]` values
-3. Set `CHAPTER_ID`, `COURSE_PREFIX`, `ALL_BLOCKS`, `SEC_BLOCKS`, `MC_DATA`, `CHALLENGES`
+3. Set `CHAPTER_ID`, `COURSE_PREFIX`, `ALL_BLOCKS`, `SEC_BLOCKS`, `MC_DATA`, `ACTIVITIES`
 4. Set `remaining-pill` count = `ALL_BLOCKS.length`
 
 **Navigation — within the course**
@@ -354,8 +360,8 @@ The quiz and index are separate files — they are **not** updated automatically
 8. Update the **next** chapter's "Previous Chapter" nav to point to the new chapter (if one exists)
 9. Update the completion banner of the chapter that now leads into the new one
 
-**Cross-nav dropdowns — in every chapter of this course**
-10. Add a `<a class="cn-drop-item">` for the new chapter in every other chapter's chapter dropdown
+**Cross-nav — `shared-nav.js` only**
+10. Add `{ file: 'chapter_NN.html', label: 'Chapter N' }` to this course's `pages` array in `COURSES`
 
 **`index.html`**
 11. Add a `<a class="chapter-row">` entry for the new chapter with the correct `data-key` and `data-total`
@@ -389,7 +395,7 @@ The chapter dropdown and `index.html` card should list the placeholder in its in
 2. Copy `_template.html` → `Courses/[CourseName]/chapter_01.html`
 3. Choose a two-letter course code (check existing codes: `c`, `eb`)
 4. Set `CHAPTER_ID = 'usg-{code}1'`
-5. Update cross-nav in **every existing chapter** to include a link to the new course's Chapter 1
+5. Add a new object to the `COURSES` table in `shared-nav.js` (no chapter HTML edits needed)
 6. Add the course card to `index.html` with `href="Courses/[CourseName]/chapter_01.html"`
 7. Add the new course to the Implementation Status table in the format spec
 8. **No `shared.js` needed** — chapters load `../../assets/shared-nav.js` directly
@@ -411,9 +417,9 @@ The chapter dropdown and `index.html` card should list the placeholder in its in
 | SA block | `sa-N` | `sa-1` |
 | SA input | `sa-input-N` | `sa-input-1` |
 | SA explanation | `exp-sa-N` | `exp-sa-1` |
-| Challenge block | `chal-N` | `chal-2` |
-| Challenge editor | `ed-chal-N` | `ed-chal-2` |
-| Challenge output | `out-chal-N` | `out-chal-2` |
+| Activity block | `chal-N` | `chal-2` |
+| Activity editor | `ed-chal-N` | `ed-chal-2` |
+| Activity output | `out-chal-N` | `out-chal-2` |
 | Chevron | `chev-{blockId}` | `chev-anim-1`, `chev-mc-2` |
 | Sidebar count | `sc-N` | `sc-4` |
 | localStorage key | `usg-{courseCode}{chapterN}` | `usg-eb2` |
