@@ -4,6 +4,25 @@ Items confirmed by user but not yet implemented.
 Add DONE to entries here when user confirms they are satisfied.
 Ask user thorough questions before implementing from this list if this document is referenced in a prompt
 
+*** TOP PRIORITY ***
+
+16. Content authoring pipeline — brief-to-chapter generation
+    Chapter HTML files are 600+ lines of dense markup that are difficult to read
+    and difficult for non-developers to edit. The goal is a clear pipeline where:
+      - Author fills in a chapter_N_brief.md (see item 15 / Manual-Entry-Tool.md)
+      - AI reads the brief and generates the full chapter HTML + course_data.js slice
+      - The brief is the only file a content author ever needs to touch
+      - Editing a lecture slide, question, or activity means editing the brief and
+        regenerating — not hand-editing HTML
+    Deliverables:
+      - Validated generation pipeline: brief in → working chapter HTML out
+      - Brief format updated to drive _structured_template.html exactly
+      - course_data.js populated automatically as part of generation
+      - Authoring guide updated with brief-first workflow as the primary path
+    Dependency: item 15 (Manual Entry Tool format) is designed; pipeline not built.
+
+********************
+
 1. DONE ? button → dropdown menu
    Convert the header question mark button into a dropdown that lists
    available guide courses (How-To Guide, How-It-Do Guide).
@@ -53,4 +72,14 @@ Ask user thorough questions before implementing from this list if this document 
 	In fact obsidian might be a good way to do that even without this interactive textbook feature, just a web of subjects flowing from a high level topic using links already in the Wikipedia articles.
 	Maybe convert Wikipedia to markdown first.
 
-14. Add the ability to favorite a section or "mark as review'
+14. Add the ability to favorite a section or "mark as review"
+
+15. Manual Entry Tool (content brief format)
+    Human-readable `.md` brief files for authoring chapter content without AI reading raw source files.
+    Author reads source material (PDF, Wikipedia, slides), fills in a structured brief, and AI generates
+    the chapter HTML + course data from it. Each brief covers: formulas table, per-section intro text,
+    lecture slides, MC review questions, activities with test cases, and figure descriptions.
+    Brief files live in `_Drop Source Content Here/Raw_[CourseName]/chapter_N_brief.md`.
+    Figures flagged for the vector-converter tool (item 7) via <!-- VECTOR-CONVERT --> comments.
+    Format spec lives in `_dev/Manual-Entry-Tool.md`.
+    Status: format designed; generation pipeline not yet implemented.

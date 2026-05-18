@@ -63,6 +63,14 @@ const CONFIG = {
   defaultTheme: 'dark',
   themeKey:     'usg-theme',
 
+  // ── Help dropdown links ───────────────────────────────────────────────────
+  // Links injected into the ? menu on every chapter page. Edit here to update all chapters.
+  help: {
+    links: [
+      { label: 'How-To Guide', href: '../How_To_Guide/chapter_01.html' }
+    ]
+  },
+
 };
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -86,6 +94,34 @@ let mcDone  = {};
       if (CONFIG.labels[cls]) { badge.textContent = CONFIG.labels[cls]; return; }
     }
   });
+})();
+
+
+// ── HEADER CONTROLS ────────────────────────────────────────────────────────────
+// Injects the theme pie SVG and (on chapter pages) the help dropdown into
+// .header-right. Must run before initTheme() so .pie-seg elements exist when
+// updatePie() is called.
+(function injectHeaderControls() {
+  const hr = document.querySelector('.header-right');
+  if (!hr) return;
+  hr.insertAdjacentHTML('beforeend',
+    `<svg class="theme-pie" id="theme-pie" width="32" height="32" viewBox="0 0 32 32" aria-label="Switch theme">` +
+    `<path class="pie-seg" id="pie-default" data-t="default" d="M16,16 L16,3 A13,13 0 0,1 27.26,22.5 Z" onclick="setTheme('default')"><title>Light</title></path>` +
+    `<path class="pie-seg" id="pie-dark"    data-t="dark"    d="M16,16 L27.26,22.5 A13,13 0 0,1 4.74,22.5 Z" onclick="setTheme('dark')"><title>Dark</title></path>` +
+    `<path class="pie-seg" id="pie-retro"   data-t="retro"   d="M16,16 L4.74,22.5 A13,13 0 0,1 16,3 Z" onclick="setTheme('retro')"><title>Night Shift</title></path>` +
+    `<circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" pointer-events="none"/></svg>`
+  );
+  if (typeof ALL_BLOCKS !== 'undefined') {
+    const items = CONFIG.help.links
+      .map(l => `<a class="cn-drop-item" href="${l.href}">${l.label}</a>`)
+      .join('');
+    hr.insertAdjacentHTML('beforeend',
+      `<div class="cn-dropdown">` +
+      `<button class="help-btn" aria-haspopup="true" aria-expanded="false" title="Help &amp; Guides">?</button>` +
+      `<div class="cn-drop-menu" data-align="right">${items}</div>` +
+      `</div>`
+    );
+  }
 })();
 
 

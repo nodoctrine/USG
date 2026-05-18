@@ -10,7 +10,7 @@ This format is the alternative to AI reading raw source files directly. Both pat
 
 1. Author reads the source material (PDF slides, web page, textbook, etc.)
 2. Author fills in a content brief using the format below
-3. AI reads the brief and generates the chapter HTML from `_template.html`
+3. AI reads the brief and generates the chapter HTML from `_structured_template.html`
 4. Raw images in the Figures section are flagged for the vector-converter tool (planned)
 
 Brief files live alongside source material in `_Drop Source Content Here/Raw_[CourseName]/` and are named to match the chapter they describe: `chapter_02_brief.md`.
@@ -57,15 +57,16 @@ One subsection per USG section. Section count should match the `USG sections` va
 
 ### Section 1 — [Title]
 
-**Summary:** One or two sentences describing what this section covers and why it matters.
+**Intro paragraph:**
+2–4 sentences describing what this section covers and why it matters. This becomes the reading block that appears before the Lecture. Introduce the concept in plain language; save the detail for the slides. Key terms can be noted here — they will be wrapped in `.term` spans in the HTML.
 
-**Key terms:**
+Key terms:
 - **[Term]** — definition
 - **[Term]** — definition
 
 **Lecture slides:**
 
-Each slide becomes one frame in a Lecture block. Write them as step-through steps — each one builds on the last.
+Each slide becomes one frame in the Lecture block. Write them as sequential steps — each one builds on the last. Last slide completes the block.
 
 Slide 1: [Title]
 [Content: what the slide says / shows. Bullet points fine.]
@@ -76,23 +77,21 @@ Slide 2: [Title]
 Slide 3: [Title]
 [Content]
 
-(Add more slides as needed. Aim for 3–6 per section.)
+(Aim for 3–6 slides per section.)
 
 **Figures:**
 
-Each figure here becomes a Figure block. Describe what it should show. If you have a source image, reference the filename — the vector-converter tool will turn it into a styled SVG diagram.
+Optional. Place figures inside the Intro or between slides where they add clarity. Each becomes a Figure block.
 
 Figure 1.1 — [Title]
 Type: [circuit diagram / table / waveform / code example / other]
 Source image: [filename or "none"]
 Description: [What the figure should show. Be specific — component labels, values, layout.]
+Placement: [before intro / after slide N / after lecture]
 
-Figure 1.2 — [Title]
-...
+**Lecture Review (Multiple Choice):**
 
-**Review questions (Multiple Choice):**
-
-These become MC blocks. For each question, mark the correct answer with *.
+2–4 questions directly testing the Lecture content above. Mark correct answer with *.
 
 Q1: [Question text?]
   a) [Choice]
@@ -104,22 +103,23 @@ Explanation: [Why c is correct, and what the wrong answers get wrong.]
 Q2: [Question text?]
   ...
 
-**Review questions (Short Answer):**
-
-Q1: [Question text?]
-Answer: [exact answer the student should type]
-Alt answers: [comma-separated alternatives, if any]
-Explanation: [shown after Check or Show Answer]
-
 **Activity:**
 
-One hands-on exercise per section (optional for non-computational sections).
+One hands-on exercise. Two variants — pick one:
 
-Task: [What the student does — calculate a value, write code, fill in a formula, etc.]
-Scaffold: [Starter text pre-filled in the textarea]
+Variant A — Formula/math:
+Task: [Give all known values. Ask for one unknown.]
+Expected answer: [numeric value the regex tests for]
+Scaffold: Write your answer here.
 Test cases:
-  - [Description of test 1]: [what pattern/value to check for]
-  - [Description of test 2]: [what to check]
+  - [Test description]: [exact value or pattern, e.g. /\b10\.6\b/]
+
+Variant B — Free response:
+Task: [Ask the student to explain a concept, list steps, or describe a scenario.]
+Required terms: [comma-separated key words that must appear in the answer, if any]
+Scaffold: [Empty or a short prompt like "Explain here."]
+
+Note: omit the Activity block for purely conceptual sections with no computational angle.
 
 ---
 
@@ -171,8 +171,8 @@ Three types of figures are supported:
 
 When a source image is provided for a `circuit diagram` or `waveform` figure, the AI should add a `<!-- VECTOR-CONVERT: [filename] -->` comment in the generated HTML so the vector-converter tool can find and replace it later.
 
-### Review questions
-MC questions become `block-mc` blocks. SA questions become `block-sa` blocks. Write at least two review questions per section — one MC and one SA is the minimum.
+### Lecture Review
+Questions become `block-mc` blocks. Write 2–4 per section. The standard structured template uses MC only for the review step. Short Answer (`block-sa`) is available as an alternative if the section calls for it — note this explicitly in the brief if you want SA instead of MC.
 
 ### Activity
 Activities become `block-act` blocks with regex test cases. Not all sections need an activity — skip it for purely conceptual sections. Computational and coding sections should always have one.
